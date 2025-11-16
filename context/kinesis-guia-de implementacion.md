@@ -1,0 +1,288 @@
+# Kinesis — Sistema de Diseño y Guía de Implementación (Web + CMS)
+
+---
+
+## 🎨 SISTEMA DE DISEÑO BASE
+
+### Paleta de Colores Página WEB
+
+Pensada para la página web que ya tienes maquetada
+
+```
+Primarios
+- Kinesis Pink: #FF3366 (Color principal – CTAs, botones, links destacados)
+- Kinesis Night: #050714 (Fondos principales oscuros, hero, footer)
+- Kinesis White: #FFFFFF (Fondos claros, texto sobre fondos oscuros)
+
+
+Secundarios
+- Night 800: #0B1020 (Fondos de secciones, header fijo)
+- Night 700: #151A2F (Cards oscuras, overlays de imagen)
+- Gray 100: #F5F5F5 (Fondos sutiles, secciones claras)
+- Gray 200: #E5E7EB (Bordes, divisores, inputs)
+- Gray 600: #4B5563 (Texto secundario)
+- Gray 900: #111827 (Texto principal sobre fondos claros)
+
+
+Acentos
+- Accent Purple: #8B5CF6 (Badges, pequeños detalles de marca)
+- Success Green: #10B981 (Estados correctos, confirmaciones)
+- Warning Amber: #F59E0B (Avisos, advertencias suaves)
+- Error Red: #EF4444 (Errores, mensajes críticos)
+- Info Blue: #3B82F6 (Mensajes informativos, enlaces secundarios)
+```
+### Paleta de Colores CMS Admin
+
+Variación pensada para el panel de administración: sidebar oscuro, contenido claro y acentos coherentes con la marca.
+
+```text
+Primarios
+- Admin Navy:         #020617  (Sidebar principal, fondo app)
+- Admin Surface:      #0F172A  (Fondos de tarjetas y módulos)
+- Admin Accent Pink:  #FB2F72  (Botones primarios, elementos activos)
+
+Secundarios
+- Admin Border:       #1E293B  (Bordes, separadores, contornos de inputs)
+- Admin Muted:        #64748B  (Texto secundario, iconos desactivados)
+- Admin Surface Light:#111827  (Headers de tablas, barras superiores)
+- Admin White:        #FFFFFF  (Fondos de tablas, tarjetas claras, texto sobre fondos muy oscuros)
+
+Acentos
+- Admin Success:      #10B981  (Estados OK, chips de "Publicado")
+- Admin Warning:      #F59E0B  (Avisos, etiquetas de "Pendiente")
+- Admin Error:        #EF4444  (Errores de validación, estados críticos)
+- Admin Info:         #38BDF8  (Badges de información, tooltips)
+```
+
+### Notas de uso
+
+* Mantén **Kinesis Pink** y **Admin Accent Pink** como hilo conductor entre web y CMS.
+* Usa los tonos **Night** para crear el contraste fuerte que ya se ve en los mockups (hero y footer muy oscuros, tarjetas claras).
+* El púrpura (#8B5CF6) queda como acento secundario para detalles finos de marca y elementos de UI donde quieras un toque más "tech" (badges, iconos, pequeños subrayados).
+
+### Tipografía
+```
+Display: Montserrat (700, 800)
+- H1: 48px móvil / 72px desktop
+- H2: 36px móvil / 48px desktop
+
+Body: Inter (400, 500, 600)
+- H3: 24px / 32px
+- H4: 20px / 24px
+- Body: 16px / 18px
+- Small: 14px
+```
+
+### Espaciado (múltiplos de 8px)
+```
+xs: 8px
+sm: 16px
+md: 24px
+lg: 32px
+xl: 48px
+2xl: 64px
+3xl: 96px
+```
+
+### Componentes Base
+- **Botones**: Rounded-lg (8px), altura 48px, padding horizontal 24px
+- **Cards**: Rounded-xl (12px), shadow-md, padding 24px
+- **Inputs**: Height 48px, rounded-lg, border gray-200
+- **Modales**: Rounded-xl, overlay negro 50% opacidad
+
+---
+
+
+## 📱 CONSIDERACIONES RESPONSIVE
+
+### Mobile First Approach
+
+**Breakpoints:**
+- Mobile: < 640px
+- Tablet: 640px - 1024px
+- Desktop: > 1024px
+
+**Adaptaciones Mobile:**
+- Navigation: Hamburger menu con drawer lateral
+- Grid columns: Colapsar a stack vertical
+- Cards: Full width con padding reducido
+- Tablas: Convertir a cards apiladas
+- Modales: Full screen en móvil
+- Formularios: Inputs full width
+- Imágenes: Aspect ratio adaptativo
+
+**Touch Targets:**
+- Mínimo 44x44px para elementos clickables
+- Spacing aumentado entre elementos
+- Swipe gestures para carousels
+- Pull to refresh en listados
+
+---
+
+## 🎯 COMPONENTES REUTILIZABLES
+
+### Para crear en el sistema:
+
+1. **ProgramCard**
+   - Imagen, título, precio, badges
+   - Variantes: horizontal, vertical, minimal
+
+2. **InstructorCard**
+   - Foto circular/cuadrada, nombre, bio
+   - Tamaños: small, medium, large
+
+3. **PricingTable**
+   - Comparativa de planes
+   - Highlight del recomendado
+
+4. **ContactForm**
+   - Validación en tiempo real
+   - Mensajes de error/éxito
+
+5. **StatsCounter**
+   - Números animados
+   - Icono y label
+
+6. **TestimonialCard**
+   - Quote, autor, rating
+   - Con/sin imagen
+
+7. **ScheduleGrid**
+   - Vista semanal de horarios
+   - Códigos de color por programa
+
+8. **FAQAccordion**
+   - Expandible/colapsable
+   - Iconos +/-
+
+9. **FilterSidebar**
+   - Checkboxes, radios, sliders
+   - Botón reset
+
+10. **DataTable**
+    - Sortable, filtrable
+    - Acciones por fila
+    - Selección múltiple
+
+---
+
+## 🚀 FLUJOS DE INTERACCIÓN PRINCIPALES
+
+### Flujo de Inscripción:
+1. Usuario navega servicios → 
+2. Click en programa → 
+3. Ver detalles → 
+4. Click "Inscribirse" → 
+5. Formulario pre-inscripción → 
+6. Confirmación → 
+7. Lead guardado en CMS
+
+### Flujo de Gestión CMS:
+1. Admin login → 
+2. Dashboard → 
+3. Seleccionar sección → 
+4. CRUD operations → 
+5. Preview cambios → 
+6. Publicar → 
+7. Ver en web pública
+
+### Flujo de Contacto:
+1. Usuario tiene duda → 
+2. Click en "Contacto" → 
+3. Rellena formulario → 
+4. Envío con validación → 
+5. Mensaje de éxito → 
+6. Lead aparece en CMS → 
+7. Admin gestiona lead
+
+---
+
+## 🎨 EFECTOS Y MICROINTERACCIONES
+
+### Animaciones:
+- **Fade in** en scroll para secciones
+- **Slide up** para cards al aparecer
+- **Hover scale** en botones y cards
+- **Skeleton loading** mientras carga contenido
+- **Progress bars** animadas
+- **Smooth scroll** entre secciones
+- **Parallax** suave en heroes
+
+### Estados:
+- **Hover**: Elevación, cambio de color
+- **Active**: Pressed effect
+- **Focus**: Outline púrpura
+- **Disabled**: Opacidad 50%
+- **Loading**: Spinner púrpura
+- **Success**: Check verde animado
+- **Error**: Shake animation
+
+### Feedback:
+- **Toasts** para notificaciones
+- **Modales** de confirmación
+- **Tooltips** en iconos
+- **Progress indicators** en forms
+- **Validación** en tiempo real
+- **Autocomplete** en búsquedas
+
+---
+
+## 📋 NOTAS PARA IMPLEMENTACIÓN
+
+### Prioridades de Desarrollo:
+1. **FASE 1 - MVP Web**
+   - Homepage
+   - Páginas estáticas (Quiénes somos)
+   - Catálogo de servicios
+   - Formulario de contacto
+   - Responsive design
+
+2. **FASE 2 - CMS Básico**
+   - Login admin
+   - Dashboard
+   - CRUD programas
+   - CRUD instructores
+   - Gestión de contenido
+
+3. **FASE 3 - Avanzado**
+   - Gestión de leads
+   - Analytics
+   - Optimizaciones SEO
+   - Integraciones
+   - PWA features
+
+### Tecnologías Recomendadas:
+- **Frontend Web**: React + Next.js + Tailwind
+- **CMS Admin**: React + Shadcn/ui
+- **Backend**: Supabase
+- **Hosting**: Vercel
+- **Analytics**: Google Analytics 4
+- **Forms**: React Hook Form + Zod
+- **Animaciones**: Framer Motion
+- **Icons**: Lucide React
+
+### SEO Checklist:
+- Meta tags dinámicos
+- Schema.org markup
+- Sitemap.xml
+- Robots.txt
+- Open Graph tags
+- Twitter Cards
+- Alt text en imágenes
+- URLs amigables
+- Contenido indexable
+
+---
+
+## 🎯 RESULTADO ESPERADO
+
+Al implementar estos diseños en Replit, obtendrás:
+
+1. **Web pública** moderna y atractiva que convierte visitantes en leads
+2. **CMS intuitivo** para gestión sin conocimientos técnicos
+3. **Sistema escalable** preparado para crecer
+4. **Experiencia móvil** optimizada
+5. **SEO-friendly** para posicionamiento
+6. **Performance** optimizada (Core Web Vitals)
+7. **Accesible** cumpliendo WCAG 2.1 AA
+
