@@ -125,13 +125,45 @@ El **Replit Agent** usa `replit.md` como guía para generar y modificar código 
 
 ## Contexto funcional
 
-Toda la información de negocio de Kinesis (visión, flows, secciones web/CMS, prioridades, etc.) está documentada en:
+Toda la información de negocio de Kinesis (visión, flows, secciones web/CMS, prioridades, etc.) está documentada en la carpeta `context/`:
 
-* `context/Kinesis-Doc.md`
-* `context/Kinesis-Web-y-CMS-Specs.md`
-* Otros `Kinesis-*.md` que se vayan añadiendo.
+### Documentos principales
 
-Estos documentos son referencia para entender **qué** debe hacer el sistema y **por qué**, y son especialmente importantes para el trabajo con el Replit Agent.
+* **`context/kinesis-alcance-web-cms.md`**: Análisis completo del alcance funcional de la Web Corporativa y del CMS. Define qué secciones públicas existirán (Inicio, Quiénes somos, Modelos de negocio, Programas y servicios, Equipo, Horarios y tarifas, Contacto) y qué áreas de gestión incluirá el CMS (Panel de inicio, Contenido web, Formularios y leads, Estructura y navegación, Textos legales, Ajustes del sitio).
+
+* **`context/kinesis-secciones.md`**: Especificación detallada de las secciones de la Web (estructura de navegación, contenido de cada página) y del CMS (menús principales y funcionalidades de gestión).
+
+* **`context/kinesis-guia-de implementacion.md`**: Sistema de diseño y guía de implementación con la paleta de colores completa (Web y CMS), tipografía (Montserrat + Inter), espaciado, componentes reutilizables, flujos de interacción principales, efectos y microinteracciones, y plan de fases de desarrollo.
+
+* **`context/kinesis-database-schema.sql`**: Esquema completo de base de datos PostgreSQL para Kinesis Web + CMS. Define todas las tablas (modelos de negocio, especialidades, instructores, programas, tarifas, contenido de páginas, FAQs, leads, páginas legales, biblioteca de medios, configuración), relaciones, políticas RLS, triggers, funciones y vistas optimizadas.
+
+### Contenido de negocio detallado
+
+La subcarpeta `context/doc/` contiene la información específica de cada sección de la web:
+
+* **`03.00-kinesis.md`**: Visión general de Kinesis
+* **`03.01-kinesis-quien-somos.md`**: Contenido para la sección "Quiénes somos"
+* **`03.02-kinesis-modelos-negocio.md`**: Descripción de los 4 modelos de negocio (Élite On Demand, Ritmo Constante, Generación Dance, Sí Quiero Bailar)
+* **`03.03-kinesis-programas-actividades.md`**: Catálogo de programas y servicios
+* **`03.04-kinesis-equipo.md`**: Información del equipo docente
+* **`03.05-kinesis-tarifas.md`**: Estructura de precios y tarifas
+* **`03.06-kinesis-faqs.modelos-negocio.md`**: FAQs sobre modelos de negocio
+* **`03.07-kinesis-faqs-servicios.md`**: FAQs sobre servicios
+* **`03.08-kinesis-condiciones-contratacion.md`**: Condiciones de contratación
+* **`03.09-kinesis-aviso-legal.md`**: Aviso legal
+* **`03.10-kinesis-politica-privadidad.md`**: Política de privacidad
+* **`03.11-kinesis-cokkies.md`**: Política de cookies
+
+### Uso de estos documentos
+
+Estos documentos son la **referencia funcional y de diseño** para entender:
+
+* **Qué** debe hacer el sistema (alcance, secciones, funcionalidades)
+* **Cómo** debe verse (colores, tipografía, componentes)
+* **Por qué** existe cada elemento (modelos de negocio, propuesta de valor)
+* **Con qué estructura de datos** se implementa (esquema de base de datos)
+
+Son especialmente importantes para el trabajo con el Replit Agent, ya que definen de forma exhaustiva tanto los requisitos funcionales como las especificaciones técnicas y de diseño.
 
 ---
 

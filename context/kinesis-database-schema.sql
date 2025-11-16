@@ -1,5 +1,5 @@
 -- =====================================================
--- KINESIS CMS - MODELO DE DATOS POSTGRESQL PARA SUPABASE
+-- KINESIS CMS - MODELO DE DATOS POSTGRESQL PARA KINESIS
 -- =====================================================
 -- Diagrama E-R y esquema de base de datos para el CMS
 -- Incluye RLS (Row Level Security) policies

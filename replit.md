@@ -259,12 +259,19 @@ Todo acceso a infraestructura debe estar **encapsulado en `api/infrastructure/`*
 
 ### 7.1 Carpeta `/context` (SOLO LECTURA)
 
-* Contiene archivos Markdown de contexto funcional de Kinesis (por ejemplo `Kinesis-Doc.md`, `Kinesis-Web-y-CMS-Specs.md`).
-* Normas:
+- Contiene los archivos Markdown de **contexto funcional y técnico** de Kinesis. Son la referencia principal de negocio y diseño.
+- Documentos principales:
+  - `context/kinesis-alcance-web-cms.md`: análisis completo del alcance funcional de la Web corporativa y del CMS (secciones públicas y áreas de gestión internas).
+  - `context/kinesis-secciones.md`: especificación detallada de las secciones de la Web y del CMS (navegación, contenido, menús y funcionalidades).
+  - `context/kinesis-guia-de-implementacion.md`: sistema de diseño y guía de implementación (colores, tipografía, espaciado, componentes reutilizables, flujos, animaciones y plan de fases).
+  - `context/kinesis-database-schema.sql`: esquema completo de base de datos PostgreSQL (tablas, relaciones, RLS, triggers, funciones y vistas).
+- Contenido de negocio detallado:
+  - La subcarpeta `context/doc/` contiene archivos por sección de la web (visión, quiénes somos, modelos de negocio, programas, equipo, tarifas, FAQs, textos legales, etc.).
+- Normas:
+  - **NO edites ni borres** nada en `/context` salvo instrucción explícita.
+  - Antes de implementar o modificar lógica de negocio relevante, revisa los documentos de `/context` que apliquen.
+  - Usa estos archivos para mantener coherencia funcional (nombres, flujos, conceptos de dominio y modelo de datos).
 
-  * **NO edites ni borres** nada en `/context` salvo instrucción explícita.
-  * Antes de implementar o modificar lógica de negocio relevante, revisa los documentos de `/context` que apliquen.
-  * Usa estos archivos para mantener coherencia funcional (nombres, flujos, conceptos de dominio).
 
 ### 7.2 Carpeta `/docs`
 

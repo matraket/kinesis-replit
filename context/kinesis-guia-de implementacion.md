@@ -251,16 +251,6 @@ xl: 48px
    - Integraciones
    - PWA features
 
-### Tecnologías Recomendadas:
-- **Frontend Web**: React + Next.js + Tailwind
-- **CMS Admin**: React + Shadcn/ui
-- **Backend**: Supabase
-- **Hosting**: Vercel
-- **Analytics**: Google Analytics 4
-- **Forms**: React Hook Form + Zod
-- **Animaciones**: Framer Motion
-- **Icons**: Lucide React
-
 ### SEO Checklist:
 - Meta tags dinámicos
 - Schema.org markup
