@@ -225,12 +225,14 @@ Todo acceso a infraestructura debe estar **encapsulado en `api/infrastructure/`*
 
 ### 6.1 Base de datos
 
-* Proveedor inicial: **Replit Database / DB integrada de Replit**.
+* Base principal: **Base de Datos SQL integrada de Replit (PostgreSQL serverless)** para todos los datos estructurados del CMS (leads, páginas, navegación, usuarios internos, etc.).
+* Uso complementario: la **base clave-valor de Replit** solo para caché ligera, contadores o flags simples; no la uses como fuente de verdad de negocio.
 * Implementación:
-
   * Crea adaptadores en `api/infrastructure/db` que implementen las interfaces de repositorio definidas en `api/application`.
   * No uses llamadas directas a la DB en `domain/` ni `application/`.
   * Encapsula la configuración de conexión y credenciales en **variables de entorno** (ver sección 11).
+  * Define migraciones/esquema SQL (por ejemplo en `api/infrastructure/db/migrations`) siguiendo los modelos de datos descritos en la carpeta `/context`.
+
 
 ### 6.2 Autenticación
 
@@ -334,24 +336,22 @@ Todo acceso a infraestructura debe estar **encapsulado en `api/infrastructure/`*
 
 ### 9.1 Desarrollo
 
-* Comando de desarrollo esperado (ejemplos, ajusta a los scripts definidos en `package.json`):
-
+* Comando de desarrollo esperado (ejemplo; ajusta a los scripts definidos en `package.json`):
   * `pnpm dev` → levanta el backend en `api/` y los frontends (`web`, `cms`) en modo desarrollo.
 * No modifiques `.replit` ni `replit.nix` sin instrucción explícita.
-* Respeta la limitación de Replit de un **solo puerto público**: en producción, un servidor Node en `api` debe servir tanto la API como los assets estáticos de `web` y `cms`.
+* En desarrollo puedes levantar varios procesos (dev servers de `web`/`cms` + API), pero recuerda que en Replit **solo el primer puerto HTTP expuesto se publica**; el resto deben quedar privados o detrás del servidor principal que finalmente servirá API + estáticos.
+
 
 ### 9.2 Producción / Deploy
 
-* Objetivo: despliegue como **Autoscaling Deploy** en Replit.
+* Objetivo: despliegue como **Autoscaling Deploy** en Replit (u otra opción compatible de despliegue en la nube de Replit si más adelante se ajusta el plan).
 * Configuración esperada:
-
   * Comando de build: `pnpm build` (o equivalente) para generar los bundles de `web` y `cms`.
   * Comando de start: `pnpm start` levanta el servidor Node en `api` que:
-
+    * Escucha en el puerto HTTP proporcionado por Replit (`PORT`) como **único punto de entrada público**.
     * Expone `/api/**` para la API.
     * Sirve los bundles estáticos de `web` y `cms` (por ejemplo `/` para web y `/admin` para el CMS).
-
-Si necesitas modificar la configuración de despliegue, mantén la compatibilidad con esta estrategia de único servidor en un solo puerto.
+* Si necesitas modificar la configuración de despliegue, mantén siempre esta estrategia de **un solo servidor Node en un solo puerto** que sirva API + estáticos para asegurar la compatibilidad con los Deploys de Replit.
 
 ---
 
