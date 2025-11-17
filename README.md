@@ -42,13 +42,14 @@ Esta aproximación sigue la recomendación de **monolito bien modularizado en un
 Todo el proyecto está escrito en **TypeScript**:
 
 - **Backend (`/api`)**
+
   - Node.js.
   - Framework HTTP: Fastify o Express.
   - Validación: Zod.
   - Capa de infraestructura desacoplada para:
-    - Base de datos (Replit DB / SQL integrada).
-    - Autenticación (Replit Auth).
-    - Almacenamiento de archivos (Replit App Storage).   
+    - Base de datos: **Database SQL integrada de Replit (PostgreSQL serverless)** como proveedor inicial.
+    - Autenticación: Replit Auth.
+    - Almacenamiento de archivos: Replit App Storage.
 
 - **Frontends (`/web`, `/cms`)**
   - React.
@@ -135,7 +136,7 @@ Toda la información de negocio de Kinesis (visión, flows, secciones web/CMS, p
 
 * **`context/kinesis-guia-de implementacion.md`**: Sistema de diseño y guía de implementación con la paleta de colores completa (Web y CMS), tipografía (Montserrat + Inter), espaciado, componentes reutilizables, flujos de interacción principales, efectos y microinteracciones, y plan de fases de desarrollo.
 
-* **`context/kinesis-database-schema.sql`**: Esquema completo de base de datos PostgreSQL para Kinesis Web + CMS. Define todas las tablas (modelos de negocio, especialidades, instructores, programas, tarifas, contenido de páginas, FAQs, leads, páginas legales, biblioteca de medios, configuración), relaciones, políticas RLS, triggers, funciones y vistas optimizadas.
+* **`context/kinesis-database-schema.sql`**: Esquema de referencia de base de datos relacional para Kinesis Web + CMS (formato PostgreSQL). Define el modelo de datos objetivo (tablas, relaciones, políticas RLS, triggers, funciones y vistas) que se implementará sobre la **Database SQL integrada de Replit**; no implica que la base de datos esté ya creada.
 
 ### Contenido de negocio detallado
 
@@ -178,3 +179,14 @@ Este repositorio arranca con:
 
 A partir de aquí se irán implementando los módulos de dominio, la API, los frontends y los tests siguiendo las normas de este README y de `replit.md`.
 
+## Participación en el hackathon y originalidad del código
+
+Este repositorio se ha preparado antes del inicio del hackathon únicamente con:
+
+- Arquitectura base definida y estructura de directorios vacía.
+- Documentación funcional y técnica en `context/` y `docs/`.
+- Archivo `replit.md` como guía de trabajo para el Replit Agent.
+
+No incluye lógica de negocio implementada, componentes de UI funcionales ni endpoints de API operativos.
+
+Todo el **código de aplicación** (API, Web, CMS y tests automatizados) se implementará exclusivamente durante el periodo oficial del hackathon, siguiendo las bases de originalidad del concurso.
