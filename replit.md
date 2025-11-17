@@ -85,7 +85,7 @@ The `.replit` file must use the `dev` script as the main Run command and must no
 #### Recent Changes
 
 ##### Public Read-Only API (T2) - November 2025
-**Implementation Status:** Complete - Awaiting database provisioning and migration
+**Implementation Status:** Complete - Database provisioned and migrations executed successfully
 
 A comprehensive public API has been implemented following Clean Architecture principles with 7 resource endpoints under `/api/public`:
 
@@ -105,12 +105,16 @@ A comprehensive public API has been implemented following Clean Architecture pri
 - Error handling with Result type pattern (no exceptions)
 - Unit tests (2) and integration tests (3) implemented
 
-**Next Steps (Requires Manual Action):**
-1. Provision PostgreSQL database using Replit Database tool
-2. Run migration: `scripts/sql/02_public_api_schema.sql`
-3. Integration tests will pass once database is populated
+**Database Setup (Completed - November 17, 2025):**
+- PostgreSQL database provisioned using Replit's integrated Neon database
+- Extensions enabled: uuid-ossp, pgcrypto
+- Migrations executed successfully:
+  - `scripts/sql/01_init_core_schema.sql` - Core tables (programs, schedules, page_content, leads)
+  - `scripts/sql/02_public_api_schema.sql` - Public API tables (business_models, specialties, instructors, pricing_tiers, faqs, legal_pages)
+- Database connection verified via `/health` endpoint
+- All 11 tables created with proper indexes and triggers
 
 **Documentation:**
 - API endpoints: `docs/api-public-endpoints.md`
 - Change history: `docs/CHANGELOG.md`
-- Migration file: `scripts/sql/02_public_api_schema.sql`
+- Migration files: `scripts/sql/01_init_core_schema.sql`, `scripts/sql/02_public_api_schema.sql`
