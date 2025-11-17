@@ -225,14 +225,14 @@ Todo acceso a infraestructura debe estar **encapsulado en `api/infrastructure/`*
 
 ### 6.1 Base de datos
 
-* Base principal: **Base de Datos SQL integrada de Replit (PostgreSQL serverless)** para todos los datos estructurados del CMS (leads, páginas, navegación, usuarios internos, etc.).
-* Uso complementario: la **base clave-valor de Replit** solo para caché ligera, contadores o flags simples; no la uses como fuente de verdad de negocio.
+* Proveedor inicial: **Database SQL integrada de Replit (PostgreSQL serverless)**.
+* Relación con `/context`:
+  * Usa `context/kinesis-database-schema.sql` como **esquema de referencia** para el modelo relacional.
+  * No asumas que la base de datos está creada ni que existan tablas previas: crea migraciones o scripts para materializar ese modelo en la DB integrada cuando sea necesario.
 * Implementación:
   * Crea adaptadores en `api/infrastructure/db` que implementen las interfaces de repositorio definidas en `api/application`.
   * No uses llamadas directas a la DB en `domain/` ni `application/`.
   * Encapsula la configuración de conexión y credenciales en **variables de entorno** (ver sección 11).
-  * Define migraciones/esquema SQL (por ejemplo en `api/infrastructure/db/migrations`) siguiendo los modelos de datos descritos en la carpeta `/context`.
-
 
 ### 6.2 Autenticación
 
@@ -266,7 +266,7 @@ Todo acceso a infraestructura debe estar **encapsulado en `api/infrastructure/`*
   - `context/kinesis-alcance-web-cms.md`: análisis completo del alcance funcional de la Web corporativa y del CMS (secciones públicas y áreas de gestión internas).
   - `context/kinesis-secciones.md`: especificación detallada de las secciones de la Web y del CMS (navegación, contenido, menús y funcionalidades).
   - `context/kinesis-guia-de-implementacion.md`: sistema de diseño y guía de implementación (colores, tipografía, espaciado, componentes reutilizables, flujos, animaciones y plan de fases).
-  - `context/kinesis-database-schema.sql`: esquema completo de base de datos PostgreSQL (tablas, relaciones, RLS, triggers, funciones y vistas).
+  - `context/kinesis-database-schema.sql`: esquema completo de base de datos en formato PostgreSQL que define el **modelo de datos objetivo**. Es una especificación para la implementación sobre la Database SQL integrada de Replit; no es una migración aplicada ni una base ya provisionada.
 - Contenido de negocio detallado:
   - La subcarpeta `context/doc/` contiene archivos por sección de la web (visión, quiénes somos, modelos de negocio, programas, equipo, tarifas, FAQs, textos legales, etc.).
 - Normas:
@@ -336,22 +336,32 @@ Todo acceso a infraestructura debe estar **encapsulado en `api/infrastructure/`*
 
 ### 9.1 Desarrollo
 
-* Comando de desarrollo esperado (ejemplo; ajusta a los scripts definidos en `package.json`):
-  * `pnpm dev` → levanta el backend en `api/` y los frontends (`web`, `cms`) en modo desarrollo.
-* No modifiques `.replit` ni `replit.nix` sin instrucción explícita.
-* En desarrollo puedes levantar varios procesos (dev servers de `web`/`cms` + API), pero recuerda que en Replit **solo el primer puerto HTTP expuesto se publica**; el resto deben quedar privados o detrás del servidor principal que finalmente servirá API + estáticos.
+* Cuando prepares el entorno en Replit, crea (si no existen todavía) los scripts en `package.json` alineados con este flujo:
 
+  * `dev`: levanta el backend en `api/` y los frontends (`web`, `cms`) en modo desarrollo, utilizando un único servidor Node que exponga `/api/**` y sirva los assets de `web` y `cms`.
+
+* Configuración en Replit:
+  * El archivo `.replit` debe usar `pnpm dev` (o el comando equivalente que definas) como comando principal de desarrollo.
+  * No modifiques `.replit` ni `replit.nix` salvo instrucción explícita en este archivo.
+
+* Respeta la limitación de Replit de un **solo puerto público**: el servidor Node en `api` debe servir tanto la API como los assets estáticos de `web` y `cms` desde ese mismo puerto.
 
 ### 9.2 Producción / Deploy
 
-* Objetivo: despliegue como **Autoscaling Deploy** en Replit (u otra opción compatible de despliegue en la nube de Replit si más adelante se ajusta el plan).
-* Configuración esperada:
-  * Comando de build: `pnpm build` (o equivalente) para generar los bundles de `web` y `cms`.
-  * Comando de start: `pnpm start` levanta el servidor Node en `api` que:
-    * Escucha en el puerto HTTP proporcionado por Replit (`PORT`) como **único punto de entrada público**.
+* Objetivo: despliegue como **Autoscaling Deploy** en Replit.
+
+* Scripts de build y start (crear si no existen):
+
+  * `build`: genera los bundles de `web` y `cms` y prepara el código del backend para producción.
+  * `start`: levanta el servidor Node en `api` que:
     * Expone `/api/**` para la API.
-    * Sirve los bundles estáticos de `web` y `cms` (por ejemplo `/` para web y `/admin` para el CMS).
-* Si necesitas modificar la configuración de despliegue, mantén siempre esta estrategia de **un solo servidor Node en un solo puerto** que sirva API + estáticos para asegurar la compatibilidad con los Deploys de Replit.
+    * Sirve los bundles estáticos de `web` y `cms` (por ejemplo `/` para la web pública y `/admin` para el CMS).
+
+* Configuración del deploy en Replit:
+  * Usa `pnpm build` como comando de build (o el comando equivalente que hayas definido).
+  * Usa `pnpm start` como comando de arranque.
+
+* Si necesitas modificar la configuración de despliegue, mantén la compatibilidad con esta estrategia de **único servidor en un solo puerto**.
 
 ---
 
