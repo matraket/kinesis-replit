@@ -1,75 +1,83 @@
-# Kinesis Web + CMS Project Guide for Replit Agent
+### Kinesis Web + CMS Project Guide for Replit Agent
+This guide defines the conventions, architecture, and constraints for the Kinesis Web + CMS modular monolith project, currently running on Replit. The Agent **must** adhere strictly to these rules.
 
-## Overview
-This project is a modular monolith combining a public-facing website (`web/`), a Content Management System (CMS) backoffice (`cms/`), and a unified API (`api/`) for Kinesis. The primary goal is to build a clean, modular application within a single Replit instance, designed for future extraction of modules (especially the API) into microservices with minimal impact. The business domain (Kinesis) is thoroughly documented in `/context/*.md` files, which must be consulted for any business logic modifications.
+#### Overview
+This project is a **modular monolith** combining a public-facing website (`web/`), a Content Management System (CMS) backoffice (`cms/`), and a unified API (`api/`). It is built entirely in **TypeScript**. The architecture is designed for future transition to microservices (especially the `api/` module) with minimal changes to the core domain logic.
 
-## User Preferences
-*   You can create, modify, and delete files in these folders: `core/`, `web/`, `cms/`, `api/`, `shared/`, `scripts/`, `docs/`, `tests/`.
-*   You must treat as read-only (unless explicitly instructed): `context/`, sensitive configurations in `config/`, and deployment files (`.replit`, `replit.nix`), unless asked to modify them.
-*   For large changes (new modules, major refactors, changes in API contracts), add an entry in `docs/CHANGELOG.md` with: Date, brief description of the change, and affected modules.
-*   Do not mix layers (do not put domain logic in `presentation`, nor direct DB calls in `domain`).
-*   Do not couple `web` and `cms` with each other: both must only communicate with `api` via HTTP.
-*   Do not create new “mini APIs” outside of `api/`.
-*   Whenever working on business logic, review the corresponding `/context` files and maintain consistency in terms, flows, and the data model.
-*   Do not add new significant features without creating or updating related tests.
-*   Use a single test command (e.g., `pnpm test`). If possible, execute it mentally/implicitly when designing changes, and respect the defined structure.
-*   Do not delete existing tests unless there is a clear reason (e.g., an entire functionality is removed) and document the change in the `CHANGELOG`.
+The core business philosophy of Kinesis (precision, innovation, structured flows) should be reflected in the professional and clean technical implementation.
 
-## System Architecture
+#### User Preferences & Constraints
+The Agent's actions are governed by the following rules:
 
-### General Architecture
-The project follows a modular monolith pattern with three decoupled areas: `web/` (public frontend), `cms/` (backoffice frontend), and `api/` (backend). Communication between domain modules occurs via in-process Event-Driven Architecture (EDA) using a central event bus in `core/`. The `api/` folder is designed to be migratable to a microservice with minimal changes to its `domain/` and `application/` layers.
+| Folder Access | Rule | Purpose |
+| :--- | :--- | :--- |
+| **Writable** | `core/`, `web/`, `cms/`, `api/`, `shared/`, `scripts/`, `docs/`, `tests/` | Creation, modification, and deletion are allowed. |
+| **Read-Only** | `context/`, `config/`, `.replit`, `replit.nix` | **Do not modify or delete files in `context/`** (business documentation) or core configuration files, unless explicitly instructed. |
 
-### Directory Structure
-The project adheres to a strict directory structure:
-*   `core/`: In-process EDA (event bus, shared kernels).
-*   `web/`: Public frontend (domain, application, infrastructure, presentation).
-*   `cms/`: CMS backoffice frontend (domain, application, infrastructure, presentation).
-*   `api/`: Backend, designed for DDD (domain, application, infrastructure, interfaces for HTTP, jobs, subscribers).
-*   `shared/`: Reusable code across `web`/`cms`/`api` (UI, utils, shared types).
-*   `config/`: Environment and application configurations.
-*   `scripts/`: Seeds, migrations, tooling.
-*   `docs/`: Functional/technical documentation, ADRs, CHANGELOG.
-*   `tests/`: E2E / cross-module integration tests.
-*   `context/`: Read-only functional context and business documentation.
+**`replit.md` is the contract for this project. You MAY only append new notes or sections that keep it consistent and up to date. You MUST NOT delete sections, rename sections, or refactor this file globally unless explicitly requested by the user.**
 
-### Technology Stack
-*   **Language:** TypeScript across the entire project.
-*   **Backend (`/api`):**
-    *   Runtime: Node.js.
-    *   HTTP Framework: Fastify (Express acceptable).
-    *   Validation: Zod for DTOs.
-    *   Data Access: Adapters in `api/infrastructure/db`.
-    *   EDA: In-process event bus in `core/bus`.
-*   **Frontends (`/web`, `/cms`):**
-    *   Library: React.
-    *   Bundler: Vite.
-    *   Routing: React Router.
-    *   Styling: Tailwind CSS (and optionally shadcn/ui).
-    *   Remote State: React Query.
-    *   Forms/Validation: React Hook Form + Zod.
-*   **Testing:** Vitest for unit and integration tests.
+**Architectural Enforcement:**
+*   Do not mix layers (e.g., no domain logic in presentation, no direct database calls in `domain/`).
+*   `web/` and `cms/` must only communicate with `api/` via HTTP; they must **not** be coupled directly.
+*   All significant changes (new modules, major refactors, API contract updates) **must be documented** in `docs/CHANGELOG.md`.
 
-### Design Patterns and Layer Responsibilities
-*   **`domain/`:** Object-Oriented DDD, containing entities, value objects, aggregates, pure business logic, and domain events. Uses result types to avoid exceptions.
-*   **`application/`:** Functional/light-imperative, orchestrates use cases, publishes domain events via `core/bus`, defines repository and external service interfaces (ports).
-*   **`infrastructure/`:** Imperative, implements interfaces from `application/`, adapts Replit services (DB, Auth, App Storage), maps domain models to persistence schemas.
-*   **`presentation/` (web/cms) & `interfaces/` (api):**
-    *   `web/presentation` and `cms/presentation`: UI components, pages, routes, orchestrate UI logic by calling `application/` use cases.
-    *   `api/interfaces/http`: HTTP controllers, DTOs, Zod validation.
-    *   `api/interfaces/jobs` and `api/interfaces/subscribers`: Scheduled jobs, event subscribers.
+#### Coding Conventions & Naming Standards
+**Adhere strictly to the following conventions for all new or modified code**:
 
-### UI/UX Decisions
-*   **Styling:** Tailwind CSS is the primary styling framework, with `shadcn/ui` as an optional component library. This ensures a consistent and modern aesthetic.
-*   **Component Reusability:** The `shared/ui` folder is designated for eventually housing shared UI components, promoting consistency across `web` and `cms`.
-*   **User Flows:** Functional specifications and implementation guides in `/context` detail user flows, navigation, and content presentation for both the public website and the CMS.
+| Element | Convention | Examples |
+| :--- | :--- | :--- |
+| **Classes, Interfaces, Types, React Components** | **PascalCase** | `User`, `CourseLead`, `MainLayout`, `LeadForm`, `PricingTier` |
+| **Functions, Variables, Properties, Methods** | **camelCase** | `createLead`, `handleSubmit`, `userRepository`, `isActive`, `calculatePrice` |
+| **Constants, Environment Variables** | **UPPER_SNAKE_CASE** | `MAX_RETRY_COUNT`, `REPLIT_DB_URL`, `APP_ENV` |
+| **Files and Routes** | **kebab-case** | `create-lead.tsx`, `course-detail.ts`, `/course-list`, `/admin/courses` |
+| **Database Fields/External Schemas** | **snake_case** | **Only** when mapping to external schemes (e.g., PostgreSQL table fields or external APIs). Map these to internal `camelCase` models in `infrastructure/`. |
 
-### Project Ambitions
-The project aims for a scalable, maintainable application with clear separation of concerns, ready for future evolution into a microservices architecture. It leverages Replit's integrated tools while maintaining portability through careful abstraction of infrastructure concerns.
+**Style Guidelines:**
+*   Use TypeScript with explicit typing at all borders (HTTP interfaces, repositories, events).
+*   Prefer functional React components with hooks over class components.
 
-## External Dependencies
+#### System Architecture
+##### Design Patterns and Layer Responsibilities
+The project is built using Clean Architecture principles combined with Domain-Driven Design (DDD):
+*   **`domain/`**: Pure **OO + DDD**. Contains Entities, Value Objects, Aggregates, pure business logic, and Domain Events. Must be framework-agnostic.
+*   **`application/`**: Functional/light-imperative. Orchestrates Use Cases, defines interfaces (Ports) for repositories and external services, and publishes events to `core/bus`.
+*   **`infrastructure/`**: Imperative. Implements the Repository interfaces defined in `application/`, adapts Replit services, and handles mapping between domain models and persistence schemas.
+*   **`presentation/` (web/cms) & `interfaces/` (api)**: Handles UI, routes, HTTP controllers, and **Zod validation** for DTOs. Orchestrates UI logic by calling Use Cases in `application/`.
 
-*   **Database:** Replit's integrated SQL Database (PostgreSQL serverless). The schema is defined in `context/kinesis-database-schema.sql`.
+##### UI/UX Decisions
+*   **Styling:** **Tailwind CSS** is primary. **shadcn/ui** is acceptable for components.
+*   **Component Structure:** The `shared/ui` folder is reserved for reusable UI components used across `web/` and `cms/`.
+*   **Mobile:** The approach must be **Mobile First**. Implement responsive design using breakpoints and specific adaptations for mobile (e.g., full-screen modals, hamburger menus).
+
+#### External Dependencies
+All access to external infrastructure **must be encapsulated in `api/infrastructure/`**.
+*   **Database:** Replit's integrated **SQL Database (PostgreSQL serverless)**. The data model reference is `context/kinesis-database-schema.sql` (Note: this is a conceptual schema, not an active migration file).
 *   **Authentication:** Replit Auth.
-*   **File Storage:** Replit App Storage for files (images, generated assets).
-*   **Runtime Environment:** Node.js.
+*   **File Storage:** Replit App Storage for assets.
+*   **Secrets:** Never hard-code sensitive data. Use **Replit Secrets** environment variables (e.g., `DATABASE_URL`).
+
+#### Execution & Deployment Flow
+The entire application must run as a modular monolith within a single Replit instance.
+
+The `.replit` file must use the `dev` script as the main Run command and must not be changed unless explicitly instructed by the user.
+
+**Critical Constraint:** The Node.js server in `api/` must serve both the **API** (`/api/**` routes) and the **static assets** for both `web/` and `cms/` from a **single public port** (`process.env.PORT`).
+
+*   **Development (`dev` script):** Must start the backend in `api/` and the frontends (`web`, `cms`) in development mode, using a single Node server that exposes `/api/**` and serves the assets of `web` and `cms`.
+*   **Production (`start` script):** Must generate the static bundles (`build` script) and then start the Node server in `api/` to serve `/api/**` and the static bundles (e.g., `/` for public web and `/admin` for the CMS).
+*   **Environment Variables:** Must use `process.env.PORT` to start the server.
+
+#### Testing & Quality Assurance
+**Minimum Testing Scope (Obligatory)**:
+*   **Unit Tests:** Must be implemented for key Use Cases in `api/domain/` and `api/application/`.
+*   **Integration Tests:** Must cover critical flows, such as:
+    *   Lead creation via the API (HTTP request through to DB persistence and event emission).
+    *   Main login and core flows of the CMS.
+
+**Test Location:**
+*   Unit tests can be placed near the code (`*.spec.ts` / `*.test.ts`) or in `__tests__` subfolders.
+*   Integration and E2E tests belong in the root `/tests` folder.
+
+**Agent's Rule on Testing:**
+*   **Do not introduce new significant features without creating or updating related tests**.
+*   If existing tests are deleted (only allowed if functionality is entirely removed), this change **must be documented in `docs/CHANGELOG.md`**.
