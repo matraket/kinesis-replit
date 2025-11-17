@@ -81,3 +81,36 @@ The `.replit` file must use the `dev` script as the main Run command and must no
 **Agent's Rule on Testing:**
 *   **Do not introduce new significant features without creating or updating related tests**.
 *   If existing tests are deleted (only allowed if functionality is entirely removed), this change **must be documented in `docs/CHANGELOG.md`**.
+
+#### Recent Changes
+
+##### Public Read-Only API (T2) - November 2025
+**Implementation Status:** Complete - Awaiting database provisioning and migration
+
+A comprehensive public API has been implemented following Clean Architecture principles with 7 resource endpoints under `/api/public`:
+
+**Resources Implemented:**
+1. Business Models - List and get by slug
+2. Programs - List with filters (businessModelSlug, specialtyCode, difficulty) and pagination
+3. Instructors - List with filters (featured, specialtyCode) and pagination
+4. Pricing Tiers - List with filters (businessModelSlug, programSlug)
+5. Page Content - Get by slug
+6. FAQs - List with filters (category, businessModelSlug) and pagination
+7. Legal Pages - List and get by slug
+
+**Architecture:**
+- Clean Architecture: Domain → Application → Infrastructure → Interfaces
+- All endpoints validated with Zod schemas
+- Read-only (GET only), returns published/active content only
+- Error handling with Result type pattern (no exceptions)
+- Unit tests (2) and integration tests (3) implemented
+
+**Next Steps (Requires Manual Action):**
+1. Provision PostgreSQL database using Replit Database tool
+2. Run migration: `scripts/sql/02_public_api_schema.sql`
+3. Integration tests will pass once database is populated
+
+**Documentation:**
+- API endpoints: `docs/api-public-endpoints.md`
+- Change history: `docs/CHANGELOG.md`
+- Migration file: `scripts/sql/02_public_api_schema.sql`
