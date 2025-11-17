@@ -4,6 +4,15 @@
 -- Diagrama E-R y esquema de base de datos para el CMS
 -- Incluye RLS (Row Level Security) policies
 -- =====================================================
+-- Nota: `context/kinesis-database-schema.sql` es una 
+--        **referencia conceptual** del modelo de datos 
+--        objetivo.
+--        No debe ejecutarse directamente en la base de 
+--        datos de producción; las tablas reales se 
+--        crearán mediante la base de datos SQL integrada 
+--        de Replit 
+--        (migraciones en `scripts/` o el panel Database).
+-- =====================================================
 
 -- =====================================================
 -- ENABLE EXTENSIONS

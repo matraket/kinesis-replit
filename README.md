@@ -137,6 +137,9 @@ Toda la información de negocio de Kinesis (visión, flows, secciones web/CMS, p
 * **`context/kinesis-guia-de implementacion.md`**: Sistema de diseño y guía de implementación con la paleta de colores completa (Web y CMS), tipografía (Montserrat + Inter), espaciado, componentes reutilizables, flujos de interacción principales, efectos y microinteracciones, y plan de fases de desarrollo.
 
 * **`context/kinesis-database-schema.sql`**: Esquema de referencia de base de datos relacional para Kinesis Web + CMS (formato PostgreSQL). Define el modelo de datos objetivo (tablas, relaciones, políticas RLS, triggers, funciones y vistas) que se implementará sobre la **Database SQL integrada de Replit**; no implica que la base de datos esté ya creada.
+> Nota: `context/kinesis-database-schema.sql` es una **referencia conceptual** del modelo de datos objetivo.
+> No debe ejecutarse directamente en la base de datos de producción; las tablas reales se crearán mediante
+> la base de datos SQL integrada de Replit (migraciones en `scripts/` o el panel Database).
 
 ### Contenido de negocio detallado
 
