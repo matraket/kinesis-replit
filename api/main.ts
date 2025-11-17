@@ -1,4 +1,5 @@
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
+import { checkDbConnection } from './infrastructure/db/client.js';
 
 const PORT = process.env.PORT || '5000';
 
@@ -18,9 +19,22 @@ server.get('/', async (_request: FastifyRequest, _reply: FastifyReply) => {
 });
 
 server.get('/health', async (_request: FastifyRequest, _reply: FastifyReply) => {
+  let dbStatus: 'ok' | 'error' | 'unknown' = 'unknown';
+  let dbError: string | undefined;
+
+  if (process.env.DATABASE_URL) {
+    const dbCheck = await checkDbConnection();
+    dbStatus = dbCheck.connected ? 'ok' : 'error';
+    dbError = dbCheck.error;
+  }
+
   return {
     status: 'ok',
-    service: 'kinesis-api'
+    service: 'kinesis-api',
+    database: {
+      status: dbStatus,
+      error: dbError
+    }
   };
 });
 
