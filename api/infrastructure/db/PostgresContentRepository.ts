@@ -1,10 +1,15 @@
 import type { PageContent, PublicationStatus, PageSection } from '../../domain/content/index.js';
 import type { ContentRepository } from '../../application/ports/index.js';
+import type { IPageContentRepository } from '../../application/ports/IPageContentRepository.js';
 import type { Result } from '../../../shared/types/index.js';
 import { Ok, Err } from '../../../shared/types/index.js';
 import { getDbPool } from './client.js';
 
-export class PostgresContentRepository implements ContentRepository {
+export class PostgresContentRepository implements ContentRepository, IPageContentRepository {
+  async findBySlug(slug: string): Promise<Result<PageContent | null, Error>> {
+    return this.getPageBySlug(slug);
+  }
+
   async getPageBySlug(slug: string): Promise<Result<PageContent | null, Error>> {
     try {
       const pool = getDbPool();
