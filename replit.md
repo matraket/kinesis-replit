@@ -64,3 +64,15 @@ All external infrastructure access is encapsulated within `api/infrastructure/`.
 *   **Authentication:** Replit Auth (with `X-Admin-Secret` placeholder for admin access).
 *   **File Storage:** Replit App Storage for assets.
 *   **Secrets:** Replit Secrets environment variables (e.g., `DATABASE_URL`, `ADMIN_SECRET`).
+
+#### Development Status Notes
+
+**T6 - CMS Bootstrap y Autenticación (Completed):**
+*   Created React + Vite + Tailwind + TypeScript CMS in `cms/` directory
+*   Implemented authentication system using `X-Admin-Secret` header with localStorage persistence
+*   Set up HTTP client with automatic header injection for `/api/admin` endpoints and 401 handling
+*   Configured React Router with protected routes: `/admin/login`, `/admin`, and content management routes
+*   Created base layout with sidebar navigation, topbar, and mobile-responsive design
+*   Implemented login page and dashboard with placeholder pages for: programs, instructors, business models, pages, FAQs, leads, and settings
+*   Development workflow: CMS runs on port 5173 (Vite dev server), API runs on port 5000
+*   Note: Full CRUD views for content management will be implemented in T7-T9
