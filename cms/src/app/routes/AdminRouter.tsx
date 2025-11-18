@@ -4,6 +4,8 @@ import { AdminLayout } from '../layout/AdminLayout';
 import { LoginRoute } from './LoginRoute';
 import { DashboardRoute } from './DashboardRoute';
 import { PlaceholderRoute } from './PlaceholderRoute';
+import { ProgramsRoute } from './ProgramsRoute';
+import { InstructorsRoute } from './InstructorsRoute';
 
 export function AdminRouter() {
   return (
@@ -26,10 +28,7 @@ export function AdminRouter() {
         element={
           <AuthGuard>
             <AdminLayout>
-              <PlaceholderRoute 
-                title="Programas" 
-                description="Aquí podrás gestionar los programas de baile, sus horarios, especialidades e instructores."
-              />
+              <ProgramsRoute />
             </AdminLayout>
           </AuthGuard>
         }
@@ -40,10 +39,7 @@ export function AdminRouter() {
         element={
           <AuthGuard>
             <AdminLayout>
-              <PlaceholderRoute 
-                title="Instructores" 
-                description="Gestiona el equipo de instructores, sus perfiles y especialidades."
-              />
+              <InstructorsRoute />
             </AdminLayout>
           </AuthGuard>
         }
