@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './app/auth/AuthProvider';
 import { AdminRouter } from './app/routes/AdminRouter';
 import { httpClient } from './app/api/httpClient';
+import { ThemeProvider } from './app/theme/ThemeProvider';
 import './index.css';
 
 const root = document.getElementById('root');
@@ -20,9 +21,11 @@ httpClient.setUnauthorizedHandler(() => {
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <AdminRouter />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AdminRouter />
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

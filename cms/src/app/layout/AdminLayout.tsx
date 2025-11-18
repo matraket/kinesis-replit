@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth';
+import { useTheme } from '../theme/useTheme';
 import { 
   LayoutDashboard, 
   GraduationCap, 
@@ -12,7 +13,9 @@ import {
   Settings, 
   LogOut,
   Menu,
-  X
+  X,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -59,6 +62,7 @@ const navigation: NavSection[] = [
 export function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation();
   const { logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const getPageTitle = () => {
@@ -160,7 +164,19 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               </button>
               <h2 className="text-lg font-semibold text-admin-white">{getPageTitle()}</h2>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-md hover:bg-admin-surface transition-colors"
+                aria-label={`Cambiar a modo ${theme === 'dark' ? 'claro' : 'oscuro'}`}
+                aria-pressed={theme === 'light'}
+              >
+                {theme === 'dark' ? (
+                  <Sun className="h-5 w-5 text-admin-muted hover:text-admin-white transition-colors" />
+                ) : (
+                  <Moon className="h-5 w-5 text-admin-muted hover:text-admin-white transition-colors" />
+                )}
+              </button>
               <span className="text-sm text-admin-muted">Admin</span>
             </div>
           </header>
