@@ -1,6 +1,6 @@
 import { IPageContentRepository } from '../../ports/IPageContentRepository.js';
 import { PageContent } from '../../../domain/content/index.js';
-import { Result, Err } from '../../../../shared/types/Result.js';
+import { Result, Ok, Err } from '../../../../shared/types/Result.js';
 
 export class GetPageContentByKeyUseCase {
   constructor(private pageContentRepository: IPageContentRepository) {}
@@ -15,6 +15,6 @@ export class GetPageContentByKeyUseCase {
       return Err(new Error('Page not found'));
     }
 
-    return result;
+    return Ok(result.value);
   }
 }

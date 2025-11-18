@@ -1,6 +1,6 @@
 import { IBusinessModelRepository } from '../../ports/IBusinessModelRepository.js';
 import { BusinessModel } from '../../../domain/business-models/index.js';
-import { Result, Err } from '../../../../shared/types/Result.js';
+import { Result, Ok, Err } from '../../../../shared/types/Result.js';
 
 export class GetBusinessModelByIdUseCase {
   constructor(private businessModelRepository: IBusinessModelRepository) {}
@@ -15,6 +15,6 @@ export class GetBusinessModelByIdUseCase {
       return Err(new Error('Business model not found'));
     }
 
-    return result;
+    return Ok(result.value);
   }
 }

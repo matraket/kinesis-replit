@@ -15,7 +15,7 @@ export class CreatePageContentUseCase {
       return Err(new Error(`Page with key '${input.pageKey}' already exists`));
     }
 
-    const existingBySlugResult = await this.pageContentRepository.getPageBySlug(input.slug);
+    const existingBySlugResult = await this.pageContentRepository.findBySlug(input.slug);
     if (!existingBySlugResult.ok) {
       return existingBySlugResult;
     }

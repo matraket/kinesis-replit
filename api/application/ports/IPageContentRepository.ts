@@ -18,7 +18,7 @@ export interface CreatePageContentInput {
   galleryImages?: string[];
   videoUrl?: string;
   status?: PublicationStatus;
-  slug?: string;
+  slug: string;
   metaTitle?: string;
   metaDescription?: string;
   ogImageUrl?: string;

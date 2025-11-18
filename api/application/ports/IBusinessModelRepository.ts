@@ -27,7 +27,7 @@ export interface CreateBusinessModelInput {
   showOnWeb?: boolean;
   metaTitle?: string;
   metaDescription?: string;
-  slug?: string;
+  slug: string;
 }
 
 export interface UpdateBusinessModelInput {

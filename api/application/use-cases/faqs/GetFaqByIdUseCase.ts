@@ -1,6 +1,6 @@
 import { IFAQRepository } from '../../ports/IFAQRepository.js';
 import { FAQ } from '../../../domain/faqs/index.js';
-import { Result, Err } from '../../../../shared/types/Result.js';
+import { Result, Ok, Err } from '../../../../shared/types/Result.js';
 
 export class GetFaqByIdUseCase {
   constructor(private faqRepository: IFAQRepository) {}
@@ -15,6 +15,6 @@ export class GetFaqByIdUseCase {
       return Err(new Error('FAQ not found'));
     }
 
-    return result;
+    return Ok(result.value);
   }
 }

@@ -16,7 +16,7 @@ export class UpdatePageContentUseCase {
     }
 
     if (input.slug && input.slug !== existingResult.value.slug) {
-      const slugCheckResult = await this.pageContentRepository.getPageBySlug(input.slug);
+      const slugCheckResult = await this.pageContentRepository.findBySlug(input.slug);
       if (!slugCheckResult.ok) {
         return slugCheckResult;
       }
