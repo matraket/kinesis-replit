@@ -4,9 +4,23 @@
 
 ## 🎨 SISTEMA DE DISEÑO BASE
 
+### 🎛 Sistema de temas (Light / Dark)
+
+Tanto la **Web pública** como el **CMS** soportarán dos modos de visualización:
+
+- **Modo Dark (predeterminado en CMS)**: orientado a trabajo prolongado en pantalla, con fondos oscuros y alto contraste.
+- **Modo Light (predeterminado en Web)**: orientado a máxima legibilidad en fondos claros, alineado con patrones estándar de navegación.
+
+**Principios generales:**
+
+- La **identidad de marca** (Kinesis Pink / Admin Accent Pink, tipografías, espaciados) se mantiene en ambos temas.
+- El toggle solo cambia **fondos, textos y superficies**, NO el color de marca ni la jerarquía de componentes.
+- El sistema usará **tokens de diseño** (variables) para fondos, textos, bordes y estados; el código nunca debe usar hexadecimales sueltos.
+- La preferencia de tema se persistirá en el navegador y respetará `prefers-color-scheme` cuando sea posible.
+
 ### Paleta de Colores Página WEB
 
-Pensada para la página web que ya tienes maquetada
+Paleta de colores definida para la página WEB Pública
 
 ```
 Primarios
@@ -31,34 +45,93 @@ Acentos
 - Error Red: #EF4444 (Errores, mensajes críticos)
 - Info Blue: #3B82F6 (Mensajes informativos, enlaces secundarios)
 ```
+
+#### Web – Modo Light (predeterminado)
+
+Usa fondos claros y texto oscuro.
+
+- Fondo principal: Gray 100
+- Fondo secciones: Gray 100 / Gray 200
+- Texto principal: Gray 900
+- Texto secundario: Gray 600
+- CTAs / links destacados: Kinesis Pink
+- Acentos: Accent Purple, Success Green, Warning Amber, Error Red, Info Blue
+
+#### Web – Modo Dark
+
+Reusa los tonos Night y Pink definidos:
+
+- Fondo principal: Kinesis Night
+- Fondo secciones: Night 800 / Night 700
+- Texto sobre fondo oscuro: Kinesis White
+- Bordes y detalles: Gray 200 / Accent Purple
+- CTAs: Kinesis Pink
+
+
 ### Paleta de Colores CMS Admin
 
-Variación pensada para el panel de administración: sidebar oscuro, contenido claro y acentos coherentes con la marca.
+Paleta de colores definida para el panel de administración (CMS).
 
 ```text
 Primarios
-- Admin Navy:         #020617  (Sidebar principal, fondo app)
-- Admin Surface:      #0F172A  (Fondos de tarjetas y módulos)
-- Admin Accent Pink:  #FB2F72  (Botones primarios, elementos activos)
+- Admin Navy:          #020617  (Sidebar principal, fondo app)
+- Admin Surface:       #0F172A  (Fondos de tarjetas y módulos)
+- Admin Accent Pink:   #FB2F72  (Botones primarios, elementos activos)
 
 Secundarios
-- Admin Border:       #1E293B  (Bordes, separadores, contornos de inputs)
-- Admin Muted:        #64748B  (Texto secundario, iconos desactivados)
-- Admin Surface Light:#111827  (Headers de tablas, barras superiores)
-- Admin White:        #FFFFFF  (Fondos de tablas, tarjetas claras, texto sobre fondos muy oscuros)
+- Admin Border:        #1E293B  (Bordes, separadores, contornos de inputs)
+- Admin Muted:         #64748B  (Texto secundario, iconos desactivados)
+- Admin Surface Light: #111827  (Headers de tablas, barras superiores)
+- Admin White:         #FFFFFF  (Fondos de tablas, tarjetas claras, texto sobre fondos muy oscuros)
 
 Acentos
-- Admin Success:      #10B981  (Estados OK, chips de "Publicado")
-- Admin Warning:      #F59E0B  (Avisos, etiquetas de "Pendiente")
-- Admin Error:        #EF4444  (Errores de validación, estados críticos)
-- Admin Info:         #38BDF8  (Badges de información, tooltips)
+- Admin Success:       #10B981  (Estados OK, chips de "Publicado")
+- Admin Warning:       #F59E0B  (Avisos, etiquetas de "Pendiente")
+- Admin Error:         #EF4444  (Errores de validación, estados críticos)
+- Admin Info:          #38BDF8  (Badges de información, tooltips)
 ```
+#### CMS – Modo Dark (predeterminado)
 
-### Notas de uso
+Tema oscuro optimizado para trabajo prolongado en pantalla:
 
-* Mantén **Kinesis Pink** y **Admin Accent Pink** como hilo conductor entre web y CMS.
-* Usa los tonos **Night** para crear el contraste fuerte que ya se ve en los mockups (hero y footer muy oscuros, tarjetas claras).
-* El púrpura (#8B5CF6) queda como acento secundario para detalles finos de marca y elementos de UI donde quieras un toque más "tech" (badges, iconos, pequeños subrayados).
+- Fondo app: Admin Navy (#020617)
+- Superficies principales: Admin Surface (#0F172A)
+- Headers y barras: Admin Surface Light (#111827)
+- Bordes y separadores: Admin Border (#1E293B)
+- Texto principal: Admin White (#FFFFFF)
+- Texto secundario: Admin Muted (#64748B)
+- Sidebar: Admin Navy con iconos en Admin Muted y item activo en Admin Accent Pink
+- Botones primarios: Admin Accent Pink (#FB2F72)
+- Estados: Admin Success, Admin Warning, Admin Error, Admin Info (con contraste adecuado sobre fondos oscuros)
+
+#### CMS – Modo Light
+
+Tema claro para trabajar en entornos muy iluminados:
+
+- Fondo app: Admin White
+- Superficies principales: Gray 100 / Gray 200
+- Bordes: Admin Border
+- Texto principal: Gray 900
+- Texto secundario: Admin Muted
+- Sidebar: Admin Surface Light con iconos en Admin Muted y item activo en Admin Accent Pink
+- Estados: Admin Success, Admin Warning, Admin Error, Admin Info (mismos colores que en Dark pero adaptando texto/bordes para contraste)
+
+### Comportamiento del Toggle de Tema
+
+**En la Web pública:**
+
+- Tema predeterminado: **Light**.
+- Se respeta `prefers-color-scheme` del sistema operativo.
+- El usuario puede alternar entre Light/Dark desde el header (icono sol/luna).
+- La preferencia de tema se guarda en el almacenamiento local del navegador (localStorage, clave recomendada kinesis-theme) y se aplica automáticamente en visitas posteriores.
+- El cambio de tema es instantáneo y animado suavemente (fade/transición de opacidad).
+
+**En el CMS:**
+
+- Tema predeterminado: **Dark** (Admin Navy + Admin Surface).
+- Toggle accesible en el **Topbar**, cerca de la zona de usuario.
+- La preferencia de tema del CMS se guardará también en localStorage (por ejemplo, con la clave kinesis-admin-theme), de forma que cada navegador recuerde si el usuario prefiere modo Dark o Light.
+- Todo el layout (Sidebar, Topbar, cards, tablas, formularios) debe depender de tokens de tema, nunca de hex fijos.
 
 ### Tipografía
 ```

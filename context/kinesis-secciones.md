@@ -6,6 +6,8 @@
 
 La página de inicio funciona como portada y resumen ejecutivo de Kinesis:
 
+* La cabecera incluirá un **selector de tema claro/oscuro**, visible pero discreto, que no compita con los CTAs principales.
+* La elección de tema se recordará por navegador usando localStorage, de forma que el usuario mantenga su modo preferido (claro u oscuro) cuando vuelva a visitar la web.
 * Mensaje principal claro, que transmite el posicionamiento: centro de referencia en danza, combinación de alta tecnificación, formación amateur y programas infantiles.
 * Bloques destacados para los **cuatro modelos de negocio**:
   Élite On Demand, Ritmo Constante, Generación Dance y Sí, Quiero Bailar, cada uno con un resumen de a quién va dirigido y el beneficio principal.
@@ -135,3 +137,4 @@ A nivel ejecutivo, el CMS se organizará en un menú principal con, al menos, es
    * Datos generales del centro (nombre comercial, dirección, teléfonos, horarios de atención).
    * Enlaces a redes sociales.
    * Elementos de identidad visual (logotipos, imágenes principales).
+   * Configuración de preferencias de visualización del CMS (tema claro/oscuro), permitiendo al usuario fijar su modo preferido.

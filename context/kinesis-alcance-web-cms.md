@@ -19,6 +19,10 @@ La web de Kinesis actúa como escaparate y como embudo de captación. Su estruct
 
 La navegación principal estará siempre visible (cabecera), complementada con llamadas a la acción estratégicas (“Reserva tu sesión”, “Quiero información”, “Preinscribir a mi hijo/a”).
 
+La web ofrecerá un **selector de tema (claro/oscuro)** accesible desde la cabecera, de forma que el usuario pueda adaptar la experiencia visual a sus preferencias o condiciones de luz, manteniendo siempre la legibilidad y el contraste adecuados.
+
+La elección de tema (claro u oscuro) se guardará en el almacenamiento local del navegador (localStorage), de modo que cada visitante mantenga su preferencia visual entre sesiones y dispositivos habituales.
+
 El menú principal incluirá, como mínimo, los siguientes apartados:
 
 * **Inicio**
@@ -156,7 +160,9 @@ El CMS es la herramienta interna que permite al equipo de Kinesis controlar todo
 A nivel ejecutivo, el CMS se organizará en un menú principal con, al menos, estas áreas:
 
 1. **Panel de Inicio**
-   Vista resumen con indicadores básicos: número de leads recientes, formularios recibidos por tipo, páginas más visitadas, etc.
+   * Vista resumen con indicadores básicos: número de leads recientes, formularios recibidos por tipo, páginas más visitadas, etc.
+   * El CMS se ofrecerá en **modo oscuro por defecto**, con la posibilidad de cambiar a modo claro mediante un selector en la barra superior. Esta preferencia se mantendrá entre sesiones para facilitar el trabajo diario del equipo, guardándose en el almacenamiento local del navegador (localStorage) a nivel de dispositivo/navegador.
+
 
 2. **Contenido Web**
    Gestión de las secciones visibles de la web:
