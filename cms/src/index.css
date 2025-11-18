@@ -75,7 +75,12 @@
   }
 
   .btn-primary {
-    @apply btn bg-admin-accent text-white hover:bg-pink-600 active:scale-95;
+    @apply btn bg-admin-accent text-white active:scale-95;
+    transition: filter 0.2s;
+  }
+
+  .btn-primary:hover {
+    filter: brightness(0.9);
   }
 
   .btn-secondary {
