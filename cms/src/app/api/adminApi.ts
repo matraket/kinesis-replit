@@ -1,5 +1,84 @@
 import { httpClient } from './httpClient';
 
+export type LeadType = 'contact' | 'pre_enrollment' | 'elite_booking';
+export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'converted' | 'lost';
+
+export interface Lead {
+  id: number;
+  lead_type: LeadType;
+  lead_status: LeadStatus;
+  name: string;
+  email: string;
+  phone?: string;
+  message?: string;
+  source?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+  metadata?: Record<string, any>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LeadsListResponse {
+  leads: Lead[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface LeadsFilters {
+  lead_type?: LeadType;
+  lead_status?: LeadStatus;
+  source?: string;
+  created_after?: string;
+  created_before?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface Settings {
+  site: {
+    name: string;
+    tagline: string;
+    description: string;
+    logo: {
+      web: string;
+      cms: string;
+    };
+    favicon: string;
+  };
+  contact: {
+    email: string;
+    phone: string;
+    whatsapp: string;
+    address: {
+      street: string;
+      city: string;
+      state: string;
+      postal_code: string;
+      country: string;
+    };
+  };
+  social: {
+    instagram: string;
+    facebook: string;
+    tiktok: string;
+    youtube: string;
+  };
+  seo: {
+    default_title: string;
+    default_description: string;
+    default_keywords: string;
+  };
+}
+
+export interface SettingsResponse {
+  settings: Settings;
+}
+
 export const adminApi = {
   validateSecret: async () => {
     try {
@@ -50,13 +129,27 @@ export const adminApi = {
   },
 
   leads: {
-    list: () => httpClient.get('/admin/leads'),
-    getById: (id: string) => httpClient.get(`/admin/leads/${id}`),
-    update: (id: string, data: unknown) => httpClient.put(`/admin/leads/${id}`, data),
+    list: (filters?: LeadsFilters): Promise<LeadsListResponse> => {
+      const params: Record<string, string> = {};
+
+      if (filters?.lead_type) params.lead_type = filters.lead_type;
+      if (filters?.lead_status) params.lead_status = filters.lead_status;
+      if (filters?.source) params.source = filters.source;
+      if (filters?.created_after) params.created_after = filters.created_after;
+      if (filters?.created_before) params.created_before = filters.created_before;
+      if (filters?.page) params.page = filters.page.toString();
+      if (filters?.pageSize) params.pageSize = filters.pageSize.toString();
+
+      return httpClient.get<LeadsListResponse>('/admin/leads', { params });
+    },
+    getById: (id: string | number): Promise<Lead> => httpClient.get<Lead>(`/admin/leads/${id}`),
+    update: (id: string | number, data: Partial<Lead>): Promise<Lead> => 
+      httpClient.put<Lead>(`/admin/leads/${id}`, data),
   },
 
   settings: {
-    get: () => httpClient.get('/admin/settings'),
-    update: (data: unknown) => httpClient.put('/admin/settings', data),
+    get: (): Promise<SettingsResponse> => httpClient.get<SettingsResponse>('/admin/settings'),
+    update: (data: Partial<Settings>): Promise<SettingsResponse> => 
+      httpClient.put<SettingsResponse>('/admin/settings', { settings: data }),
   },
 };
