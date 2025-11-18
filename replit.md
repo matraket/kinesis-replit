@@ -76,3 +76,13 @@ All external infrastructure access is encapsulated within `api/infrastructure/`.
 *   Implemented login page and dashboard with placeholder pages for: programs, instructors, business models, pages, FAQs, leads, and settings
 *   Development workflow: CMS runs on port 5173 (Vite dev server), API runs on port 5000
 *   Note: Full CRUD views for content management will be implemented in T7-T9
+
+**T6.1 - Aplicar Sistema de Diseño Kinesis al CMS (Completed):**
+*   Applied Kinesis design system (Admin color palette) to CMS visual layer
+*   Configured Tailwind with Admin Navy, Surface, Accent Pink, and semantic colors
+*   Integrated Google Fonts: Montserrat (display) + Inter (body) for typography
+*   Created reusable UI components: Button (primary/secondary/ghost), Card, Input
+*   Styled AdminLayout with dark sidebar, topbar, active states, and accent markers
+*   Redesigned LoginRoute, DashboardRoute, and PlaceholderRoute with design tokens
+*   Responsive design maintained, focus states accessible (purple outline)
+*   CMS now reflects Kinesis brand identity while maintaining T6 functionality

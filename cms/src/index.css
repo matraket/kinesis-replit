@@ -4,15 +4,18 @@
 
 @layer base {
   body {
-    @apply font-body bg-admin-navy text-admin-white;
+    font-family: theme('fontFamily.body');
+    @apply bg-admin-navy text-admin-white;
   }
 
   h1, h2 {
-    @apply font-display font-bold;
+    font-family: theme('fontFamily.display');
+    @apply font-bold;
   }
 
   h3, h4, h5, h6 {
-    @apply font-body font-semibold;
+    font-family: theme('fontFamily.body');
+    @apply font-semibold;
   }
 
   h1 {
