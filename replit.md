@@ -86,3 +86,11 @@ All external infrastructure access is encapsulated within `api/infrastructure/`.
 *   Redesigned LoginRoute, DashboardRoute, and PlaceholderRoute with design tokens
 *   Responsive design maintained, focus states accessible (purple outline)
 *   CMS now reflects Kinesis brand identity while maintaining T6 functionality
+
+**T6.2 - Theme Toggle + Light Mode para el CMS (Completed):**
+*   Implemented theme toggle system (Dark/Light mode) with CSS variables for both themes
+*   Created ThemeProvider with React Context for theme state management and localStorage persistence
+*   Added theme toggle button in AdminLayout topbar with Sun/Moon icons (lucide-react)
+*   Dark mode remains default; light mode uses gray palette for backgrounds and surfaces
+*   Theme preference persists in localStorage with key `kinesis-admin-theme`
+*   All existing components use theme tokens (CSS variables) for dynamic theming
