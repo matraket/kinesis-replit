@@ -1,6 +1,7 @@
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import { checkDbConnection } from './infrastructure/db/client.js';
 import { publicRoutes } from './interfaces/http/public/routes/index.js';
+import { registerAdminRoutes } from './interfaces/http/admin/routes/index.js';
 
 const PORT = process.env.PORT || '5000';
 
@@ -40,6 +41,7 @@ server.get('/health', async (_request: FastifyRequest, _reply: FastifyReply) => 
 });
 
 server.register(publicRoutes, { prefix: '/api/public' });
+server.register(registerAdminRoutes, { prefix: '/api/admin' });
 
 function start() {
   const portNumber = +PORT;
