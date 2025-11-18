@@ -3,14 +3,14 @@ import { checkDbConnection } from './infrastructure/db/client.js';
 import { publicRoutes } from './interfaces/http/public/routes/index.js';
 import { registerAdminRoutes } from './interfaces/http/admin/routes/index.js';
 
-const PORT = process.env.PORT || '5000';
+const PORT = process.env.API_PORT || process.env.PORT || '3000';
 
 if (!PORT) {
-  console.error('ERROR: process.env.PORT is not defined. Cannot start server.');
+  console.error('ERROR: PORT is not defined. Cannot start server.');
   process.exit(1);
 }
 
-console.log(`Starting server on port ${PORT}...`);
+console.log(`Starting API server on port ${PORT}...`);
 
 const server = Fastify({
   logger: true
