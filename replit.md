@@ -158,3 +158,101 @@ A comprehensive admin API has been implemented following Clean Architecture prin
 - No modifications to existing T2 public API endpoints
 - No breaking changes to database schema
 - Extended existing repositories without modifying public methods
+
+##### T5 API Extensions - Admin CRUD for Legal Pages, Settings, and Leads Management (November 2025)
+**Implementation Status:** Complete - All endpoints functional and integrated
+
+This milestone extends the admin API with comprehensive CRUD operations for legal pages, settings management, and leads administration, plus public POST-only endpoints for lead capture forms.
+
+**Admin Endpoints Implemented:**
+
+1. **Legal Pages Admin** (`/api/admin/legal-pages`)
+   - List all legal pages with optional filtering by type
+   - Get legal page by ID
+   - Get latest legal page by type
+   - Create new legal page version (auto-versioning)
+   - Update existing legal page
+   - Delete legal page (protected for standard types)
+   - Features: Version control, current flag management, protected standard types
+
+2. **Settings Admin** (`/api/admin/settings`)
+   - List all settings with optional filtering by type
+   - Get setting by key
+   - Create new setting
+   - Update setting value by key
+   - Features: JSON value storage, type categorization (site, email, social, analytics)
+
+3. **Leads Admin** (`/api/admin/leads`)
+   - List all leads with comprehensive filtering (type, status, date range, source, campaign)
+   - Get lead by ID with full details
+   - Update lead status with notes and contact tracking
+   - Update lead notes independently
+   - Features: Pagination, multi-criteria filtering, status workflow tracking
+
+**Public Lead Capture Endpoints:**
+
+1. **Contact Form** (`POST /api/public/leads/contact`)
+   - General contact inquiries
+   - Required: firstName, lastName, email, message
+   - Optional: phone, marketing consent, UTM tracking
+
+2. **Pre-Enrollment Form** (`POST /api/public/leads/pre-enrollment`)
+   - Student enrollment inquiries
+   - Required: firstName, lastName, email, studentName, studentAge
+   - Optional: previousExperience, interestedInPrograms, preferredSchedule, UTM tracking
+
+3. **Elite Booking Form** (`POST /api/public/leads/elite-booking`)
+   - Premium session booking requests
+   - Required: firstName, lastName, email, preferredDate, preferredTime
+   - Optional: sessionType (individual/couple/group), message, UTM tracking
+
+4. **Wedding Choreography** (`POST /api/public/leads/wedding`)
+   - Specialized wedding dance inquiries
+   - Required: firstName, lastName, email, preferredDate, preferredTime
+   - Optional: message, UTM tracking
+   - Auto-tags as 'couple' sessionType and adds 'wedding-choreography' to programs
+
+**Architecture Details:**
+
+Domain Layer:
+- Extended `LegalPage` entity with update functions
+- Created `Setting` entity with JSON value handling
+- Reused existing `Lead` domain entity (no modifications needed)
+
+Application Layer:
+- Extended `ILegalPageRepository` with full CRUD methods
+- Created `ISettingsRepository` interface
+- Extended `LeadsRepository` with admin query methods
+
+Infrastructure Layer:
+- Extended `PostgresLegalPageRepository` with CRUD operations
+- Implemented `PostgresSettingsRepository`
+- Extended `PostgresLeadsRepository` with filtering and admin features
+
+Interface Layer:
+- Zod schemas for all admin and public endpoints
+- Controllers: `LegalPagesController`, `SettingsController`, `LeadsController` (admin + public)
+- Routes registered under `/api/admin/*` and `/api/public/leads/*`
+
+**Data Tracking Features:**
+- All public lead submissions capture: IP address, user agent, UTM parameters
+- Automatic source tagging as 'web' for public submissions
+- Lead status workflow: new → contacted → qualified → converted/lost
+- Notes and contact tracking for admin follow-up
+
+**Security:**
+- All admin endpoints protected by `X-Admin-Secret` header middleware
+- Public endpoints are POST-only to prevent data exposure
+- Input validation via Zod schemas on all endpoints
+- SQL injection protection through parameterized queries
+
+**Backward Compatibility:**
+- No modifications to existing T2/T3/T4 endpoints
+- No new database tables (reuses existing `legal_pages`, `settings`, `leads`)
+- Extended existing repositories without breaking changes
+- All existing functionality preserved and tested
+
+**Documentation:**
+- Admin endpoints documented in `docs/api-admin-endpoints.md`
+- Public endpoints documented in `docs/api-public-endpoints.md`
+- Changes tracked in `docs/CHANGELOG.md`
