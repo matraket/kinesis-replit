@@ -7,6 +7,197 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - T7: Dashboard y Estructura Base del CMS (November 2025)
+
+#### Overview
+Implemented a comprehensive dashboard for the CMS with KPI visualizations and lead metrics, along with a reusable UI component library in `shared/ui/`. The navigation system was refactored to use configuration-based routing, and branding now dynamically loads from the settings API with fallbacks.
+
+#### Shared UI Components (`shared/ui/`)
+
+**DataTable Component**:
+- Generic TypeScript component with full typing support `<TData>`
+- Features: Column sorting, pagination, row selection, empty states
+- Configurable columns with custom render functions
+- Loading skeleton states
+- Responsive design with mobile support
+- Minimum row height of 44px for accessibility
+- Theme-aware styling using admin design tokens
+
+**FilterSidebar Component**:
+- Supports multiple filter types: checkboxes, radios, date ranges
+- Desktop: Fixed sidebar panel
+- Mobile: Slide-out drawer with overlay
+- Apply and reset filter actions
+- Theme-aware styling with smooth transitions
+
+**Form Components**:
+- `Form`: Wrapper with title, description, and column layout (1 or 2 columns)
+- `FormField`: Label, input wrapper, error display, required indicator
+- `FormActions`: Primary and secondary buttons with loading states
+- Consistent styling across all form elements
+
+#### Navigation Configuration
+
+**Navigation System**:
+- Centralized configuration in `cms/src/app/config/navigation.ts`
+- Structure: Groups > Items with enabled/disabled flags
+- Each item: id, label, path, icon, section, isEnabled
+- AdminLayout now reads from config instead of hardcoded values
+- Easy to extend and maintain navigation structure
+
+**Navigation Groups**:
+- Panel: Dashboard
+- Contenido: Programas, Instructores, Modelos de Negocio, Páginas, FAQs
+- Operación: Leads
+- Configuración: Ajustes
+
+#### Dynamic Branding
+
+**Branding Features**:
+- Fetches settings from `/api/admin/settings` on layout mount
+- Displays site name and CMS logo from settings
+- Fallback to "Kinesis" name and initials badge if settings unavailable
+- Logo displayed as 32x32px image or accent-colored initial badge
+- Subtitle "CMS" below brand name
+- Error handling with graceful fallbacks
+
+#### Dashboard Implementation
+
+**KPIs Displayed**:
+1. **Leads nuevos (últimos 7 días)**: Count of leads with status 'new' from last 7 days
+2. **Leads por tipo (últimos 30 días)**: Breakdown by lead_type (contact, pre_enrollment, elite_booking)
+3. **Embudo de conversión**: Visual funnel showing lead status distribution (new, contacted, qualified, converted, lost)
+
+**Dashboard Features**:
+- 4 KPI cards with icons and color coding
+- Conversion funnel with horizontal progress bars and percentages
+- Recent leads table using DataTable component (15 leads per page)
+- Table columns: Fecha, Nombre, Tipo, Estado, Origen
+- Status badges with color coding
+- Real-time data loading with skeleton states
+- Error handling without breaking UI
+- Pagination support
+
+**Data Loading**:
+- Parallel API calls for efficiency (3 simultaneous requests)
+- Filters leads by date ranges for KPIs
+- Aggregates data client-side for funnel visualization
+- Automatic refresh on component mount
+- Loading states during data fetch
+
+#### API Enhancements
+
+**Extended adminApi.ts**:
+- Added TypeScript types: `Lead`, `LeadType`, `LeadStatus`, `Settings`
+- Added `LeadsFilters` interface for filtering support
+- Extended leads methods with filter parameters
+- Enhanced settings methods with proper typing
+- Support for pagination, date filtering, status filtering
+
+**Filter Parameters**:
+- lead_type: Filter by type (contact, pre_enrollment, elite_booking)
+- lead_status: Filter by status (new, contacted, qualified, converted, lost)
+- created_after/before: Date range filtering
+- source: Filter by lead source
+- page/pageSize: Pagination
+
+#### TypeScript Configuration
+
+**Shared Library**:
+- Created `shared/tsconfig.json` for UI component library
+- Enabled JSX support with "react-jsx"
+- Strict mode enabled for type safety
+- Includes UI components and config files
+
+#### Accessibility & Design
+
+**Accessibility Features**:
+- ARIA labels on interactive elements
+- Keyboard navigation support
+- Focus states with purple outline (2px offset)
+- Semantic HTML elements
+- Screen reader friendly status badges
+- Minimum touch target sizes (44px)
+
+**Theme Support**:
+- All components use admin theme tokens
+- Supports Light and Dark modes
+- Smooth transitions between theme changes
+- Consistent color palette across dashboard and tables
+
+#### Files Created/Modified
+
+**New Files**:
+- `shared/ui/data-table/DataTable.tsx`
+- `shared/ui/data-table/types.ts`
+- `shared/ui/filter-sidebar/FilterSidebar.tsx`
+- `shared/ui/filter-sidebar/types.ts`
+- `shared/ui/form/Form.tsx`
+- `shared/ui/form/FormField.tsx`
+- `shared/ui/form/FormActions.tsx`
+- `shared/ui/form/types.ts`
+- `shared/ui/index.ts`
+- `shared/tsconfig.json`
+- `cms/src/app/config/navigation.ts`
+
+**Modified Files**:
+- `cms/src/app/layout/AdminLayout.tsx`: Navigation config + branding
+- `cms/src/app/routes/DashboardRoute.tsx`: Full dashboard implementation
+- `cms/src/app/api/adminApi.ts`: Extended with types and filter support
+
+#### Architecture Decisions
+
+**Component Library**:
+- Placed in `shared/ui/` for future reuse across web and cms
+- Generic components with TypeScript generics
+- Props-based configuration for flexibility
+- No business logic in UI components (pure presentation)
+
+**Configuration Pattern**:
+- Navigation defined as data structure (not JSX)
+- Easy to enable/disable menu items
+- Supports future dynamic menu generation
+- Clear separation of routing config and component logic
+
+**Data Fetching Strategy**:
+- Load dashboard data on component mount
+- Parallel API calls for performance
+- Client-side aggregation for derived metrics
+- Error boundaries prevent UI breakage
+- Optimistic loading states
+
+#### Business Rules
+
+**Dashboard KPIs**:
+- "Leads nuevos" counts only status='new' from last 7 days
+- Type breakdown uses last 30 days of data
+- Conversion funnel shows all-time status distribution
+- Recent table shows latest leads regardless of status
+
+**Navigation**:
+- Only enabled items (isEnabled=true) are displayed
+- Active route highlighted with accent color
+- Mobile menu automatically closes on navigation
+- Logout button always at bottom of sidebar
+
+#### Future Enhancements
+
+**Components**:
+- Add DataTable column filtering
+- Add DataTable export to CSV functionality
+- Add DateRangePicker component
+- Add Select and MultiSelect form components
+- Add Toast notification system
+
+**Dashboard**:
+- Add date range selector for KPIs
+- Add lead source breakdown chart
+- Add conversion rate trends over time
+- Add quick actions (create lead, export data)
+- Add real-time updates via WebSocket
+
+---
+
 ### Added - T5: Legal Pages, Settings, and Leads Management API (November 2025)
 
 #### Overview

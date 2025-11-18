@@ -94,3 +94,15 @@ All external infrastructure access is encapsulated within `api/infrastructure/`.
 *   Dark mode remains default; light mode uses gray palette for backgrounds and surfaces
 *   Theme preference persists in localStorage with key `kinesis-admin-theme`
 *   All existing components use theme tokens (CSS variables) for dynamic theming
+
+**T7 - Dashboard y Estructura Base del CMS (Completed):**
+*   Created reusable UI component library in `shared/ui/`: DataTable, FilterSidebar, Form components
+*   Implemented comprehensive Dashboard at `/admin` with lead KPIs and metrics visualization
+*   Dashboard shows: new leads (7 days), leads by type (30 days), conversion funnel, recent leads table
+*   Refactored navigation to configuration-based system (`cms/src/app/config/navigation.ts`)
+*   AdminLayout now reads navigation from config instead of hardcoded structure
+*   Added dynamic branding: fetches site name and logo from settings API with fallbacks
+*   Extended adminApi with TypeScript types and filter support for leads and settings
+*   DataTable: generic component with sorting, pagination, custom columns, loading states
+*   All components support Light/Dark theme toggle and follow Kinesis design system
+*   Dashboard loads data in parallel for performance, handles errors gracefully
