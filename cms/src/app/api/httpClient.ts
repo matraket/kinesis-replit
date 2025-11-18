@@ -1,4 +1,4 @@
-import { config } from '@/shared/config';
+import { config } from '../../shared/config';
 
 interface RequestOptions extends RequestInit {
   params?: Record<string, string>;
@@ -39,9 +39,9 @@ class HttpClient {
     const { params, ...fetchOptions } = options;
     const url = this.buildUrl(endpoint, params);
 
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...fetchOptions.headers,
+      ...(fetchOptions.headers as Record<string, string>),
     };
 
     if (endpoint.startsWith('/admin')) {

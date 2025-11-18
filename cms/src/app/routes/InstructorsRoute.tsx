@@ -20,7 +20,6 @@ interface Instructor {
 }
 
 export function InstructorsRoute() {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [instructors, setInstructors] = useState<Instructor[]>([]);
@@ -54,7 +53,7 @@ export function InstructorsRoute() {
   const loadInstructors = async () => {
     setIsLoading(true);
     try {
-      const response = await adminApi.instructors.list();
+      const response: any = await adminApi.instructors.list();
       setInstructors(response.data || []);
       setTotal(response.total || response.data?.length || 0);
     } catch (error) {
@@ -67,7 +66,7 @@ export function InstructorsRoute() {
 
   const loadInstructor = async (id: string) => {
     try {
-      const response = await adminApi.instructors.getById(id);
+      const response: any = await adminApi.instructors.getById(id);
       setSelectedInstructor(response.data);
       setShowForm(true);
     } catch (error) {

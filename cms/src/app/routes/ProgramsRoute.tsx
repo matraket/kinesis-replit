@@ -22,7 +22,6 @@ interface Program {
 }
 
 export function ProgramsRoute() {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [programs, setPrograms] = useState<Program[]>([]);
@@ -57,7 +56,7 @@ export function ProgramsRoute() {
   const loadPrograms = async () => {
     setIsLoading(true);
     try {
-      const response = await adminApi.programs.list();
+      const response: any = await adminApi.programs.list();
       setPrograms(response.data || []);
       setTotal(response.total || response.data?.length || 0);
     } catch (error) {
@@ -70,7 +69,7 @@ export function ProgramsRoute() {
 
   const loadProgram = async (id: string) => {
     try {
-      const response = await adminApi.programs.getById(id);
+      const response: any = await adminApi.programs.getById(id);
       setSelectedProgram(response.data);
       setShowForm(true);
     } catch (error) {
