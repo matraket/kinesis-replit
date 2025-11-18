@@ -7,6 +7,223 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - T5: Legal Pages, Settings, and Leads Management API (November 2025)
+
+#### Overview
+Implemented comprehensive CRUD operations for legal pages management, site settings configuration, and leads administration with public POST-only endpoints for lead capture forms. This milestone extends T2-T4 functionality with versioned legal documents, flexible JSON settings storage, and complete lead lifecycle management.
+
+#### Domain Layer
+- **Extended LegalPage Entity**: Added `updateLegalPage` function for version management
+- **New Setting Entity**: Created with JSON value storage and type categorization (site, email, social, analytics)
+- **Reused Lead Entity**: No modifications needed, existing entity supports all required use cases
+
+#### Application Layer
+- **Extended ILegalPageRepository**:
+  - Added CRUD methods: `create`, `update`, `delete`, `list`, `findById`, `findByType`
+  - Automatic current version management
+  - Standard page type protection
+  
+- **New ISettingsRepository**:
+  - Methods: `create`, `updateByKey`, `findByKey`, `list`
+  - Flexible JSON value storage
+  - Type-based filtering
+  
+- **Extended LeadsRepository**:
+  - Admin methods: `listWithFilters`, `getLeadById`, `updateStatus`, `updateNotes`
+  - Multi-criteria filtering (type, status, date range, source, campaign)
+  - Pagination support
+
+#### Infrastructure Layer
+- **PostgresLegalPageRepository**:
+  - Full CRUD implementation
+  - Automatic `isCurrent` flag management (sets previous versions to false)
+  - Protection for standard types (legal, privacy, cookies, terms)
+  - Version control support
+  
+- **PostgresSettingsRepository**:
+  - Key-based CRUD operations
+  - JSON value storage with JSONB column type
+  - Type-based filtering
+  - Update tracking (updatedAt, updatedBy)
+  
+- **PostgresLeadsRepository**:
+  - Advanced filtering with dynamic SQL building
+  - Status workflow tracking
+  - Notes and contact management
+  - Pagination implementation
+
+#### API Endpoints
+
+**Admin Legal Pages** (`/api/admin/legal-pages`):
+- `GET /legal-pages` - List with optional type filter
+- `GET /legal-pages/:id` - Get by ID
+- `GET /legal-pages/type/:pageType` - Get latest by type
+- `POST /legal-pages` - Create (auto-manages isCurrent flag)
+- `PUT /legal-pages/:id` - Update
+- `DELETE /legal-pages/:id` - Delete (protected for standard types)
+
+**Admin Settings** (`/api/admin/settings`):
+- `GET /settings` - List with optional type filter
+- `GET /settings/:key` - Get by key
+- `POST /settings` - Create
+- `PUT /settings/:key` - Update value
+
+**Admin Leads** (`/api/admin/leads`):
+- `GET /leads` - List with filters (type, status, dates, source, campaign, pagination)
+- `GET /leads/:id` - Get by ID
+- `PATCH /leads/:id/status` - Update status with notes and contact tracking
+- `PATCH /leads/:id/notes` - Update notes
+
+**Public Lead Capture** (`/api/public/leads/*`):
+- `POST /leads/contact` - General contact form
+- `POST /leads/pre-enrollment` - Student enrollment inquiries
+- `POST /leads/elite-booking` - Premium session bookings
+- `POST /leads/wedding` - Wedding choreography requests
+
+#### Data Tracking & Security
+
+**Automatic Capture on Public Endpoints**:
+- IP address (for fraud prevention)
+- User agent (device/browser information)
+- UTM parameters (source, medium, campaign, term, content)
+- Source tagged as 'web'
+- Initial status set to 'new'
+
+**Lead Status Workflow**:
+- `new` → `contacted` → `qualified` → `converted` or `lost`
+- Each status update tracked with timestamp
+- Optional notes and contactedBy tracking
+
+**Protection Rules**:
+- Cannot delete standard legal page types (create new versions instead)
+- All admin endpoints require `X-Admin-Secret` header
+- Public endpoints are POST-only (no data exposure via GET)
+- Input validation via Zod schemas on all endpoints
+
+#### Validation & Schemas
+
+**Zod Schemas Created**:
+- `legalPageSchemas.ts`: Create/Update validation with date transformation
+- `settingSchemas.ts`: Create/Update validation with JSON value support
+- `leadSchemas.ts`: Admin filtering and update validation
+- `leads.schemas.ts`: Public form validation (contact, pre-enrollment, elite-booking, wedding)
+
+**Validation Features**:
+- Email format validation
+- Phone number format
+- Time format (HH:MM) for bookings
+- Age constraints (3-100) for pre-enrollment
+- Required field enforcement
+- UTM parameter optional capture
+
+#### Controllers
+
+**Admin Controllers**:
+- `LegalPagesController`: CRUD operations with version control
+- `SettingsController`: Key-based configuration management
+- `LeadsController`: Lead lifecycle management
+
+**Public Controllers**:
+- `LeadsController` (public): Form submissions with auto-tagging and tracking
+
+#### Tests
+
+**Domain Tests** (3 test suites, 32 tests):
+- `LegalPage.test.ts`: 13 tests for create/update functions
+- `Setting.test.ts`: 13 tests for create/update with JSON values
+- `Lead.test.ts`: 6 tests for lead creation with various types
+
+**Integration Tests** (4 test suites, 45+ tests):
+- `admin-legal-pages.test.ts`: Full CRUD + version control + protection
+- `admin-settings.test.ts`: CRUD + JSON value handling + type filtering
+- `admin-leads.test.ts`: Listing, filtering, status workflow, notes management
+- `public-leads.test.ts`: All form types, validation, UTM tracking
+
+**Test Coverage**:
+- Full CRUD operations for all resources
+- Version control and isCurrent flag management
+- Standard type protection
+- Status workflow lifecycle
+- Multi-criteria filtering
+- JSON value storage and retrieval
+- Input validation and error handling
+- UTM parameter capture
+
+#### Business Rules
+
+**Legal Pages**:
+- Only one page can be `isCurrent=true` per page type
+- Creating/updating with `isCurrent=true` automatically unsets others
+- Standard types (legal, privacy, cookies, terms) cannot be deleted
+- Version history maintained for compliance
+
+**Settings**:
+- JSON values allow flexible configuration storage
+- Settings organized by type (site, email, social, analytics)
+- Update tracking for audit trail
+
+**Leads**:
+- All new leads start with status 'new'
+- Status progression: new → contacted → qualified → converted/lost
+- Notes append to existing notes for activity history
+- Contact tracking (contactedAt, contactedBy) for follow-up management
+
+#### Routes Integration
+
+**Admin Routes** (`api/interfaces/http/admin/routes/index.ts`):
+- Registered `registerLegalPagesRoutes`
+- Registered `registerSettingsRoutes`
+- Registered `registerLeadsRoutes`
+
+**Public Routes** (`api/interfaces/http/public/routes/index.ts`):
+- Registered `leadsRoutes` under `/leads` prefix
+
+#### Documentation
+
+**Updated Documentation**:
+- `docs/api-admin-endpoints.md`: Added T5 admin endpoints (legal pages, settings, leads)
+- `docs/api-public-endpoints.md`: Added lead capture forms documentation
+- `docs/CHANGELOG.md`: Comprehensive T5 implementation details
+- `replit.md`: Updated with T5 architecture summary
+
+**Documentation Includes**:
+- Complete endpoint specifications
+- Request/response examples
+- Validation rules
+- Business logic explanations
+- Error handling
+- Security considerations
+
+#### Architecture Highlights
+
+- **Hexagonal Architecture**: Maintained clean separation across all layers
+- **Domain Purity**: Extended existing entities without breaking changes
+- **Repository Pattern**: Consistent interface implementations
+- **Result Type Pattern**: Comprehensive error handling
+- **Zod Validation**: Type-safe request validation
+- **Dependency Injection**: Constructor-based injection throughout
+
+#### Backward Compatibility
+
+- **Zero Breaking Changes**: All T2/T3/T4 endpoints unchanged
+- **No Schema Modifications**: Reused existing database tables
+- **Extended Repositories**: Added methods without modifying existing ones
+- **Preserved Behaviors**: All existing functionality works identically
+- **API Compatibility**: Public API remains fully backward compatible
+
+#### Future Enhancements (T6 Considerations)
+
+- JWT-based authentication for admin endpoints
+- Role-based access control (RBAC)
+- Lead assignment and ownership
+- Automated lead scoring
+- Email notifications for lead events
+- Legal page approval workflow
+- Settings versioning and rollback
+- Bulk lead operations
+
+---
+
 ### Added - T4: Admin API for Business Models, Pages, and FAQs
 
 #### Overview

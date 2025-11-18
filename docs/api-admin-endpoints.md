@@ -533,6 +533,277 @@ The following pages **CANNOT** be deleted:
 
 ---
 
+## Legal Pages (T5)
+
+### List All Legal Pages
+```
+GET /api/admin/legal-pages?pageType=privacy
+```
+
+**Query Parameters:**
+- `pageType` (optional): Filter by page type
+
+**Response:**
+```json
+{
+  "data": [
+    {
+      "id": "uuid",
+      "pageType": "privacy",
+      "title": "Privacy Policy",
+      "content": "Policy content in HTML or Markdown",
+      "version": "2.0",
+      "effectiveDate": "2025-01-01T00:00:00.000Z",
+      "isCurrent": true,
+      "slug": "privacy-policy-v2",
+      "createdAt": "2024-12-01T00:00:00.000Z",
+      "approvedAt": "2025-01-01T00:00:00.000Z"
+    }
+  ],
+  "count": 10
+}
+```
+
+### Get Legal Page by ID
+```
+GET /api/admin/legal-pages/:id
+```
+
+### Get Legal Page by Type
+```
+GET /api/admin/legal-pages/type/:pageType
+```
+
+Returns the most recent legal page for a given type (prioritizes current, then by creation date).
+
+### Create Legal Page
+```
+POST /api/admin/legal-pages
+```
+
+**Request Body:**
+```json
+{
+  "pageType": "privacy",
+  "title": "Privacy Policy v2.0",
+  "content": "Complete policy content...",
+  "version": "2.0",
+  "effectiveDate": "2025-01-01",
+  "isCurrent": true,
+  "slug": "privacy-policy-v2"
+}
+```
+
+**Required fields**: `pageType`, `title`, `content`, `version`, `effectiveDate`
+
+**Note**: When `isCurrent=true`, all other pages of the same type will automatically be set to `isCurrent=false`.
+
+### Update Legal Page
+```
+PUT /api/admin/legal-pages/:id
+```
+
+**Request Body:** (all fields optional)
+```json
+{
+  "title": "Updated Privacy Policy Title",
+  "content": "Updated content...",
+  "version": "2.1",
+  "isCurrent": true
+}
+```
+
+### Delete Legal Page
+```
+DELETE /api/admin/legal-pages/:id
+```
+
+**⚠️ Protected Legal Page Types**: Cannot delete standard legal page types (`legal`, `privacy`, `cookies`, `terms`). Create new versions instead.
+
+---
+
+## Settings (T5)
+
+### List All Settings
+```
+GET /api/admin/settings?type=site
+```
+
+**Query Parameters:**
+- `type` (optional): Filter by setting type (`site`, `email`, `social`, `analytics`)
+
+**Response:**
+```json
+{
+  "data": [
+    {
+      "id": "uuid",
+      "settingKey": "site.title",
+      "settingValue": {
+        "en": "Kinesis Dance Studio",
+        "es": "Estudio de Danza Kinesis"
+      },
+      "settingType": "site",
+      "description": "Website title for SEO and branding",
+      "updatedAt": "2025-01-15T00:00:00.000Z",
+      "updatedBy": "admin-user-id"
+    }
+  ],
+  "count": 15
+}
+```
+
+### Get Setting by Key
+```
+GET /api/admin/settings/:key
+```
+
+**Example**: `GET /api/admin/settings/site.title`
+
+### Create Setting
+```
+POST /api/admin/settings
+```
+
+**Request Body:**
+```json
+{
+  "settingKey": "analytics.google_id",
+  "settingValue": {
+    "id": "GA-123456789",
+    "enabled": true
+  },
+  "settingType": "analytics",
+  "description": "Google Analytics tracking ID"
+}
+```
+
+**Required fields**: `settingKey`, `settingValue`, `settingType`
+
+**Setting Types**: `site`, `email`, `social`, `analytics`
+
+**Note**: `settingValue` is a JSON object that can hold any structure.
+
+### Update Setting
+```
+PUT /api/admin/settings/:key
+```
+
+**Request Body:**
+```json
+{
+  "settingValue": {
+    "id": "GA-987654321",
+    "enabled": false
+  },
+  "description": "Updated Google Analytics configuration"
+}
+```
+
+**Required fields**: `settingValue`
+
+---
+
+## Leads Management (T5)
+
+### List All Leads
+```
+GET /api/admin/leads?leadType=contact&status=new&page=1&limit=50
+```
+
+**Query Parameters:**
+- `leadType` (optional): Filter by type (`contact`, `pre_enrollment`, `elite_booking`, `newsletter`)
+- `status` (optional): Filter by status (`new`, `contacted`, `qualified`, `converted`, `lost`)
+- `from` (optional): Filter by creation date (start)
+- `to` (optional): Filter by creation date (end)
+- `source` (optional): Filter by source
+- `campaign` (optional): Filter by campaign
+- `page` (optional, default: 1): Page number
+- `limit` (optional, default: 50, max: 100): Items per page
+
+**Response:**
+```json
+{
+  "data": [
+    {
+      "id": "uuid",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "phone": "+1234567890",
+      "leadType": "contact",
+      "leadStatus": "new",
+      "source": "web",
+      "campaign": "summer_2025",
+      "message": "I'm interested in salsa classes",
+      "acceptsMarketing": true,
+      "utmSource": "facebook",
+      "utmMedium": "social",
+      "ipAddress": "192.168.1.100",
+      "createdAt": "2025-01-15T10:30:00.000Z",
+      "updatedAt": "2025-01-15T10:30:00.000Z"
+    }
+  ],
+  "total": 150,
+  "page": 1,
+  "limit": 50,
+  "pages": 3
+}
+```
+
+### Get Lead by ID
+```
+GET /api/admin/leads/:id
+```
+
+Returns complete lead information including all captured data, UTM parameters, and tracking metadata.
+
+### Update Lead Status
+```
+PATCH /api/admin/leads/:id/status
+```
+
+**Request Body:**
+```json
+{
+  "leadStatus": "contacted",
+  "notes": "Called customer, interested in trial class",
+  "contactedBy": "admin-user-uuid"
+}
+```
+
+**Required fields**: `leadStatus`
+
+**Valid statuses**: `new`, `contacted`, `qualified`, `converted`, `lost`
+
+**Response:**
+```json
+{
+  "id": "uuid",
+  "leadStatus": "contacted",
+  "notes": "Called customer, interested in trial class",
+  "contactedAt": "2025-01-15T14:30:00.000Z",
+  "contactedBy": "admin-user-uuid",
+  "updatedAt": "2025-01-15T14:30:00.000Z"
+}
+```
+
+### Update Lead Notes
+```
+PATCH /api/admin/leads/:id/notes
+```
+
+**Request Body:**
+```json
+{
+  "notes": "Follow-up scheduled for next week"
+}
+```
+
+**Required fields**: `notes`
+
+---
+
 ## Future Enhancements (T6)
 
 The current authentication mechanism (`X-Admin-Secret` header) is a placeholder. Future enhancements will include:
