@@ -1,5 +1,5 @@
 import type { Lead, CreateLeadInput, LeadType, LeadStatus } from '../../domain/leads/index.js';
-import type { LeadsRepository } from '../../application/ports/index.js';
+import type { LeadsRepository, LeadFilters, UpdateLeadStatusInput } from '../../application/ports/index.js';
 import type { Result } from '../../../shared/types/index.js';
 import { Ok, Err } from '../../../shared/types/index.js';
 import { createLead } from '../../domain/leads/index.js';
@@ -193,6 +193,176 @@ export class PostgresLeadsRepository implements LeadsRepository {
       return Ok(leads);
     } catch (error) {
       return Err(error instanceof Error ? error : new Error('Unknown error getting leads by email'));
+    }
+  }
+
+  async listWithFilters(filters: LeadFilters): Promise<Result<{ leads: Lead[]; total: number }, Error>> {
+    try {
+      const pool = getDbPool();
+      const params: any[] = [];
+      let paramIndex = 1;
+      
+      let whereClause = 'WHERE 1=1';
+      
+      if (filters.leadType) {
+        whereClause += ` AND lead_type = $${paramIndex}`;
+        params.push(filters.leadType);
+        paramIndex++;
+      }
+      
+      if (filters.status) {
+        whereClause += ` AND lead_status = $${paramIndex}`;
+        params.push(filters.status);
+        paramIndex++;
+      }
+      
+      if (filters.from) {
+        whereClause += ` AND created_at >= $${paramIndex}`;
+        params.push(filters.from);
+        paramIndex++;
+      }
+      
+      if (filters.to) {
+        whereClause += ` AND created_at <= $${paramIndex}`;
+        params.push(filters.to);
+        paramIndex++;
+      }
+      
+      if (filters.source) {
+        whereClause += ` AND source = $${paramIndex}`;
+        params.push(filters.source);
+        paramIndex++;
+      }
+      
+      if (filters.campaign) {
+        whereClause += ` AND campaign = $${paramIndex}`;
+        params.push(filters.campaign);
+        paramIndex++;
+      }
+      
+      const countResult = await pool.query(
+        `SELECT COUNT(*) as total FROM leads ${whereClause}`,
+        params
+      );
+      const total = parseInt(countResult.rows[0].total, 10);
+      
+      const page = filters.page || 1;
+      const limit = filters.limit || 50;
+      const offset = (page - 1) * limit;
+      
+      const result = await pool.query(
+        `SELECT 
+          id, first_name as "firstName", last_name as "lastName",
+          email, phone, lead_type as "leadType", lead_status as "leadStatus",
+          source, campaign, message,
+          interested_in_programs as "interestedInPrograms",
+          preferred_schedule as "preferredSchedule",
+          student_name as "studentName", student_age as "studentAge",
+          previous_experience as "previousExperience",
+          preferred_date as "preferredDate", preferred_time as "preferredTime",
+          session_type as "sessionType",
+          accepts_marketing as "acceptsMarketing",
+          accepts_terms as "acceptsTerms",
+          contacted_at as "contactedAt", contacted_by as "contactedBy",
+          conversion_date as "conversionDate", notes,
+          utm_source as "utmSource", utm_medium as "utmMedium",
+          utm_campaign as "utmCampaign", utm_term as "utmTerm",
+          utm_content as "utmContent",
+          ip_address as "ipAddress", user_agent as "userAgent",
+          created_at as "createdAt", updated_at as "updatedAt"
+        FROM leads
+        ${whereClause}
+        ORDER BY created_at DESC
+        LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
+        [...params, limit, offset]
+      );
+
+      const leads: Lead[] = result.rows.map((row) => ({
+        ...row,
+        leadType: row.leadType as LeadType,
+        leadStatus: row.leadStatus as LeadStatus,
+        preferredDate: row.preferredDate ? new Date(row.preferredDate) : undefined,
+        contactedAt: row.contactedAt ? new Date(row.contactedAt) : undefined,
+        conversionDate: row.conversionDate ? new Date(row.conversionDate) : undefined,
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt),
+      }));
+
+      return Ok({ leads, total });
+    } catch (error) {
+      return Err(error instanceof Error ? error : new Error('Unknown error listing leads with filters'));
+    }
+  }
+
+  async updateStatus(id: string, input: UpdateLeadStatusInput): Promise<Result<Lead, Error>> {
+    try {
+      const pool = getDbPool();
+      
+      const updates: string[] = ['lead_status = $2', 'updated_at = NOW()'];
+      const params: any[] = [id, input.leadStatus];
+      let paramIndex = 3;
+      
+      if (input.notes !== undefined) {
+        updates.push(`notes = $${paramIndex}`);
+        params.push(input.notes);
+        paramIndex++;
+      }
+      
+      if (input.contactedBy !== undefined) {
+        updates.push(`contacted_by = $${paramIndex}`);
+        params.push(input.contactedBy);
+        paramIndex++;
+      }
+      
+      if (input.leadStatus === 'contacted' && input.contactedBy) {
+        updates.push('contacted_at = NOW()');
+      }
+      
+      if (input.leadStatus === 'converted') {
+        updates.push('conversion_date = NOW()');
+      }
+      
+      await pool.query(
+        `UPDATE leads SET ${updates.join(', ')} WHERE id = $1`,
+        params
+      );
+      
+      const result = await this.getLeadById(id);
+      if (result.isErr()) {
+        return result;
+      }
+      
+      if (!result.value) {
+        return Err(new Error(`Lead with id ${id} not found after update`));
+      }
+      
+      return Ok(result.value);
+    } catch (error) {
+      return Err(error instanceof Error ? error : new Error('Unknown error updating lead status'));
+    }
+  }
+
+  async updateNotes(id: string, notes: string): Promise<Result<Lead, Error>> {
+    try {
+      const pool = getDbPool();
+      
+      await pool.query(
+        `UPDATE leads SET notes = $1, updated_at = NOW() WHERE id = $2`,
+        [notes, id]
+      );
+      
+      const result = await this.getLeadById(id);
+      if (result.isErr()) {
+        return result;
+      }
+      
+      if (!result.value) {
+        return Err(new Error(`Lead with id ${id} not found after update`));
+      }
+      
+      return Ok(result.value);
+    } catch (error) {
+      return Err(error instanceof Error ? error : new Error('Unknown error updating lead notes'));
     }
   }
 }
