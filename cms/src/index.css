@@ -2,10 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+:root[data-theme="dark"] {
+  --admin-bg-app: #020617;
+  --admin-bg-surface: #0F172A;
+  --admin-bg-surface-light: #111827;
+  --admin-text-main: #FFFFFF;
+  --admin-text-muted: #64748B;
+  --admin-border: #1E293B;
+  --admin-accent: #FB2F72;
+  --admin-success: #10B981;
+  --admin-warning: #F59E0B;
+  --admin-error: #EF4444;
+  --admin-info: #38BDF8;
+}
+
+:root[data-theme="light"] {
+  --admin-bg-app: #F9FAFB;
+  --admin-bg-surface: #FFFFFF;
+  --admin-bg-surface-light: #F3F4F6;
+  --admin-text-main: #111827;
+  --admin-text-muted: #64748B;
+  --admin-border: #E5E7EB;
+  --admin-accent: #FB2F72;
+  --admin-success: #10B981;
+  --admin-warning: #F59E0B;
+  --admin-error: #EF4444;
+  --admin-info: #38BDF8;
+}
+
 @layer base {
   body {
     font-family: theme('fontFamily.body');
-    @apply bg-admin-navy text-admin-white;
+    background-color: var(--admin-bg-app);
+    color: var(--admin-text-main);
   }
 
   h1, h2 {
@@ -62,7 +91,8 @@
   }
 
   .input {
-    @apply w-full px-4 py-3 rounded-lg border border-admin-border bg-admin-navy text-admin-white placeholder:text-admin-muted;
+    @apply w-full px-4 py-3 rounded-lg border border-admin-border text-admin-white placeholder:text-admin-muted;
+    background-color: var(--admin-bg-surface);
     @apply focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent;
     min-height: 48px;
   }

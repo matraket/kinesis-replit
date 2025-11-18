@@ -8,17 +8,17 @@ export default {
     extend: {
       colors: {
         admin: {
-          navy: '#020617',
-          surface: '#0F172A',
-          surfaceLight: '#111827',
-          accent: '#FB2F72',
-          border: '#1E293B',
-          muted: '#64748B',
-          white: '#FFFFFF',
-          success: '#10B981',
-          warning: '#F59E0B',
-          error: '#EF4444',
-          info: '#38BDF8',
+          navy: 'var(--admin-bg-app)',
+          surface: 'var(--admin-bg-surface)',
+          surfaceLight: 'var(--admin-bg-surface-light)',
+          accent: 'var(--admin-accent)',
+          border: 'var(--admin-border)',
+          muted: 'var(--admin-text-muted)',
+          white: 'var(--admin-text-main)',
+          success: 'var(--admin-success)',
+          warning: 'var(--admin-warning)',
+          error: 'var(--admin-error)',
+          info: 'var(--admin-info)',
         },
       },
       fontFamily: {
