@@ -15,6 +15,9 @@ import {
   PageContentController,
   FaqsController,
 } from '../controllers/index.js';
+import { LegalPagesController } from '../controllers/LegalPagesController.js';
+import { SettingsController } from '../controllers/SettingsController.js';
+import { LeadsController } from '../controllers/LeadsController.js';
 import { registerSpecialtiesRoutes } from './specialtiesRoutes.js';
 import { registerInstructorsRoutes } from './instructorsRoutes.js';
 import { registerProgramsRoutes } from './programsRoutes.js';
@@ -22,6 +25,9 @@ import { registerPricingTiersRoutes } from './pricingTiersRoutes.js';
 import { registerBusinessModelsRoutes } from './businessModelsRoutes.js';
 import { registerPageContentRoutes } from './pageContentRoutes.js';
 import { registerFaqsRoutes } from './faqsRoutes.js';
+import { registerLegalPagesRoutes } from './legalPagesRoutes.js';
+import { registerSettingsRoutes } from './settingsRoutes.js';
+import { registerLeadsRoutes } from './leadsRoutes.js';
 
 export async function registerAdminRoutes(fastify: FastifyInstance) {
   const specialtyRepository = new PostgresSpecialtyRepository();
@@ -39,6 +45,9 @@ export async function registerAdminRoutes(fastify: FastifyInstance) {
   const businessModelsController = new BusinessModelsController(businessModelRepository);
   const pageContentController = new PageContentController(pageContentRepository);
   const faqsController = new FaqsController(faqRepository);
+  const legalPagesController = new LegalPagesController();
+  const settingsController = new SettingsController();
+  const leadsController = new LeadsController();
 
   await registerSpecialtiesRoutes(fastify, specialtiesController);
   await registerInstructorsRoutes(fastify, instructorsController);
@@ -47,4 +56,7 @@ export async function registerAdminRoutes(fastify: FastifyInstance) {
   await registerBusinessModelsRoutes(fastify, businessModelsController);
   await registerPageContentRoutes(fastify, pageContentController);
   await registerFaqsRoutes(fastify, faqsController);
+  await registerLegalPagesRoutes(fastify, legalPagesController);
+  await registerSettingsRoutes(fastify, settingsController);
+  await registerLeadsRoutes(fastify, leadsController);
 }

@@ -6,6 +6,7 @@ import { pricingTiersRoutes } from './pricing-tiers.routes.js';
 import { pagesRoutes } from './pages.routes.js';
 import { faqsRoutes } from './faqs.routes.js';
 import { legalPagesRoutes } from './legal-pages.routes.js';
+import { leadsRoutes } from './leads.routes.js';
 
 export async function publicRoutes(server: FastifyInstance): Promise<void> {
   server.register(businessModelsRoutes, { prefix: '/business-models' });
@@ -15,4 +16,5 @@ export async function publicRoutes(server: FastifyInstance): Promise<void> {
   server.register(pagesRoutes, { prefix: '/pages' });
   server.register(faqsRoutes, { prefix: '/faqs' });
   server.register(legalPagesRoutes, { prefix: '/legal-pages' });
+  server.register(leadsRoutes, { prefix: '/leads' });
 }
