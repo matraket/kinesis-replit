@@ -525,7 +525,14 @@ export class PostgresContentRepository implements ContentRepository, IPageConten
       }
 
       if (updates.length === 0) {
-        return this.findById(id);
+        const existingResult = await this.findById(id);
+        if (!existingResult.ok) {
+          return existingResult;
+        }
+        if (!existingResult.value) {
+          return Err(new Error('Page not found'));
+        }
+        return Ok(existingResult.value);
       }
 
       updates.push(`updated_at = $${paramIndex++}`);
