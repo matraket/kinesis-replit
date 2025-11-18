@@ -1,0 +1,376 @@
+# PRD T6 – Bootstrap del CMS y Autenticación
+
+Monorepo **Kinesis Web + CMS** (TypeScript + Fastify) desplegado en Replit como **monolito modular**: `api/`, `web/`, `cms/`, `core/`, `shared/`, etc., siguiendo arquitectura Clean/DDD y restricciones de un solo contenedor y un puerto HTTP público (ver **Replit-Arquitectura-BuenasPracticas.md**).
+
+**Objetivo T6**:
+Crear el **shell del CMS** en `cms/` (React + Vite + Tailwind + shadcn/ui) con:
+
+* Sistema de **autenticación mínima** para admins.
+* **Gestión de sesión** básica.
+* **Protección de rutas** de administración.
+* **Layout base** (Sidebar + Topbar + contenido principal) para T7–T9.
+
+> Nota: T6 **no** implementa todavía las vistas de negocio completas (programas, equipo, leads, etc.). Solo el esqueleto, navegación y auth.
+
+---
+
+## 1. Restricciones Críticas
+
+### 1.1. Archivos y estructura
+
+* **NO modificar**:
+
+  * `context/**` (solo lectura).
+  * `.replit` y `replit.nix`.
+  * `replit.md` (solo se permiten **pequeñas notas de estado**; nada de reordenar, borrar bloques ni refactorizar estructura).
+* **NO cambiar** estructura de primer nivel:
+
+  * `api/`, `web/`, `cms/`, `core/`, `shared/`, `config/`, `scripts/`, `docs/`, `tests/`, `context/`.
+* **NO romper**:
+
+  * `/` y `/health`.
+  * `/api/public/**` (T2).
+  * `/api/admin/**` (T3, T4, T5) y su esquema de seguridad basado en `X-Admin-Secret`.
+
+### 1.2. Backend / API
+
+* La API de administración **ya existe**:
+
+  * `/api/admin/**` para specialties, instructors, programs, pricing_tiers, business_models, page_content, faqs, legal_pages, settings, leads (T3–T5).
+  * Protegida con cabecera `X-Admin-Secret` leída de variables de entorno (placeholder de seguridad).
+* **T6 no modifica** lógica de dominio ni endpoints de `api/`.
+  Solo los **consume** desde `cms/`.
+
+### 1.3. Replit y despliegue
+
+* Un único servidor HTTP escuchando en `process.env.PORT` (ver **Replit-Configuracion-Entorno.md**, **Replit-Despliegue-Publicacion.md**).
+* T6 se centra en **modo desarrollo** (Vite dev server) y en dejar preparado el CMS para:
+
+  * Ser “buildeado” a estáticos (`cms/dist`).
+  * Ser servido desde el mismo servidor Node en T17 (`/admin/**`).
+
+---
+
+## 2. Alcance Funcional de T6
+
+### IN-SCOPE
+
+1. **Bootstrap Frontend CMS**:
+
+   * Crear app React + Vite + TypeScript en `cms/`.
+   * Configurar Tailwind CSS y base minimal de shadcn/ui.
+   * Estructura de carpetas modular con layout y routing interno.
+
+2. **Autenticación y Sesión (MVP)**:
+
+   * Pantalla de **Login** para admins.
+   * Almacenamiento del **“token” de admin** (basado en `X-Admin-Secret`) en memoria + almacenamiento persistente (localStorage).
+   * Hook/contexto de **Auth** en el frontend.
+
+3. **Protección de Rutas**:
+
+   * `/admin/login` pública.
+   * Bloqueo de `/admin/**` sin sesión válida → redirect a `/admin/login`.
+   * Integración con la API `/api/admin/**` usando el header `X-Admin-Secret`.
+
+4. **Layout Base del CMS**:
+
+   * **Sidebar** + **Topbar** + contenido.
+   * Navegación inicial con secciones del CMS (aunque sea con pantallas placeholder).
+
+5. **Integraciones básicas**:
+
+   * Cliente HTTP (fetch/axios) con:
+
+     * Base URL relativa (`/api`).
+     * Inyección automática de `X-Admin-Secret`.
+   * Manejo básico de errores (por ejemplo: 401 → cerrar sesión).
+
+### OUT-OF-SCOPE
+
+* Vistas completas de:
+
+  * Programas, equipo, horarios, leads, textos legales, etc. (T7–T9).
+* Integración con proveedor de autenticación “real” (Replit Auth / OAuth / JWT).
+* Componentes complejos (tablas, formularios avanzados, filtros) → T7 y T8.
+* Gestión de roles/permissions (RBAC avanzado).
+
+---
+
+## 3. Stack Técnico Frontend CMS
+
+* **React 18 + TypeScript**.
+* **Vite** como bundler/dev-server.
+* **React Router v6+** para ruteo interno.
+* **Tailwind CSS** para estilos utilitarios (posible integración con diseño compartido en `shared/ui` más adelante).
+* **shadcn/ui** para componentes base (botones, inputs, layouts).
+* (Opcional recomendado) **@tanstack/react-query** para data fetching a `/api/admin/**`.
+
+> Recomendación: Mantener convenciones de `web/` si ya existe (naming, estructura, hooks compartidos).
+
+---
+
+## 4. Estructura de Carpetas CMS
+
+Crear (o adaptar) la siguiente estructura en `cms/`:
+
+```text
+cms/
+  index.html
+  vite.config.ts
+  tsconfig.json
+  tailwind.config.cjs
+  postcss.config.cjs
+  src/
+    main.tsx
+    app/
+      routes/
+        AdminRouter.tsx
+        LoginRoute.tsx
+        DashboardRoute.tsx
+        PlaceholderRoute.tsx  // genérico para futuras secciones
+      layout/
+        AdminLayout.tsx
+        AuthLayout.tsx
+      auth/
+        AuthContext.tsx
+        AuthProvider.tsx
+        useAuth.ts
+        AuthGuard.tsx
+      api/
+        httpClient.ts
+        adminApi.ts  // helpers para /api/admin/*
+      ui/
+        components básicos (Button, Input, Card, etc. importados/extensibles de shadcn)
+    shared/
+      types.ts
+      config.ts  // URLs base, nombres de storage, etc.
+```
+
+---
+
+## 5. Ruteo Interno (`/admin/...`)
+
+### 5.1. Rutas principales
+
+* `/admin/login`
+
+  * Pantalla de login.
+  * Accesible sin sesión.
+* `/admin`
+
+  * Dashboard inicial (placeholder, pero ya con layout completo).
+* `/admin/programs`
+* `/admin/instructors`
+* `/admin/business-models`
+* `/admin/pages`
+* `/admin/faqs`
+* `/admin/leads`
+* `/admin/settings`
+
+> T6 solo necesita que estas rutas existan y muestren un **contenido mínimo** (“En construcción” / “Listado de X vendrá en T7–T9”).
+
+### 5.2. Router y Guards
+
+* `AdminRouter.tsx`:
+
+  * Define todas las rutas bajo `/admin`.
+  * Envuelve rutas privadas con `AuthGuard`.
+* `AuthGuard.tsx`:
+
+  * Comprueba si hay sesión admin válida (ver sección 6).
+  * Si NO:
+
+    * Redirect a `/admin/login`.
+  * Si SÍ:
+
+    * Renderiza el layout + página solicitada.
+
+---
+
+## 6. Autenticación y Sesión
+
+### 6.1. Modelo MVP (X-Admin-Secret)
+
+Dado que la API ya usa `X-Admin-Secret` como mecanismo de protección (T3–T5), T6 implementará:
+
+* Formulario de login con:
+
+  * Campo: `adminSecret` (password input).
+* Al enviar:
+
+  * Guardar `adminSecret` en **memoria** y en `localStorage` (clave configurable, p. ej. `KINESIS_ADMIN_SECRET`).
+  * Opcional: hacer una llamada de “ping” a un endpoint admin simple para validar el secreto (ej.: `GET /api/admin/leads?limit=1` o similar).
+* Si la validación falla:
+
+  * Mostrar error: “Credenciales inválidas”.
+  * No guardar el secret.
+
+### 6.2. Auth Context
+
+* `AuthProvider`:
+
+  * Estado: `{ isAuthenticated: boolean, adminSecret: string | null }`.
+  * Métodos:
+
+    * `login(secret: string)`.
+    * `logout()` (limpia memoria + localStorage).
+  * Inicialización:
+
+    * Lee secret de `localStorage` y, si existe, marca `isAuthenticated=true` (opcional validar en background).
+
+* `useAuth`:
+
+  * Hook para consumo en componentes.
+
+### 6.3. Envío del header `X-Admin-Secret`
+
+* `httpClient.ts`:
+
+  * Wrapper sobre `fetch` o `axios`.
+  * Añadir `X-Admin-Secret: <secret>` a todas las peticiones que vayan a `/api/admin/**`.
+  * Gestionar:
+
+    * 401 → ejecutar `logout()` y redirect automático a `/admin/login`.
+
+### 6.4. Preparación para futura Replit Auth
+
+* Encapsular toda la lógica en el módulo `auth/`, de forma que en el futuro se pueda sustituir el mecanismo (p.ej. Replit Auth) sin reescribir todo el CMS.
+* Documentar en comentarios que el “modo AdminSecret” es temporal.
+
+---
+
+## 7. Layout Base del CMS
+
+### 7.1. AdminLayout
+
+Componente principal que envuelve todas las rutas privadas:
+
+* Estructura básica:
+
+  * **Sidebar** izquierda con:
+
+    * Logo / nombre “Kinesis CMS”.
+    * Secciones agrupadas:
+
+      * “Contenido”: Programas, Instructores, Modelos, Páginas, FAQs.
+      * “Operación”: Leads, Ajustes.
+    * Estado activo según ruta actual.
+  * **Topbar** con:
+
+    * Título de la página actual.
+    * Información de usuario ficticio (p.ej. “Admin”).
+    * Botón “Cerrar sesión”.
+  * **Contenido principal**:
+
+    * Zona para la página concreta (Dashboard, etc.).
+* Mobile:
+
+  * Sidebar colapsable (menú hamburguesa mínimo).
+
+### 7.2. Dashboard (Placeholder)
+
+* `/admin`:
+
+  * Tarjeta con texto tipo:
+
+    * “Bienvenido a Kinesis CMS”.
+    * Recordatorio de secciones: contenido web, leads, ajustes.
+  * No se requiere aún mostrar KPIs (eso será en T7).
+
+### 7.3. Pantalla de Login
+
+* Layout separado (`AuthLayout`):
+
+  * Centro de pantalla, caja con:
+
+    * Logo / Marca.
+    * Campo Secret.
+    * Botón “Entrar al CMS”.
+    * Mensaje pequeño: “Solo personal autorizado” + recordatorio que esto se integrará con un sistema de auth real.
+
+---
+
+## 8. Integración con API
+
+### 8.1. Cliente HTTP
+
+* `httpClient.ts`:
+
+  * Función genérica `request(path, options)` que:
+
+    * Prepara URL relativa (`/api/...`).
+    * Adjunta `X-Admin-Secret` si el path empieza por `/api/admin`.
+    * Configura `Content-Type: application/json`.
+    * Gestiona errores HTTP (400, 401, 500) de forma consistente.
+
+### 8.2. Módulo adminApi
+
+* `adminApi.ts`:
+
+  * Métodos mínimos utilizados en T6 (ping de health, p. ej. `getAdminStatus()`).
+  * Preparado para extender en T7–T9 (programs, instructors, etc.).
+
+### 8.3. Manejo de errores
+
+* Para T6:
+
+  * Mostrar toasts o mensajes simples de error en login.
+  * Para fallos genéricos, mensaje “Ha ocurrido un error, inténtalo de nuevo”.
+
+---
+
+## 9. Testing y Validación
+
+### 9.1. Tests mínimos (recomendado aunque no obligatorio para T6 MVP)
+
+* Tests de unidad:
+
+  * `AuthProvider`: inicialización, login, logout.
+  * `AuthGuard`: redirección correcta si no hay sesión.
+
+* Tests de integración ligeros (si el setup lo permite):
+
+  * Navegación:
+
+    * Sin sesión → `/admin` redirige a `/admin/login`.
+    * Con sesión → `/admin` muestra Dashboard.
+
+### 9.2. Pruebas manuales
+
+Checklist manual:
+
+1. Levantar entorno dev:
+
+   * `pnpm dev` o equivalente para `cms/` (según scripts en `package.json`).
+2. Acceder a `/admin/login` en el entorno dev:
+
+   * Ver formulario de login.
+3. Introducir un `adminSecret` incorrecto:
+
+   * Ver error de “credenciales inválidas” (si se realiza ping).
+4. Introducir `adminSecret` correcto:
+
+   * Redirección a `/admin`.
+   * Sidebar + Topbar visibles.
+5. Refrescar página en `/admin`:
+
+   * Seguir autenticado (lectura desde `localStorage`).
+6. Pulsar “Cerrar sesión”:
+
+   * Borrado de secret y redirección a `/admin/login`.
+
+---
+
+## 10. Criterios de Aceptación T6
+
+* [ ] Existe una app React + Vite + Tailwind en `cms/` con TypeScript.
+* [ ] Ruta `/admin/login` funcional (formulario de acceso).
+* [ ] Ruta `/admin` y subrutas (`/admin/programs`, `/admin/instructors`, `/admin/pages`, `/admin/faqs`, `/admin/leads`, `/admin/settings`) existen y están protegidas por `AuthGuard`.
+* [ ] El header `X-Admin-Secret` se envía automáticamente en todas las peticiones a `/api/admin/**`.
+* [ ] Si el secret es inválido, el usuario es redirigido a `/admin/login`.
+* [ ] Layout base implementado: Sidebar + Topbar + contenido.
+* [ ] No se ha modificado `.replit`, `replit.nix`, `context/**` ni la API (`/api/public/**`, `/api/admin/**`).
+* [ ] No se han introducido errores de compilación en el monorepo.
+* [ ] (Opcional pero deseable) `replit.md` actualizado solo con una breve nota de estado de T6 en la sección correspondiente, sin refactorizar su estructura.
+
