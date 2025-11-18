@@ -1,0 +1,123 @@
+# PRD T6 – CMS Bootstrap y Autenticación
+
+## Objetivo
+Crear el shell del CMS en `cms/` (React + Vite + Tailwind + shadcn/ui) con autenticación mínima para admins, gestión de sesión, protección de rutas y layout base. **T6 NO implementa vistas de negocio completas**, solo el esqueleto.
+
+## Restricciones Críticas
+
+### NO Modificar
+- `context/**`, `.replit`, `replit.nix`
+- Estructura de primer nivel: `api/`, `web/`, `cms/`, `core/`, `shared/`, etc.
+- API existente: `/api/public/**`, `/api/admin/**` (protegida con `X-Admin-Secret`)
+- - T6 no debe crear nuevos endpoints HTTP en `api/`, solo consumir los existentes desde `cms/`.
+- `replit.md` (solo pequeñas notas de estado, no refactorizar)
+
+### Entorno Replit
+- Un único servidor HTTP en `process.env.PORT`
+- T6 se enfoca en **modo desarrollo** (Vite dev server)
+- Preparar para build estático (`cms/dist`) y servido desde Node en T17
+
+## Stack Técnico
+- **React 18 + TypeScript + Vite**
+- **React Router v6+** para ruteo interno
+- **Tailwind CSS** para estilos
+- **shadcn/ui** para componentes base
+- (Opcional) **@tanstack/react-query** para data fetching
+
+## Estructura de Carpetas
+
+```text
+cms/
+  index.html
+  vite.config.ts
+  tsconfig.json
+  tailwind.config.cjs
+  postcss.config.cjs
+  src/
+    main.tsx
+    app/
+      routes/
+        AdminRouter.tsx
+        LoginRoute.tsx
+        DashboardRoute.tsx
+        PlaceholderRoute.tsx
+      layout/
+        AdminLayout.tsx
+        AuthLayout.tsx
+      auth/
+        AuthContext.tsx
+        AuthProvider.tsx
+        useAuth.ts
+        AuthGuard.tsx
+      api/
+        httpClient.ts
+        adminApi.ts
+      ui/
+        ...componentes básicos shadcn...
+    shared/
+      types.ts
+      config.ts
+```
+
+## Implementación
+
+### 1. Autenticación MVP (X-Admin-Secret)
+- **Login**: formulario con campo `adminSecret` (password)
+- **Almacenamiento**: memoria + `localStorage` (clave: `KINESIS_ADMIN_SECRET`)
+- **Validación**: opcional ping a `/api/admin/**` para verificar secret
+- **AuthProvider**: estado `{ isAuthenticated: boolean, adminSecret: string | null }`
+  - Métodos: `login(secret)`, `logout()`
+  - Inicialización: leer de `localStorage` al cargar
+- **useAuth**: hook para consumo en componentes
+
+### 2. Cliente HTTP (`httpClient.ts`)
+- Wrapper sobre `fetch` o `axios`
+- **Auto-inyectar** `X-Admin-Secret` en header para `/api/admin/**`
+- **Manejo 401**: ejecutar `logout()` y redirect a `/admin/login`
+- Base URL relativa: `/api`
+
+### 3. Ruteo y Protección
+**Rutas públicas:**
+- `/admin/login` → pantalla de login
+
+**Rutas privadas** (protegidas por `AuthGuard`):
+- `/admin` → Dashboard placeholder
+- `/admin/programs`, `/admin/instructors`, `/admin/business-models`
+- `/admin/pages`, `/admin/faqs`, `/admin/leads`, `/admin/settings`
+
+**AuthGuard**: verificar sesión, si NO → redirect a `/admin/login`
+
+### 4. Layout Base (`AdminLayout`)
+- **Sidebar** izquierda:
+  - Logo "Kinesis CMS"
+  - Secciones: Contenido (Programas, Instructores, Modelos, Páginas, FAQs), Operación (Leads, Ajustes)
+  - Estado activo según ruta
+- **Topbar**:
+  - Título de página
+  - Info usuario ("Admin")
+  - Botón "Cerrar sesión"
+- **Contenido principal**: zona para páginas
+- **Mobile**: sidebar colapsable
+
+### 5. Pantallas Mínimas
+- **Login** (`AuthLayout`): formulario centrado con campo secret y botón "Entrar al CMS"
+- **Dashboard**: tarjeta de bienvenida, sin KPIs
+- **Otras rutas**: placeholder "En construcción" o "Listado de X vendrá en T7-T9"
+
+## Criterios de Aceptación
+
+- [ ] App React + Vite + Tailwind en `cms/` con TypeScript
+- [ ] `/admin/login` funcional (formulario de acceso)
+- [ ] `/admin` y subrutas existen y están protegidas por `AuthGuard`
+- [ ] Header `X-Admin-Secret` se envía automáticamente a `/api/admin/**`
+- [ ] Secret inválido → redirect a `/admin/login`
+- [ ] Layout base: Sidebar + Topbar + contenido
+- [ ] NO se modificó `.replit`, `replit.nix`, `context/**`, ni API
+- [ ] NO errores de compilación en monorepo
+- [ ] (Opcional) `replit.md` actualizado con nota breve de T6
+
+## OUT-OF-SCOPE (NO Implementar)
+- Vistas completas de programas, equipo, horarios, leads, textos legales
+- Auth real (Replit Auth/OAuth/JWT)
+- Componentes complejos (tablas, formularios avanzados, filtros)
+- Gestión de roles/permissions (RBAC)
