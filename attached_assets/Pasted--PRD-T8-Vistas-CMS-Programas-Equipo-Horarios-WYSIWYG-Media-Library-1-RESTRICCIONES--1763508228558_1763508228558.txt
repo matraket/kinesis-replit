@@ -1,0 +1,191 @@
+# PRD T8 – Vistas CMS: Programas, Equipo, Horarios + WYSIWYG + Media Library
+
+## 1. RESTRICCIONES CRÍTICAS - NO TOCAR
+
+### 1.1. Archivos y Estructura Prohibidos
+- **NO modificar**: `context/**`, `.replit`, `replit.nix`
+- **NO cambiar**: Estructura de carpetas raíz (`api/`, `web/`, `cms/`, `core/`, `shared/`, `scripts/`)
+- **NO alterar**: Endpoints existentes (`/`, `/health`, `/api/public/**`, `/api/admin/**`)
+- **NO modificar**: Sistema de autenticación (X-Admin-Secret + AuthProvider)
+- **NO cambiar**: Sistema de temas (Dark/Light) y theme tokens de T6
+
+### 1.2. Base de Datos
+- **Migración nueva**: Crear `scripts/sql/0X_media_library_schema.sql` (siguiente número disponible)
+- **SOLO permitido**: Añadir columnas nuevas si necesario (nunca borrar/renombrar existentes)
+- **NO modificar**: Enums existentes (`difficulty_level`, `publication_status`, `lead_type`)
+- **Referencia**: `context/kinesis-database-schema.sql` (NO ejecutar, solo consultar)
+
+### 1.3. Almacenamiento
+- **Usar Replit App Storage** para archivos/imágenes (NO filesystem de código)
+- **En BD**: Solo metadatos + URLs públicas (nunca binarios)
+
+---
+
+## 2. OBJETIVO
+
+Implementar en el CMS vistas completas para:
+1. **Programas y servicios** (gestión completa con WYSIWYG y media)
+2. **Equipo/Instructores** (gestión completa con WYSIWYG y media)
+3. **Horarios y Tarifas** (vista consolidada)
+4. **Editor WYSIWYG** para textos HTML (`description_full`, `bio_full`)
+5. **Media Library** con App Storage para gestión de imágenes
+
+---
+
+## 3. ESPECIFICACIÓN DE VISTAS CMS
+
+### 3.1. Vista "Programas y servicios" (`/admin/programs`)
+
+#### Listado (DataTable)
+**Columnas**: Nombre, código, modelo negocio, especialidad, dificultad, flags (`is_active`, `show_on_web`, `is_featured`)
+
+**Filtros** (FilterSidebar): `businessModelId`, `specialtyId`, `difficulty_level`, `is_active`, `show_on_web`
+
+**Acciones**: Editar, Duplicar (crear en draft), Desactivar (toggle flags)
+
+#### Formulario (Tabs)
+1. **General**: `name`, `code`, `subtitle`, `business_model_id`, `specialty_id`, `difficulty_level`, `slug`, `display_order`, flags
+2. **Contenido**: 
+   - `description_short` (textarea)
+   - `description_full` (**WYSIWYG HTML**)
+   - `schedule_description`
+3. **Horarios**: Usar `schedule_description` (si hay endpoints de schedules, añadir tabla editable - marcar TODO si no)
+4. **Tarifas**: Tabla de `pricing_tiers` asociados (usar endpoints `/api/admin/pricing-tiers`)
+5. **Media**: Selector imagen destacada + galería (usar Media Library)
+
+### 3.2. Vista "Equipo" (`/admin/instructors`)
+
+#### Listado (DataTable)
+**Columnas**: Nombre completo, rol, especialidades, flags (`is_active`, `show_on_web`, `featured`)
+
+**Filtros**: Rol, especialidad, `show_on_web`, `featured`
+
+#### Formulario (Tabs)
+1. **General**: `first_name`, `last_name`, `display_name`, `role`, flags
+2. **Bio**: 
+   - `bio_summary` (texto corto)
+   - `bio_full` (**WYSIWYG HTML**)
+3. **Especialidades**: Multi-select
+4. **Media**: `profile_image_url`, `hero_image_url`, `video_url` (Media Library)
+
+### 3.3. Vista "Horarios y Tarifas" (`/admin/schedules-pricing`)
+
+**Listado consolidado** por programa:
+- Columnas: Programa, modelo negocio, resumen horarios, número pricing tiers activos
+- Acciones: Editar horarios, Editar tarifas (abre modal/tab de programa)
+
+---
+
+## 4. EDITOR WYSIWYG HTML
+
+### Implementación
+- **Componente**: `cms/src/shared/ui/RichTextEditor.tsx`
+- **Librería**: Tiptap, React Quill o similar (ligero, compatible Replit)
+- **Salida**: HTML seguro (string)
+
+### Toolbar Mínima
+- Negrita, cursiva, subrayado
+- Listas (ordenadas/no ordenadas)
+- Encabezados (H2, H3)
+- Enlaces
+
+### Sanitización
+- **Tags permitidas**: `p`, `strong`, `em`, `ul`, `ol`, `li`, `a`, `h2`, `h3`, `br`
+- **Remover**: Atributos `on*`, `style` no whitelisted
+- **Validación Zod**: Longitud mínima, URLs válidas, error si HTML vacío tras sanitizar
+
+### Uso
+- `programs.description_full`
+- `instructors.bio_full` (o `bio_summary` si `bio_full` no existe)
+
+---
+
+## 5. MEDIA LIBRARY + APP STORAGE
+
+### 5.1. Migración BD (`scripts/sql/0X_media_library_schema.sql`)
+
+Crear tabla `public.media_library`:
+```sql
+-- Campos principales:
+id UUID PRIMARY KEY,
+filename TEXT,
+original_name TEXT,
+mime_type TEXT,
+size_bytes INTEGER,
+url TEXT NOT NULL,           -- URL pública App Storage
+thumbnail_url TEXT,
+alt_text TEXT,
+caption TEXT,
+tags TEXT[],
+folder TEXT,                 -- 'programs', 'instructors', 'gallery'
+uploaded_at TIMESTAMPTZ DEFAULT NOW()
+
+-- Índices:
+CREATE INDEX idx_media_folder ON media_library(folder);
+CREATE INDEX idx_media_tags ON media_library USING GIN(tags);
+```
+
+### 5.2. API Backend (`/api/admin/media`)
+
+**Endpoints nuevos**:
+
+- **GET** `/api/admin/media` - Listar con filtros (folder, filename/tags, paginación)
+- **POST** `/api/admin/media` - Subir imagen:
+  - Guardar en App Storage: `media/{folder}/{uuid}.{ext}`
+  - Obtener URL pública
+  - Insertar registro en `media_library`
+  - Validar: Max 5-10MB, tipos `image/jpeg|png|webp|svg+xml`
+- **DELETE** `/api/admin/media/:id` - Eliminar registro + archivo App Storage
+
+### 5.3. UI MediaPicker (CMS)
+
+**Componente**: `MediaPicker` reutilizable (modal)
+
+**Tabs**:
+- **Biblioteca**: Grid thumbnails, filtros por folder, búsqueda texto
+- **Subir**: Input file, selección folder, campos `alt_text`, `caption`, `tags`
+
+**Output**: `{ id, url, alt_text }`
+
+**Integración**: Formularios Programas e Instructores
+
+---
+
+## 6. INTEGRACIÓN API
+
+### 6.1. adminApi.ts
+
+Extender `cms/src/api/adminApi.ts` con:
+
+- **Hooks React Query**: `usePrograms`, `useProgram`, `useUpsertProgram`, `useInstructors`, `usePricingTiersByProgram`
+- **Métodos** para `/api/admin/media`
+- **Usar** `X-Admin-Secret` automático (httpClient existente)
+
+### 6.2. Validación y Errores
+
+- **Zod schemas**: `cms/src/app/schemas/...`
+- **Errores backend** (400, 422): Mostrar bajo campo correspondiente
+- **Estados**: Loading (skeletons), Error (toast + consola), Success (toast + cerrar/redirigir)
+
+---
+
+## 7. CRITERIOS DE ACEPTACIÓN
+
+- ✅ Vista Programas funcional (listado + formulario completo con tabs)
+- ✅ Vista Equipo funcional (listado + formulario completo con tabs)
+- ✅ Vista Horarios y Tarifas (consolidada basada en programas)
+- ✅ WYSIWYG funcional en `description_full` (programas) y `bio_full` (instructores)
+- ✅ Tabla `media_library` creada con migración incremental
+- ✅ Endpoints `/api/admin/media` funcionan (listar, subir, eliminar)
+- ✅ MediaPicker integrado en formularios
+- ✅ App Storage usado para archivos (BD solo URLs/metadatos)
+- ✅ NO se rompe ningún endpoint T2-T6
+- ✅ NO se modifican archivos prohibidos (contexto, replit config)
+- ✅ CMS compila sin errores y mantiene tema/auth de T6
+
+---
+
+## NOTAS TÉCNICAS
+Aprovechar componentes base T7: DataTable, FilterSidebar, formularios
+Sistema tema/branding: Ver kinesis-guia-de-implementacion.md
+Testing (si infraestructura existe): Tests componentes críticos (ProgramsPage, RichTextEditor, MediaPicker)
