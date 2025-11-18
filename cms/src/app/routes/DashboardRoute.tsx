@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card } from '../../ui/Card';
-import { DataTable, Column } from '@/shared/ui';
+import { DataTable, Column } from '../../../../shared/ui';
 import { adminApi, Lead, LeadType, LeadStatus } from '../api/adminApi';
 import { Mail, UserCheck, Phone, TrendingUp } from 'lucide-react';
 
