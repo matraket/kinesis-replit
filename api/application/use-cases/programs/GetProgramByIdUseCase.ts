@@ -15,6 +15,6 @@ export class GetProgramByIdUseCase {
       return Err(new Error('Program not found'));
     }
 
-    return result;
+    return { ok: true, value: result.value };
   }
 }

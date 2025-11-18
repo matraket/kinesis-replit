@@ -7,6 +7,102 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - T3: Admin API for CMS CRUD Operations
+
+#### Domain Entities
+- `Specialty`: New domain entity for dance specialties with factory function
+  - Properties: code, name, description, category, icon, color, imageUrl, isActive, displayOrder
+  - Business rules: Unique codes, prevent deletion when assigned to programs/instructors
+
+#### Application Layer
+- **Repository Interfaces** (extended/created):
+  - `ISpecialtyRepository`: Full CRUD operations for specialties
+  - Extended `IInstructorRepository`: Added create, update, delete, findById, listAll methods
+  - Extended `ProgramsRepository`: Added create, update, delete, listAll methods
+  - Extended `IPricingTierRepository`: Added create, update, delete, findById, listAll methods
+  
+- **Use Cases** for admin operations:
+  - Specialties: Create, Update, Delete, List, GetById
+  - Instructors: Create, Update, Delete, List, GetById
+  - Programs: Create, Update, Delete, List, GetById
+  - Pricing Tiers: Create, Update, Delete, List, GetById
+
+#### Infrastructure Layer
+- PostgreSQL repositories with full CRUD implementations:
+  - `PostgresSpecialtyRepository`: Complete implementation with dependency checking
+  - Extended `PostgresInstructorRepository`: CRUD operations + specialty assignments
+  - Extended `PostgresProgramsRepository`: CRUD operations + relationship handling
+  - Extended `PostgresPricingTierRepository`: CRUD operations
+  
+- Business rule enforcement:
+  - Prevent specialty deletion if assigned to active programs or instructors
+  - Prevent instructor deletion if assigned to active programs
+  - Unique code validation for specialties
+  - Referential integrity checks before deletions
+
+#### API Endpoints
+All endpoints under `/api/admin` prefix with `X-Admin-Secret` authentication:
+
+**Specialties:**
+- `GET /api/admin/specialties` - List all specialties with filters
+- `GET /api/admin/specialties/:id` - Get specialty by ID
+- `POST /api/admin/specialties` - Create new specialty
+- `PUT /api/admin/specialties/:id` - Update specialty
+- `DELETE /api/admin/specialties/:id` - Delete specialty
+
+**Instructors:**
+- `GET /api/admin/instructors` - List all instructors with filters
+- `GET /api/admin/instructors/:id` - Get instructor by ID
+- `POST /api/admin/instructors` - Create new instructor
+- `PUT /api/admin/instructors/:id` - Update instructor
+- `DELETE /api/admin/instructors/:id` - Delete instructor
+
+**Programs:**
+- `GET /api/admin/programs` - List all programs with filters
+- `GET /api/admin/programs/:id` - Get program by ID
+- `POST /api/admin/programs` - Create new program
+- `PUT /api/admin/programs/:id` - Update program
+- `DELETE /api/admin/programs/:id` - Delete program
+
+**Pricing Tiers:**
+- `GET /api/admin/pricing-tiers` - List all pricing tiers with filters
+- `GET /api/admin/pricing-tiers/:id` - Get pricing tier by ID
+- `POST /api/admin/pricing-tiers` - Create new pricing tier
+- `PUT /api/admin/pricing-tiers/:id` - Update pricing tier
+- `DELETE /api/admin/pricing-tiers/:id` - Delete pricing tier
+
+#### Validation & Security
+- Zod schemas for all admin endpoints with comprehensive validation
+- Request body validation for create/update operations
+- Query parameter validation with type coercion
+- Basic authentication via `X-Admin-Secret` header (placeholder for T6)
+- Environment variable: `ADMIN_SECRET` (default: "change-me-in-production")
+
+#### Architecture
+- Follows Clean Architecture principles
+- Separation of concerns: Domain → Application → Infrastructure → Interfaces
+- Repository pattern for data access abstraction
+- Use case pattern for business logic encapsulation
+- Dependency injection via constructor parameters
+- Result type pattern for error handling
+
+#### Documentation
+- Created `docs/api-admin-endpoints.md` with complete API documentation
+- Includes authentication requirements, request/response examples
+- Documents business rules and error responses
+- Notes for future enhancements (T6: JWT auth, RBAC)
+
+#### Backward Compatibility
+- **No modifications** to existing T2 public API endpoints
+- **No breaking changes** to database schema
+- Extended existing repositories without modifying public methods
+- Preserved all existing domain entities and DTOs
+
+#### Notes
+- Admin authentication is basic (X-Admin-Secret header) - production-grade auth planned for T6
+- Many-to-many relationship handling (program_specialties, instructor_specialties) implemented
+- Relationship assignment methods (assignSpecialties, assignInstructors) ready for future use
+
 ### Added - T2: Public API for Read-Only Endpoints
 
 #### Database Schema

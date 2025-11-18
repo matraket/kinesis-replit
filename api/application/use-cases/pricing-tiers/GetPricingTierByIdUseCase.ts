@@ -15,6 +15,6 @@ export class GetPricingTierByIdUseCase {
       return Err(new Error('Pricing tier not found'));
     }
 
-    return result;
+    return { ok: true, value: result.value };
   }
 }

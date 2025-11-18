@@ -15,6 +15,6 @@ export class GetInstructorByIdUseCase {
       return Err(new Error('Instructor not found'));
     }
 
-    return result;
+    return { ok: true, value: result.value };
   }
 }

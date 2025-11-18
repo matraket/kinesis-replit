@@ -118,3 +118,43 @@ A comprehensive public API has been implemented following Clean Architecture pri
 - API endpoints: `docs/api-public-endpoints.md`
 - Change history: `docs/CHANGELOG.md`
 - Migration files: `scripts/sql/01_init_core_schema.sql`, `scripts/sql/02_public_api_schema.sql`
+
+##### Admin API for CMS CRUD Operations (T3) - November 2025
+**Implementation Status:** Complete - Admin endpoints fully functional
+
+A comprehensive admin API has been implemented following Clean Architecture principles with full CRUD operations under `/api/admin`:
+
+**Resources Implemented:**
+1. Specialties - Full CRUD operations for dance specialties management
+2. Instructors - Full CRUD operations for instructor profiles with specialty assignments
+3. Programs - Full CRUD operations for program management with relationship handling
+4. Pricing Tiers - Full CRUD operations for pricing tier management
+
+**Architecture:**
+- Clean Architecture maintained: Domain → Application → Infrastructure → Interfaces
+- All endpoints validated with Zod schemas
+- CRUD operations (Create, Read, Update, Delete) with business rule enforcement
+- Error handling with Result type pattern
+- Basic authentication via X-Admin-Secret header (placeholder for T6)
+
+**Key Features:**
+- Business rule enforcement: Prevent deletion of resources with dependencies
+- Unique code validation for specialties
+- Referential integrity checks before deletions
+- Pagination and filtering support on all list endpoints
+- Comprehensive validation using Zod schemas
+
+**Authentication:**
+- Header-based authentication using `X-Admin-Secret`
+- Environment variable: `ADMIN_SECRET` (default: "change-me-in-production")
+- Note: Basic auth is a placeholder - production-grade JWT/RBAC planned for T6
+
+**Documentation:**
+- API endpoints: `docs/api-admin-endpoints.md`
+- Comprehensive changelog: `docs/CHANGELOG.md`
+- All endpoints include request/response examples and error handling documentation
+
+**Backward Compatibility:**
+- No modifications to existing T2 public API endpoints
+- No breaking changes to database schema
+- Extended existing repositories without modifying public methods

@@ -14,7 +14,7 @@ export const createProgramSchema = z.object({
   maxStudents: z.number().int().min(0).optional(),
   minAge: z.number().int().min(0).optional(),
   maxAge: z.number().int().min(0).optional(),
-  difficultyLevel: z.enum(['beginner', 'intermediate', 'advanced', 'expert']).optional(),
+  difficultyLevel: z.enum(['beginner', 'intermediate', 'advanced', 'professional']).optional(),
   pricePerSession: z.number().min(0).optional(),
   priceMonthly: z.number().min(0).optional(),
   priceQuarterly: z.number().min(0).optional(),

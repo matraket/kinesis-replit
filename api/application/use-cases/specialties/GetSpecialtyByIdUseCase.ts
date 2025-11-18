@@ -15,6 +15,6 @@ export class GetSpecialtyByIdUseCase {
       return Err(new Error('Specialty not found'));
     }
 
-    return result;
+    return { ok: true, value: result.value };
   }
 }
