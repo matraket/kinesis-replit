@@ -152,4 +152,35 @@ export const adminApi = {
     update: (data: Partial<Settings>): Promise<SettingsResponse> => 
       httpClient.put<SettingsResponse>('/admin/settings', { settings: data }),
   },
+
+  pricingTiers: {
+    list: (filters?: { programId?: string }) => {
+      const params: Record<string, string> = {};
+      if (filters?.programId) params.programId = filters.programId;
+      return httpClient.get('/admin/pricing-tiers', { params });
+    },
+    getById: (id: string) => httpClient.get(`/admin/pricing-tiers/${id}`),
+    create: (data: unknown) => httpClient.post('/admin/pricing-tiers', data),
+    update: (id: string, data: unknown) => httpClient.put(`/admin/pricing-tiers/${id}`, data),
+    delete: (id: string) => httpClient.delete(`/admin/pricing-tiers/${id}`),
+  },
+
+  media: {
+    list: (filters?: { folder?: string; search?: string; page?: number; limit?: number }) => {
+      const params: Record<string, string> = {};
+      if (filters?.folder) params.folder = filters.folder;
+      if (filters?.search) params.search = filters.search;
+      if (filters?.page) params.page = filters.page.toString();
+      if (filters?.limit) params.limit = filters.limit.toString();
+      return httpClient.get('/admin/media', { params });
+    },
+    getById: (id: string) => httpClient.get(`/admin/media/${id}`),
+    upload: (formData: FormData) => httpClient.post('/admin/media', formData),
+    delete: (id: string) => httpClient.delete(`/admin/media/${id}`),
+  },
+
+  specialties: {
+    list: () => httpClient.get('/admin/specialties'),
+    getById: (id: string) => httpClient.get(`/admin/specialties/${id}`),
+  },
 };
