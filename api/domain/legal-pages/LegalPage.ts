@@ -11,8 +11,7 @@ export interface LegalPage {
   approvedAt?: Date;
 }
 
-export function createLegalPage(data: {
-  id: string;
+export interface CreateLegalPageInput {
   pageType: string;
   title: string;
   content: string;
@@ -20,19 +19,40 @@ export function createLegalPage(data: {
   effectiveDate: Date;
   isCurrent?: boolean;
   slug?: string;
-  createdAt?: Date;
-  approvedAt?: Date;
-}): LegalPage {
+}
+
+export interface UpdateLegalPageInput {
+  title?: string;
+  content?: string;
+  version?: string;
+  effectiveDate?: Date;
+  isCurrent?: boolean;
+  slug?: string;
+}
+
+export function createLegalPage(id: string, input: CreateLegalPageInput): LegalPage {
   return {
-    id: data.id,
-    pageType: data.pageType,
-    title: data.title,
-    content: data.content,
-    version: data.version,
-    effectiveDate: data.effectiveDate,
-    isCurrent: data.isCurrent ?? false,
-    slug: data.slug,
-    createdAt: data.createdAt ?? new Date(),
-    approvedAt: data.approvedAt,
+    id,
+    pageType: input.pageType,
+    title: input.title,
+    content: input.content,
+    version: input.version,
+    effectiveDate: input.effectiveDate,
+    isCurrent: input.isCurrent ?? false,
+    slug: input.slug,
+    createdAt: new Date(),
+    approvedAt: undefined,
+  };
+}
+
+export function updateLegalPage(existing: LegalPage, input: UpdateLegalPageInput): LegalPage {
+  return {
+    ...existing,
+    title: input.title ?? existing.title,
+    content: input.content ?? existing.content,
+    version: input.version ?? existing.version,
+    effectiveDate: input.effectiveDate ?? existing.effectiveDate,
+    isCurrent: input.isCurrent ?? existing.isCurrent,
+    slug: input.slug !== undefined ? input.slug : existing.slug,
   };
 }
