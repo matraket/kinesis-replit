@@ -1,16 +1,10 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth';
 import { useTheme } from '../theme/useTheme';
+import { navigationConfig } from '../config/navigation';
+import { adminApi, Settings } from '../api/adminApi';
 import { 
-  LayoutDashboard, 
-  GraduationCap, 
-  Users, 
-  Building2, 
-  FileText, 
-  HelpCircle, 
-  Mail, 
-  Settings, 
   LogOut,
   Menu,
   X,
@@ -22,53 +16,32 @@ interface AdminLayoutProps {
   children: ReactNode;
 }
 
-interface NavItem {
-  label: string;
-  path: string;
-  icon: React.ElementType;
-}
-
-interface NavSection {
-  title: string;
-  items: NavItem[];
-}
-
-const navigation: NavSection[] = [
-  {
-    title: 'Panel',
-    items: [
-      { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-    ],
-  },
-  {
-    title: 'Contenido',
-    items: [
-      { label: 'Programas', path: '/admin/programs', icon: GraduationCap },
-      { label: 'Instructores', path: '/admin/instructors', icon: Users },
-      { label: 'Modelos de Negocio', path: '/admin/business-models', icon: Building2 },
-      { label: 'Páginas', path: '/admin/pages', icon: FileText },
-      { label: 'FAQs', path: '/admin/faqs', icon: HelpCircle },
-    ],
-  },
-  {
-    title: 'Operación',
-    items: [
-      { label: 'Leads', path: '/admin/leads', icon: Mail },
-      { label: 'Ajustes', path: '/admin/settings', icon: Settings },
-    ],
-  },
-];
-
 export function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation();
   const { logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [branding, setBranding] = useState<{ name: string; logo?: string }>({
+    name: 'Kinesis',
+  });
+
+  useEffect(() => {
+    adminApi.settings.get()
+      .then((response) => {
+        setBranding({
+          name: response.settings.site.name || 'Kinesis',
+          logo: response.settings.site.logo?.cms,
+        });
+      })
+      .catch(() => {
+        setBranding({ name: 'Kinesis' });
+      });
+  }, []);
 
   const getPageTitle = () => {
     const currentPath = location.pathname;
-    for (const section of navigation) {
-      const item = section.items.find(i => i.path === currentPath);
+    for (const group of navigationConfig.groups) {
+      const item = group.items.find(i => i.path === currentPath);
       if (item) return item.label;
     }
     return 'Dashboard';
@@ -86,7 +59,25 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         >
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between h-16 px-6 border-b border-admin-border">
-              <h1 className="text-xl font-display font-bold text-admin-white">Kinesis CMS</h1>
+              <div className="flex items-center gap-3">
+                {branding.logo ? (
+                  <img 
+                    src={branding.logo} 
+                    alt={branding.name}
+                    className="h-8 w-8 object-contain"
+                  />
+                ) : (
+                  <div className="h-8 w-8 rounded-md bg-admin-accent flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">
+                      {branding.name.substring(0, 1)}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <h1 className="text-sm font-display font-bold text-admin-white">{branding.name}</h1>
+                  <p className="text-xs text-admin-muted">CMS</p>
+                </div>
+              </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="lg:hidden p-2 rounded-md hover:bg-admin-surface transition-colors"
@@ -97,37 +88,41 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             </div>
 
             <nav className="flex-1 px-4 py-6 overflow-y-auto">
-              {navigation.map((section) => (
-                <div key={section.title} className="mb-6">
-                  <h2 className="px-3 mb-2 text-xs font-semibold text-admin-muted uppercase tracking-wider">
-                    {section.title}
-                  </h2>
+              {navigationConfig.groups.map((group) => (
+                <div key={group.id} className="mb-6">
+                  {group.label && (
+                    <h2 className="px-3 mb-2 text-xs font-semibold text-admin-muted uppercase tracking-wider">
+                      {group.label}
+                    </h2>
+                  )}
                   <div className="space-y-1">
-                    {section.items.map((item) => {
-                      const Icon = item.icon;
-                      const isActive = location.pathname === item.path;
-                      
-                      return (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className={`
-                            relative flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
-                            ${isActive 
-                              ? 'bg-admin-surface text-admin-white' 
-                              : 'text-admin-muted hover:bg-admin-surface hover:text-admin-white'
-                            }
-                          `}
-                        >
-                          {isActive && (
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-admin-accent rounded-r" />
-                          )}
-                          <Icon className={`mr-3 h-5 w-5 ${isActive ? 'text-admin-accent' : 'text-admin-muted'}`} />
-                          {item.label}
-                        </Link>
-                      );
-                    })}
+                    {group.items
+                      .filter(item => item.isEnabled)
+                      .map((item) => {
+                        const Icon = item.icon;
+                        const isActive = location.pathname === item.path;
+                        
+                        return (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`
+                              relative flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
+                              ${isActive 
+                                ? 'bg-admin-surface text-admin-white' 
+                                : 'text-admin-muted hover:bg-admin-surface hover:text-admin-white'
+                              }
+                            `}
+                          >
+                            {isActive && (
+                              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-admin-accent rounded-r" />
+                            )}
+                            <Icon className={`mr-3 h-5 w-5 ${isActive ? 'text-admin-accent' : 'text-admin-muted'}`} />
+                            {item.label}
+                          </Link>
+                        );
+                      })}
                   </div>
                 </div>
               ))}
