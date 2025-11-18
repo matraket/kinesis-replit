@@ -7,6 +7,137 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - T4: Admin API for Business Models, Pages, and FAQs
+
+#### Overview
+Implemented complete CRUD operations for Business Models, Page Content, and FAQs through the admin API with content protection rules and backward compatibility with T2 public API.
+
+#### Domain Layer
+- Extended existing domain entities:
+  - `BusinessModel`: Already existed from T2
+  - `PageContent`: Already existed from T1
+  - `FAQ`: Already existed from T2
+
+#### Application Layer
+- **Extended Repository Interfaces**:
+  - `IBusinessModelRepository`: Added `create`, `update`, `delete`, `findById`, `listAll` methods
+  - `IPageContentRepository`: Added `create`, `update`, `delete`, `findById`, `findByPageKey`, `listAll` methods
+  - `IFAQRepository`: Added `create`, `update`, `delete`, `findById`, `listAll` methods
+
+- **Use Cases** (18 new use cases):
+  - **Business Models**: `CreateBusinessModel`, `UpdateBusinessModel`, `DeleteBusinessModel`, `ListBusinessModelsForAdmin`, `GetBusinessModelById`
+  - **Page Content**: `CreatePageContent`, `UpdatePageContent`, `DeletePageContent`, `ListPagesForAdmin`, `GetPageContentById`, `GetPageContentByKey`
+  - **FAQs**: `CreateFaq`, `UpdateFaq`, `DeleteFaq`, `ListFaqsForAdmin`, `GetFaqById`
+
+#### Infrastructure Layer
+- **Extended PostgreSQL Repositories** with business rule enforcement:
+  - `PostgresBusinessModelRepository`:
+    - Full CRUD implementation
+    - **Protection**: Cannot delete critical business models (`elite_on_demand`, `ritmo_constante`, `generacion_dance`, `si_quiero_bailar`)
+    - Suggestion: Use `isActive=false` or `showOnWeb=false` instead of deletion
+  
+  - `PostgresContentRepository`:
+    - Full CRUD implementation
+    - **Protection**: Cannot delete critical pages (`home`, `about-us`, `business-models`)
+    - Suggestion: Use `status='draft'` or `status='archived'` instead of deletion
+  
+  - `PostgresFAQRepository`:
+    - Full CRUD implementation
+    - No deletion protection (no critical FAQs)
+
+#### API Endpoints
+All endpoints under `/api/admin` prefix with `X-Admin-Secret` authentication:
+
+**Business Models:**
+- `GET /api/admin/business-models` - List all business models with filters (isActive, showOnWeb, pagination)
+- `GET /api/admin/business-models/:id` - Get business model by ID
+- `POST /api/admin/business-models` - Create new business model (requires: internalCode, name, description, slug)
+- `PUT /api/admin/business-models/:id` - Update business model (all fields optional)
+- `DELETE /api/admin/business-models/:id` - Delete business model (protected for critical models)
+
+**Page Content:**
+- `GET /api/admin/pages` - List all pages with filters (status, pageKey, pagination)
+- `GET /api/admin/pages/:id` - Get page by ID
+- `GET /api/admin/pages/by-key/:pageKey` - Get page by pageKey
+- `POST /api/admin/pages` - Create new page (requires: pageKey, pageTitle, slug)
+- `PUT /api/admin/pages/:id` - Update page (all fields optional)
+- `DELETE /api/admin/pages/:id` - Delete page (protected for critical pages)
+
+**FAQs:**
+- `GET /api/admin/faqs` - List all FAQs with filters (category, isActive, pagination)
+- `GET /api/admin/faqs/:id` - Get FAQ by ID
+- `POST /api/admin/faqs` - Create new FAQ (requires: question, answer)
+- `PUT /api/admin/faqs/:id` - Update FAQ (all fields optional)
+- `DELETE /api/admin/faqs/:id` - Delete FAQ
+
+#### Validation & Security
+- Zod validation schemas for all endpoints:
+  - `businessModelSchemas.ts`: Create and update validation
+  - `pageContentSchemas.ts`: Create and update validation
+  - `faqSchemas.ts`: Create and update validation
+- Slug field is **required** for Business Models and Pages (important for SEO)
+- Content protection at repository level (prevents accidental deletion of critical content)
+- All endpoints protected with `X-Admin-Secret` header authentication
+
+#### Controllers
+- `BusinessModelsController`: Handles all business model admin operations
+- `PageContentController`: Handles all page content admin operations
+- `FaqsController`: Handles all FAQ admin operations
+
+#### Tests
+- **Domain Tests** (15 tests, all passing):
+  - `PostgresBusinessModelRepository.test.ts`: Tests for critical model protection and CRUD operations
+  - `PostgresContentRepository.test.ts`: Tests for critical page protection and CRUD operations
+- **Integration Tests** (3 test suites):
+  - `admin-business-models.test.ts`: Complete CRUD flow + public API compatibility
+  - `admin-page-content.test.ts`: Complete CRUD flow + public API compatibility
+  - `admin-faqs.test.ts`: Complete CRUD flow + public API compatibility
+- All tests verify that public API (`/api/public/**`) continues working after admin operations
+
+#### Business Rules & Content Protection
+1. **Critical Business Models Protection**:
+   - Models with codes `elite_on_demand`, `ritmo_constante`, `generacion_dance`, `si_quiero_bailar` cannot be deleted
+   - Alternative: Set `isActive=false` or `showOnWeb=false`
+   - Error message clearly explains the restriction and suggests alternatives
+
+2. **Critical Pages Protection**:
+   - Pages with keys `home`, `about-us`, `business-models` cannot be deleted
+   - Alternative: Set `status='draft'` or `status='archived'`
+   - Error message clearly explains the restriction and suggests alternatives
+
+3. **Public API Compatibility**:
+   - Business models with `isActive=true` and `showOnWeb=true` appear in public API
+   - Pages with `status='published'` appear in public API
+   - FAQs with `isActive=true` appear in public API
+
+#### Documentation
+- Updated `docs/api-admin-endpoints.md` with T4 endpoints
+- Added "Content Protection Rules" section explaining critical content
+- All endpoint formats, request/response examples, and error cases documented
+- Updated `docs/CHANGELOG.md` with T4 implementation details
+
+#### Architecture
+- Follows hexagonal architecture: Domain → Application → Infrastructure → Interfaces
+- Repository pattern with extended interfaces
+- Use case pattern for business logic
+- Result type pattern for consistent error handling
+- Dependency injection via constructors
+- Separation of concerns maintained throughout
+
+#### Backward Compatibility
+- **Zero breaking changes** to existing T2 public API
+- **No modifications** to existing database schema (only added methods to repositories)
+- Extended repositories without modifying existing public methods
+- Preserved all existing domain entities and behaviors
+- Public API continues to function exactly as before
+
+#### Notes
+- Slug field changed from optional to required in CreateBusinessModelInput and CreatePageContentInput (important for SEO and URL generation)
+- Content protection is enforced at repository level, not controller level (deeper in the architecture for better security)
+- Admin authentication remains basic (X-Admin-Secret header) - production-grade JWT auth planned for T6
+
+---
+
 ### Added - T3: Admin API for CMS CRUD Operations
 
 #### Domain Entities

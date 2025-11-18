@@ -335,6 +335,204 @@ All endpoints return standard error responses:
 - Specialty codes must be unique
 - Program codes must be unique (enforced at database level)
 
+---
+
+## Business Models (T4)
+
+### List All Business Models
+```
+GET /api/admin/business-models?isActive=true&showOnWeb=true&page=1&limit=20
+```
+
+**Query Parameters:**
+- `isActive` (optional): Filter by active status
+- `showOnWeb` (optional): Filter by web visibility
+- `page` (optional): Page number (default: 1)
+- `limit` (optional): Items per page (default: 20)
+
+**Response:**
+```json
+{
+  "businessModels": [
+    {
+      "id": "uuid",
+      "internalCode": "elite_on_demand",
+      "name": "Elite On Demand",
+      "subtitle": "Entrena cuando quieras",
+      "description": "...",
+      "slug": "elite-on-demand",
+      "isActive": true,
+      "showOnWeb": true,
+      "displayOrder": 1,
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    }
+  ],
+  "total": 10
+}
+```
+
+### Get Business Model by ID
+```
+GET /api/admin/business-models/:id
+```
+
+### Create Business Model
+```
+POST /api/admin/business-models
+```
+
+**Request Body:**
+```json
+{
+  "internalCode": "nuevo_modelo",
+  "name": "Nuevo Modelo",
+  "description": "Descripción",
+  "slug": "nuevo-modelo",
+  "isActive": true,
+  "showOnWeb": true
+}
+```
+
+**Required fields**: `internalCode`, `name`, `description`, `slug`
+
+### Update Business Model
+```
+PUT /api/admin/business-models/:id
+```
+
+### Delete Business Model
+```
+DELETE /api/admin/business-models/:id
+```
+
+**⚠️ Protected Business Models**: Cannot delete critical models (`elite_on_demand`, `ritmo_constante`, `generacion_dance`, `si_quiero_bailar`). Use `isActive=false` instead.
+
+---
+
+## Page Content (T4)
+
+### List All Pages
+```
+GET /api/admin/pages?status=published&pageKey=home&page=1&limit=20
+```
+
+**Query Parameters:**
+- `status` (optional): Filter by status (`published`, `draft`, `archived`)
+- `pageKey` (optional): Filter by page key
+- `page` (optional): Page number
+- `limit` (optional): Items per page
+
+### Get Page by ID
+```
+GET /api/admin/pages/:id
+```
+
+### Get Page by PageKey
+```
+GET /api/admin/pages/by-key/:pageKey
+```
+
+### Create Page
+```
+POST /api/admin/pages
+```
+
+**Request Body:**
+```json
+{
+  "pageKey": "nueva-pagina",
+  "pageTitle": "Nueva Página",
+  "slug": "nueva-pagina",
+  "contentHtml": "<h1>Contenido</h1>",
+  "status": "draft"
+}
+```
+
+**Required fields**: `pageKey`, `pageTitle`, `slug`
+
+### Update Page
+```
+PUT /api/admin/pages/:id
+```
+
+### Delete Page
+```
+DELETE /api/admin/pages/:id
+```
+
+**⚠️ Protected Pages**: Cannot delete critical pages (`home`, `about-us`, `business-models`). Use `status='draft'` or `status='archived'` instead.
+
+---
+
+## FAQs (T4)
+
+### List All FAQs
+```
+GET /api/admin/faqs?category=horarios&isActive=true&page=1&limit=20
+```
+
+**Query Parameters:**
+- `category` (optional): Filter by category
+- `isActive` (optional): Filter by active status
+- `page` (optional): Page number
+- `limit` (optional): Items per page
+
+### Get FAQ by ID
+```
+GET /api/admin/faqs/:id
+```
+
+### Create FAQ
+```
+POST /api/admin/faqs
+```
+
+**Request Body:**
+```json
+{
+  "question": "¿Cuáles son los horarios?",
+  "answer": "Lunes a Viernes de 6:00 a 21:00",
+  "category": "horarios",
+  "isActive": true
+}
+```
+
+**Required fields**: `question`, `answer`
+
+### Update FAQ
+```
+PUT /api/admin/faqs/:id
+```
+
+### Delete FAQ
+```
+DELETE /api/admin/faqs/:id
+```
+
+---
+
+## Content Protection Rules (T4)
+
+### Critical Business Models
+The following business models **CANNOT** be deleted:
+- `elite_on_demand`
+- `ritmo_constante`
+- `generacion_dance`
+- `si_quiero_bailar`
+
+**Alternative**: Set `isActive=false` or `showOnWeb=false` to hide them.
+
+### Critical Pages
+The following pages **CANNOT** be deleted:
+- `home`
+- `about-us`
+- `business-models`
+
+**Alternative**: Set `status='draft'` or `status='archived'` to hide them.
+
+---
+
 ## Future Enhancements (T6)
 
 The current authentication mechanism (`X-Admin-Secret` header) is a placeholder. Future enhancements will include:
@@ -342,3 +540,4 @@ The current authentication mechanism (`X-Admin-Secret` header) is a placeholder.
 - Role-based access control (RBAC)
 - User management
 - Audit logging
+- Content versioning and rollback
