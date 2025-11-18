@@ -106,3 +106,41 @@ All external infrastructure access is encapsulated within `api/infrastructure/`.
 *   DataTable: generic component with sorting, pagination, custom columns, loading states
 *   All components support Light/Dark theme toggle and follow Kinesis design system
 *   Dashboard loads data in parallel for performance, handles errors gracefully
+
+**T8/T9 - CMS Content Views Implementation (Completed):**
+*   **Media Library Backend:**
+    *   Created database migration `03_media_library_schema.sql` with media_library table and proper indexes
+    *   Implemented Clean Architecture backend: domain entities, repositories, use cases (List, Get, Upload, Delete)
+    *   Created MediaController with full CRUD endpoints at `/api/admin/media`
+    *   Schema supports file metadata, folder organization, MIME types, and file sizes
+    *   Ready for Replit App Storage integration (placeholder for actual upload implementation)
+*   **WYSIWYG Editor:**
+    *   Installed and configured Tiptap (@tiptap/react, @tiptap/starter-kit, @tiptap/extension-link)
+    *   Created RichTextEditor component with toolbar (bold, italic, strike, headings, lists, links)
+    *   Integrated DOMPurify for HTML sanitization (security)
+    *   Editor outputs clean HTML for database storage
+*   **Programs CMS View (`/admin/programs`):**
+    *   List view with DataTable showing all programs (name, code, difficulty, status, featured)
+    *   Tabbed form with General (info, settings, flags) and Content (descriptions, WYSIWYG) tabs
+    *   Supports CRUD operations: create, edit, delete programs
+    *   Placeholder tabs for Schedules and Pricing (structure ready for implementation)
+*   **Instructors CMS View (`/admin/instructors`):**
+    *   List view with DataTable showing all instructors (name, role, status, featured)
+    *   Tabbed form with General (personal info, contact, settings) and Bio (summary, full bio with WYSIWYG) tabs
+    *   Supports CRUD operations: create, edit, delete instructors
+    *   Placeholder tab for Specialties (structure ready for implementation)
+*   **Extended adminApi.ts:**
+    *   Added methods for pricingTiers, media, and specialties endpoints
+    *   Enhanced TypeScript interfaces for all resources
+    *   Filter support for media (folder, search, pagination) and pricing tiers (by program)
+*   **Architecture Notes:**
+    *   Following existing patterns: repository pattern, Result types, use case architecture
+    *   All views use URL params for state (action=new, action=edit&id=123) for deep linking
+    *   Forms validate on submit with error display per field
+    *   Both views follow Kinesis design system with theme support
+*   **Pending Extensions:**
+    *   MediaPicker component for image/video selection in forms
+    *   Full Media Library view with upload UI
+    *   Schedules & Pricing consolidated view
+    *   React Query integration for optimistic updates and caching
+    *   Zod schemas for runtime validation
