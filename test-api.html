@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Test de API - Programs e Instructors</h1>
+    <button onclick="testPrograms()">Test Programs</button>
+    <button onclick="testInstructors()">Test Instructors</button>
+    <pre id="output"></pre>
+
+    <script>
+        const ADMIN_SECRET = 'Kinesis2025*#';
+        
+        async function testPrograms() {
+            const output = document.getElementById('output');
+            output.textContent = 'Loading programs...';
+            
+            try {
+                const response = await fetch('/api/admin/programs', {
+                    headers: {
+                        'X-Admin-Secret': ADMIN_SECRET,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                output.textContent = JSON.stringify(data, null, 2);
+                console.log('Programs:', data);
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+                console.error(error);
+            }
+        }
+        
+        async function testInstructors() {
+            const output = document.getElementById('output');
+            output.textContent = 'Loading instructors...';
+            
+            try {
+                const response = await fetch('/api/admin/instructors', {
+                    headers: {
+                        'X-Admin-Secret': ADMIN_SECRET,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                output.textContent = JSON.stringify(data, null, 2);
+                console.log('Instructors:', data);
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
