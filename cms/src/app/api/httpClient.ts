@@ -21,7 +21,14 @@ class HttpClient {
   }
 
   private buildUrl(endpoint: string, params?: Record<string, string>): string {
-    const url = new URL(endpoint, window.location.origin + this.baseUrl);
+    // Normalize endpoint: ensure it starts with /
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    
+    // Manually concatenate baseUrl + endpoint to avoid new URL() issues
+    const fullPath = `${this.baseUrl}${normalizedEndpoint}`;
+    
+    // Build full URL
+    const url = new URL(fullPath, window.location.origin);
     
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -37,6 +44,10 @@ class HttpClient {
     options: RequestOptions = {}
   ): Promise<T> {
     const { params, ...fetchOptions } = options;
+    
+    // Normalize endpoint for consistent checking
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    
     const url = this.buildUrl(endpoint, params);
 
     const headers: Record<string, string> = {
@@ -44,7 +55,8 @@ class HttpClient {
       ...(fetchOptions.headers as Record<string, string>),
     };
 
-    if (endpoint.startsWith('/admin')) {
+    // Check if this is an admin endpoint using normalized path
+    if (normalizedEndpoint.startsWith('/admin')) {
       const adminSecret = this.getAdminSecret();
       if (adminSecret) {
         headers['X-Admin-Secret'] = adminSecret;

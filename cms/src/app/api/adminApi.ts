@@ -82,7 +82,7 @@ export interface SettingsResponse {
 export const adminApi = {
   validateSecret: async () => {
     try {
-      await httpClient.get('admin/settings');
+      await httpClient.get('/admin/settings');
       return true;
     } catch {
       return false;
@@ -90,42 +90,42 @@ export const adminApi = {
   },
 
   programs: {
-    list: () => httpClient.get('admin/programs'),
-    getById: (id: string) => httpClient.get(`admin/programs/${id}`),
-    create: (data: unknown) => httpClient.post('admin/programs', data),
-    update: (id: string, data: unknown) => httpClient.put(`admin/programs/${id}`, data),
-    delete: (id: string) => httpClient.delete(`admin/programs/${id}`),
+    list: () => httpClient.get('/admin/programs'),
+    getById: (id: string) => httpClient.get(`/admin/programs/${id}`),
+    create: (data: unknown) => httpClient.post('/admin/programs', data),
+    update: (id: string, data: unknown) => httpClient.put(`/admin/programs/${id}`, data),
+    delete: (id: string) => httpClient.delete(`/admin/programs/${id}`),
   },
 
   instructors: {
-    list: () => httpClient.get('admin/instructors'),
-    getById: (id: string) => httpClient.get(`admin/instructors/${id}`),
-    create: (data: unknown) => httpClient.post('admin/instructors', data),
-    update: (id: string, data: unknown) => httpClient.put(`admin/instructors/${id}`, data),
-    delete: (id: string) => httpClient.delete(`admin/instructors/${id}`),
+    list: () => httpClient.get('/admin/instructors'),
+    getById: (id: string) => httpClient.get(`/admin/instructors/${id}`),
+    create: (data: unknown) => httpClient.post('/admin/instructors', data),
+    update: (id: string, data: unknown) => httpClient.put(`/admin/instructors/${id}`, data),
+    delete: (id: string) => httpClient.delete(`/admin/instructors/${id}`),
   },
 
   businessModels: {
-    list: () => httpClient.get('admin/business-models'),
-    getById: (id: string) => httpClient.get(`admin/business-models/${id}`),
-    update: (id: string, data: unknown) => httpClient.put(`admin/business-models/${id}`, data),
+    list: () => httpClient.get('/admin/business-models'),
+    getById: (id: string) => httpClient.get(`/admin/business-models/${id}`),
+    update: (id: string, data: unknown) => httpClient.put(`/admin/business-models/${id}`, data),
   },
 
   pages: {
-    list: () => httpClient.get('admin/pages'),
-    getById: (id: string) => httpClient.get(`admin/pages/${id}`),
-    getByKey: (key: string) => httpClient.get(`admin/pages/by-key/${key}`),
-    create: (data: unknown) => httpClient.post('admin/pages', data),
-    update: (id: string, data: unknown) => httpClient.put(`admin/pages/${id}`, data),
-    delete: (id: string) => httpClient.delete(`admin/pages/${id}`),
+    list: () => httpClient.get('/admin/pages'),
+    getById: (id: string) => httpClient.get(`/admin/pages/${id}`),
+    getByKey: (key: string) => httpClient.get(`/admin/pages/by-key/${key}`),
+    create: (data: unknown) => httpClient.post('/admin/pages', data),
+    update: (id: string, data: unknown) => httpClient.put(`/admin/pages/${id}`, data),
+    delete: (id: string) => httpClient.delete(`/admin/pages/${id}`),
   },
 
   faqs: {
-    list: () => httpClient.get('admin/faqs'),
-    getById: (id: string) => httpClient.get(`admin/faqs/${id}`),
-    create: (data: unknown) => httpClient.post('admin/faqs', data),
-    update: (id: string, data: unknown) => httpClient.put(`admin/faqs/${id}`, data),
-    delete: (id: string) => httpClient.delete(`admin/faqs/${id}`),
+    list: () => httpClient.get('/admin/faqs'),
+    getById: (id: string) => httpClient.get(`/admin/faqs/${id}`),
+    create: (data: unknown) => httpClient.post('/admin/faqs', data),
+    update: (id: string, data: unknown) => httpClient.put(`/admin/faqs/${id}`, data),
+    delete: (id: string) => httpClient.delete(`/admin/faqs/${id}`),
   },
 
   leads: {
@@ -140,29 +140,29 @@ export const adminApi = {
       if (filters?.page) params.page = filters.page.toString();
       if (filters?.pageSize) params.pageSize = filters.pageSize.toString();
 
-      return httpClient.get<LeadsListResponse>('admin/leads', { params });
+      return httpClient.get<LeadsListResponse>('/admin/leads', { params });
     },
-    getById: (id: string | number): Promise<Lead> => httpClient.get<Lead>(`admin/leads/${id}`),
+    getById: (id: string | number): Promise<Lead> => httpClient.get<Lead>(`/admin/leads/${id}`),
     update: (id: string | number, data: Partial<Lead>): Promise<Lead> => 
-      httpClient.put<Lead>(`admin/leads/${id}`, data),
+      httpClient.put<Lead>(`/admin/leads/${id}`, data),
   },
 
   settings: {
-    get: (): Promise<SettingsResponse> => httpClient.get<SettingsResponse>('admin/settings'),
+    get: (): Promise<SettingsResponse> => httpClient.get<SettingsResponse>('/admin/settings'),
     update: (data: Partial<Settings>): Promise<SettingsResponse> => 
-      httpClient.put<SettingsResponse>('admin/settings', { settings: data }),
+      httpClient.put<SettingsResponse>('/admin/settings', { settings: data }),
   },
 
   pricingTiers: {
     list: (filters?: { programId?: string }) => {
       const params: Record<string, string> = {};
       if (filters?.programId) params.programId = filters.programId;
-      return httpClient.get('admin/pricing-tiers', { params });
+      return httpClient.get('/admin/pricing-tiers', { params });
     },
-    getById: (id: string) => httpClient.get(`admin/pricing-tiers/${id}`),
-    create: (data: unknown) => httpClient.post('admin/pricing-tiers', data),
-    update: (id: string, data: unknown) => httpClient.put(`admin/pricing-tiers/${id}`, data),
-    delete: (id: string) => httpClient.delete(`admin/pricing-tiers/${id}`),
+    getById: (id: string) => httpClient.get(`/admin/pricing-tiers/${id}`),
+    create: (data: unknown) => httpClient.post('/admin/pricing-tiers', data),
+    update: (id: string, data: unknown) => httpClient.put(`/admin/pricing-tiers/${id}`, data),
+    delete: (id: string) => httpClient.delete(`/admin/pricing-tiers/${id}`),
   },
 
   media: {
@@ -172,15 +172,15 @@ export const adminApi = {
       if (filters?.search) params.search = filters.search;
       if (filters?.page) params.page = filters.page.toString();
       if (filters?.limit) params.limit = filters.limit.toString();
-      return httpClient.get('admin/media', { params });
+      return httpClient.get('/admin/media', { params });
     },
-    getById: (id: string) => httpClient.get(`admin/media/${id}`),
-    upload: (formData: FormData) => httpClient.post('admin/media', formData),
-    delete: (id: string) => httpClient.delete(`admin/media/${id}`),
+    getById: (id: string) => httpClient.get(`/admin/media/${id}`),
+    upload: (formData: FormData) => httpClient.post('/admin/media', formData),
+    delete: (id: string) => httpClient.delete(`/admin/media/${id}`),
   },
 
   specialties: {
-    list: () => httpClient.get('admin/specialties'),
-    getById: (id: string) => httpClient.get(`admin/specialties/${id}`),
+    list: () => httpClient.get('/admin/specialties'),
+    getById: (id: string) => httpClient.get(`/admin/specialties/${id}`),
   },
 };
