@@ -1,0 +1,134 @@
+httpClient.ts:67  PUT https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/api/admin/instructors/b27f4501-fdef-4bcb-9973-4349315c0b78 400 (Bad Request)
+request @ httpClient.ts:67
+put @ httpClient.ts:106
+update @ adminApi.ts:104
+handleSubmit @ InstructorForm.tsx:85
+callCallback2 @ chunk-NXESFFTV.js?v=f11a4309:3680
+invokeGuardedCallbackDev @ chunk-NXESFFTV.js?v=f11a4309:3705
+invokeGuardedCallback @ chunk-NXESFFTV.js?v=f11a4309:3739
+invokeGuardedCallbackAndCatchFirstError @ chunk-NXESFFTV.js?v=f11a4309:3742
+executeDispatch @ chunk-NXESFFTV.js?v=f11a4309:7046
+processDispatchQueueItemsInOrder @ chunk-NXESFFTV.js?v=f11a4309:7066
+processDispatchQueue @ chunk-NXESFFTV.js?v=f11a4309:7075
+dispatchEventsForPlugins @ chunk-NXESFFTV.js?v=f11a4309:7083
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:7206
+batchedUpdates$1 @ chunk-NXESFFTV.js?v=f11a4309:18966
+batchedUpdates @ chunk-NXESFFTV.js?v=f11a4309:3585
+dispatchEventForPluginEventSystem @ chunk-NXESFFTV.js?v=f11a4309:7205
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-NXESFFTV.js?v=f11a4309:5484
+dispatchEvent @ chunk-NXESFFTV.js?v=f11a4309:5478
+dispatchDiscreteEvent @ chunk-NXESFFTV.js?v=f11a4309:5455
+httpClient.ts:81 [HttpClient] Request failed: {error: '[\n  {\n    "code": "invalid_format",\n    "format": …deoUrl"\n    ],\n    "message": "Invalid URL"\n  }\n]'}
+request @ httpClient.ts:81
+await in request
+put @ httpClient.ts:106
+update @ adminApi.ts:104
+handleSubmit @ InstructorForm.tsx:85
+callCallback2 @ chunk-NXESFFTV.js?v=f11a4309:3680
+invokeGuardedCallbackDev @ chunk-NXESFFTV.js?v=f11a4309:3705
+invokeGuardedCallback @ chunk-NXESFFTV.js?v=f11a4309:3739
+invokeGuardedCallbackAndCatchFirstError @ chunk-NXESFFTV.js?v=f11a4309:3742
+executeDispatch @ chunk-NXESFFTV.js?v=f11a4309:7046
+processDispatchQueueItemsInOrder @ chunk-NXESFFTV.js?v=f11a4309:7066
+processDispatchQueue @ chunk-NXESFFTV.js?v=f11a4309:7075
+dispatchEventsForPlugins @ chunk-NXESFFTV.js?v=f11a4309:7083
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:7206
+batchedUpdates$1 @ chunk-NXESFFTV.js?v=f11a4309:18966
+batchedUpdates @ chunk-NXESFFTV.js?v=f11a4309:3585
+dispatchEventForPluginEventSystem @ chunk-NXESFFTV.js?v=f11a4309:7205
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-NXESFFTV.js?v=f11a4309:5484
+dispatchEvent @ chunk-NXESFFTV.js?v=f11a4309:5478
+dispatchDiscreteEvent @ chunk-NXESFFTV.js?v=f11a4309:5455
+httpClient.ts:88 [HttpClient] Error: Error: [
+  {
+    "code": "invalid_format",
+    "format": "url",
+    "path": [
+      "profileImageUrl"
+    ],
+    "message": "Invalid URL"
+  },
+  {
+    "code": "invalid_format",
+    "format": "url",
+    "path": [
+      "heroImageUrl"
+    ],
+    "message": "Invalid URL"
+  },
+  {
+    "code": "invalid_format",
+    "format": "url",
+    "path": [
+      "videoUrl"
+    ],
+    "message": "Invalid URL"
+  }
+]
+    at HttpClient.request (httpClient.ts:82:15)
+    at async handleSubmit (InstructorForm.tsx:85:9)
+request @ httpClient.ts:88
+await in request
+put @ httpClient.ts:106
+update @ adminApi.ts:104
+handleSubmit @ InstructorForm.tsx:85
+callCallback2 @ chunk-NXESFFTV.js?v=f11a4309:3680
+invokeGuardedCallbackDev @ chunk-NXESFFTV.js?v=f11a4309:3705
+invokeGuardedCallback @ chunk-NXESFFTV.js?v=f11a4309:3739
+invokeGuardedCallbackAndCatchFirstError @ chunk-NXESFFTV.js?v=f11a4309:3742
+executeDispatch @ chunk-NXESFFTV.js?v=f11a4309:7046
+processDispatchQueueItemsInOrder @ chunk-NXESFFTV.js?v=f11a4309:7066
+processDispatchQueue @ chunk-NXESFFTV.js?v=f11a4309:7075
+dispatchEventsForPlugins @ chunk-NXESFFTV.js?v=f11a4309:7083
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:7206
+batchedUpdates$1 @ chunk-NXESFFTV.js?v=f11a4309:18966
+batchedUpdates @ chunk-NXESFFTV.js?v=f11a4309:3585
+dispatchEventForPluginEventSystem @ chunk-NXESFFTV.js?v=f11a4309:7205
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-NXESFFTV.js?v=f11a4309:5484
+dispatchEvent @ chunk-NXESFFTV.js?v=f11a4309:5478
+dispatchDiscreteEvent @ chunk-NXESFFTV.js?v=f11a4309:5455
+InstructorForm.tsx:91 Error saving instructor: Error: [
+  {
+    "code": "invalid_format",
+    "format": "url",
+    "path": [
+      "profileImageUrl"
+    ],
+    "message": "Invalid URL"
+  },
+  {
+    "code": "invalid_format",
+    "format": "url",
+    "path": [
+      "heroImageUrl"
+    ],
+    "message": "Invalid URL"
+  },
+  {
+    "code": "invalid_format",
+    "format": "url",
+    "path": [
+      "videoUrl"
+    ],
+    "message": "Invalid URL"
+  }
+]
+    at HttpClient.request (httpClient.ts:82:15)
+    at async handleSubmit (InstructorForm.tsx:85:9)
+handleSubmit @ InstructorForm.tsx:91
+await in handleSubmit
+callCallback2 @ chunk-NXESFFTV.js?v=f11a4309:3680
+invokeGuardedCallbackDev @ chunk-NXESFFTV.js?v=f11a4309:3705
+invokeGuardedCallback @ chunk-NXESFFTV.js?v=f11a4309:3739
+invokeGuardedCallbackAndCatchFirstError @ chunk-NXESFFTV.js?v=f11a4309:3742
+executeDispatch @ chunk-NXESFFTV.js?v=f11a4309:7046
+processDispatchQueueItemsInOrder @ chunk-NXESFFTV.js?v=f11a4309:7066
+processDispatchQueue @ chunk-NXESFFTV.js?v=f11a4309:7075
+dispatchEventsForPlugins @ chunk-NXESFFTV.js?v=f11a4309:7083
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:7206
+batchedUpdates$1 @ chunk-NXESFFTV.js?v=f11a4309:18966
+batchedUpdates @ chunk-NXESFFTV.js?v=f11a4309:3585
+dispatchEventForPluginEventSystem @ chunk-NXESFFTV.js?v=f11a4309:7205
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-NXESFFTV.js?v=f11a4309:5484
+dispatchEvent @ chunk-NXESFFTV.js?v=f11a4309:5478
+dispatchDiscreteEvent @ chunk-NXESFFTV.js?v=f11a4309:5455

@@ -1,0 +1,47 @@
+chunk-NXESFFTV.js?v=f11a4309:21609 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+index.js:2 Error: The url does not match the pattern.
+    at $.parse (index.js:2:25170)
+    at $.test (index.js:2:25635)
+    at z.assertUrlAttachConstraint (index.js:2:27252)
+    at z.canBeAttachedTo (index.js:2:27117)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse setup url. The url does not match the pattern.
+    at aS.parse (index.js:2:738018)
+    at aS.test (index.js:2:738356)
+    at z.assertUrlAttachConstraint (index.js:2:738952)
+    at z.canBeAttachedTo (index.js:2:738816)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse account recovery url. The url does not match the pattern.
+    at zS.parse (index.js:2:763757)
+    at zS.test (index.js:2:764116)
+    at z.assertUrlAttachConstraint (index.js:2:765188)
+    at z.canBeAttachedTo (index.js:2:765015)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse application url. The url does not match the pattern.
+    at xS.parse (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754070)
+    at xS.test (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754320)
+    at z.assertUrlAttachConstraint (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754981)
+    at async z.canBeAttachedTo (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754771)
+    at async Promise.all (index 3)
+    at async Object.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:773813)
+    at async js.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:153161)
+    at async exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:779716)
+test @ index.js:2
