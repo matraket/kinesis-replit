@@ -24,7 +24,7 @@ export function ProgramForm({ program, onClose }: ProgramFormProps) {
     specialtyId: program?.specialtyId || '',
     difficultyLevel: program?.difficultyLevel || 'beginner',
     slug: program?.slug || '',
-    displayOrder: program?.displayOrder || 0,
+    displayOrder: program?.displayOrder ?? '',
     descriptionShort: program?.descriptionShort || '',
     descriptionFull: program?.descriptionFull || '',
     scheduleDescription: program?.scheduleDescription || '',
@@ -81,15 +81,28 @@ export function ProgramForm({ program, onClose }: ProgramFormProps) {
 
     setIsLoading(true);
     try {
+      // Sanitize empty strings to undefined for optional fields
+      const payload = {
+        ...formData,
+        subtitle: formData.subtitle?.trim() || undefined,
+        businessModelId: formData.businessModelId?.trim() || undefined,
+        specialtyId: formData.specialtyId?.trim() || undefined,
+        slug: formData.slug?.trim() || undefined,
+        descriptionShort: formData.descriptionShort?.trim() || undefined,
+        descriptionFull: formData.descriptionFull?.trim() || undefined,
+        scheduleDescription: formData.scheduleDescription?.trim() || undefined,
+        displayOrder: formData.displayOrder === '' ? undefined : Number(formData.displayOrder),
+      };
+
       if (program?.id) {
-        await adminApi.programs.update(program.id, formData);
+        await adminApi.programs.update(program.id, payload);
       } else {
-        await adminApi.programs.create(formData);
+        await adminApi.programs.create(payload);
       }
       onClose();
     } catch (error: any) {
       console.error('Error saving program:', error);
-      alert(error.response?.data?.error || 'Error al guardar el programa');
+      alert(error.response?.data?.error || error.message || 'Error al guardar el programa');
     } finally {
       setIsLoading(false);
     }
@@ -126,7 +139,7 @@ export function ProgramForm({ program, onClose }: ProgramFormProps) {
         {/* Tab Content */}
         {activeTab === 'general' && (
           <Card title="Información General">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <Input
                 label="Nombre *"
                 value={formData.name}
@@ -201,7 +214,7 @@ export function ProgramForm({ program, onClose }: ProgramFormProps) {
                 label="Orden de visualización"
                 type="number"
                 value={formData.displayOrder}
-                onChange={(e) => handleChange('displayOrder', parseInt(e.target.value) || 0)}
+                onChange={(e) => handleChange('displayOrder', e.target.value)}
               />
               <div className="col-span-2 space-y-3">
                 <label className="flex items-center gap-2">

@@ -91,7 +91,8 @@ export function DataTable<TData extends Record<string, any>>({
 
   return (
     <div className="w-full bg-admin-surface rounded-lg border border-admin-border overflow-hidden">
-      <div className="overflow-x-auto">
+      {/* Desktop Table View - Hidden on Mobile */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full">
           <thead className="bg-admin-surfaceLight border-b border-admin-border">
             <tr>
@@ -139,10 +140,44 @@ export function DataTable<TData extends Record<string, any>>({
         </table>
       </div>
 
-      <div className="px-6 py-4 bg-admin-surfaceLight border-t border-admin-border flex items-center justify-between">
-        <div className="text-sm text-admin-muted">
+      {/* Mobile Card View - Visible on Mobile Only */}
+      <div className="sm:hidden divide-y divide-admin-border">
+        {sortedData.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className={`p-4 ${rowIndex % 2 === 0 ? 'bg-admin-surface' : 'bg-admin-navy'}`}
+          >
+            {columns.filter(col => col.key !== 'actions').map((column) => (
+              <div key={column.key} className="flex justify-between py-2 text-sm">
+                <span className="text-admin-muted font-medium">{column.label}:</span>
+                <span className="text-admin-white text-right ml-2">
+                  {column.render
+                    ? column.render(row[column.key], row)
+                    : row[column.key]}
+                </span>
+              </div>
+            ))}
+            {/* Actions row at bottom of card */}
+            {(() => {
+              const actionsColumn = columns.find(col => col.key === 'actions');
+              if (actionsColumn && actionsColumn.render) {
+                return (
+                  <div className="pt-3 mt-2 border-t border-admin-border flex justify-end gap-2">
+                    {actionsColumn.render(undefined, row)}
+                  </div>
+                );
+              }
+              return null;
+            })()}
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination - Responsive */}
+      <div className="px-4 sm:px-6 py-4 bg-admin-surfaceLight border-t border-admin-border flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="text-xs sm:text-sm text-admin-muted text-center sm:text-left">
           Mostrando {Math.min((page - 1) * pageSize + 1, total)} a{' '}
-          {Math.min(page * pageSize, total)} de {total} resultados
+          {Math.min(page * pageSize, total)} de {total}
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -153,8 +188,8 @@ export function DataTable<TData extends Record<string, any>>({
           >
             <ChevronLeft className="h-5 w-5 text-admin-muted" />
           </button>
-          <span className="text-sm text-admin-white px-4">
-            Página {page} de {totalPages}
+          <span className="text-xs sm:text-sm text-admin-white px-2 sm:px-4">
+            {page} / {totalPages}
           </span>
           <button
             onClick={() => onPageChange(page + 1)}

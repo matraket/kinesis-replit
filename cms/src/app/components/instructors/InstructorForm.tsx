@@ -29,8 +29,8 @@ export function InstructorForm({ instructor, onClose }: InstructorFormProps) {
     heroImageUrl: instructor?.heroImageUrl || '',
     videoUrl: instructor?.videoUrl || '',
     slug: instructor?.slug || '',
-    displayOrder: instructor?.displayOrder || 0,
-    seniorityLevel: instructor?.seniorityLevel || 0,
+    displayOrder: instructor?.displayOrder ?? '',
+    seniorityLevel: instructor?.seniorityLevel ?? '',
     isActive: instructor?.isActive ?? true,
     showOnWeb: instructor?.showOnWeb ?? true,
     showInTeamPage: instructor?.showInTeamPage ?? true,
@@ -81,15 +81,33 @@ export function InstructorForm({ instructor, onClose }: InstructorFormProps) {
 
     setIsLoading(true);
     try {
+      // Sanitize empty strings to undefined for optional fields
+      const payload = {
+        ...formData,
+        profileImageUrl: formData.profileImageUrl?.trim() || undefined,
+        heroImageUrl: formData.heroImageUrl?.trim() || undefined,
+        videoUrl: formData.videoUrl?.trim() || undefined,
+        email: formData.email?.trim() || undefined,
+        phone: formData.phone?.trim() || undefined,
+        displayName: formData.displayName?.trim() || undefined,
+        role: formData.role?.trim() || undefined,
+        tagline: formData.tagline?.trim() || undefined,
+        bioSummary: formData.bioSummary?.trim() || undefined,
+        bioFull: formData.bioFull?.trim() || undefined,
+        slug: formData.slug?.trim() || undefined,
+        displayOrder: formData.displayOrder === '' ? undefined : Number(formData.displayOrder),
+        seniorityLevel: formData.seniorityLevel === '' ? undefined : Number(formData.seniorityLevel),
+      };
+
       if (instructor?.id) {
-        await adminApi.instructors.update(instructor.id, formData);
+        await adminApi.instructors.update(instructor.id, payload);
       } else {
-        await adminApi.instructors.create(formData);
+        await adminApi.instructors.create(payload);
       }
       onClose();
     } catch (error: any) {
       console.error('Error saving instructor:', error);
-      alert(error.response?.data?.error || 'Error al guardar el instructor');
+      alert(error.response?.data?.error || error.message || 'Error al guardar el instructor');
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +141,7 @@ export function InstructorForm({ instructor, onClose }: InstructorFormProps) {
 
         {activeTab === 'general' && (
           <Card title="Información General">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <Input
                 label="Nombre *"
                 value={formData.firstName}
@@ -178,13 +196,13 @@ export function InstructorForm({ instructor, onClose }: InstructorFormProps) {
                 label="Orden de visualización"
                 type="number"
                 value={formData.displayOrder}
-                onChange={(e) => handleChange('displayOrder', parseInt(e.target.value) || 0)}
+                onChange={(e) => handleChange('displayOrder', e.target.value)}
               />
               <Input
                 label="Nivel de senioridad"
                 type="number"
                 value={formData.seniorityLevel}
-                onChange={(e) => handleChange('seniorityLevel', parseInt(e.target.value) || 0)}
+                onChange={(e) => handleChange('seniorityLevel', e.target.value)}
               />
               <div className="col-span-2 space-y-3">
                 <label className="flex items-center gap-2">
