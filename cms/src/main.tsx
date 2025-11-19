@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './app/auth/AuthProvider';
@@ -19,13 +18,11 @@ httpClient.setUnauthorizedHandler(() => {
 });
 
 ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <AdminRouter />
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider>
+      <AuthProvider>
+        <AdminRouter />
+      </AuthProvider>
+    </ThemeProvider>
+  </BrowserRouter>
 );

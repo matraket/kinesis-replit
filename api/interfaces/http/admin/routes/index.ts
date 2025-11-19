@@ -32,6 +32,13 @@ import { registerLeadsRoutes } from './leadsRoutes.js';
 import { registerMediaRoutes } from './mediaRoutes.js';
 
 export async function registerAdminRoutes(fastify: FastifyInstance) {
+  // Add hook to disable caching on ALL admin routes
+  fastify.addHook('onRequest', async (_request, reply) => {
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    reply.header('Pragma', 'no-cache');
+    reply.header('Expires', '0');
+  });
+
   const specialtyRepository = new PostgresSpecialtyRepository();
   const instructorRepository = new PostgresInstructorRepository();
   const programsRepository = new PostgresProgramsRepository();
