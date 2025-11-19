@@ -26,6 +26,10 @@ export class InstructorsController {
         return reply.status(500).send({ error: result.error.message });
       }
 
+      reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+      reply.header('Pragma', 'no-cache');
+      reply.header('Expires', '0');
+
       return reply.status(200).send({
         data: result.value.instructors,
         total: result.value.total,
@@ -49,6 +53,10 @@ export class InstructorsController {
       if (!result.ok) {
         return reply.status(404).send({ error: result.error.message });
       }
+
+      reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+      reply.header('Pragma', 'no-cache');
+      reply.header('Expires', '0');
 
       return reply.status(200).send({ data: result.value });
     } catch (error) {
