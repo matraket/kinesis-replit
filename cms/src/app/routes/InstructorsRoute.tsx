@@ -197,6 +197,10 @@ export function InstructorsRoute() {
           total={total}
           onPageChange={setPage}
           emptyMessage="No hay instructores creados"
+          mobileActions={{
+            onEdit: handleEdit,
+            onDelete: handleDelete,
+          }}
         />
       </Card>
     </div>

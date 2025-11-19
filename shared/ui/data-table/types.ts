@@ -20,6 +20,10 @@ export interface DataTableProps<TData> {
     label: string;
     onClick: () => void;
   };
+  mobileActions?: {
+    onEdit: (row: TData) => void;
+    onDelete: (row: TData) => void;
+  };
 }
 
 export interface SortState {

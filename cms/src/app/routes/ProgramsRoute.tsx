@@ -210,6 +210,10 @@ export function ProgramsRoute() {
           total={total}
           onPageChange={setPage}
           emptyMessage="No hay programas creados"
+          mobileActions={{
+            onEdit: handleEdit,
+            onDelete: handleDelete,
+          }}
         />
       </Card>
     </div>
