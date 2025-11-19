@@ -1,0 +1,377 @@
+Veo muchos problemas y me estoy empezando a enfadar porque no dejas de consumir dinero sin solucionar ninguno de los problemas
+
+Problema 1:
+
+Da igual lo que ponga en el secret del login que accede al CMS sin autenticar
+
+Problema 2:
+
+Cuando inicio sesison y accedo al Dashboard la consola se llena de errores
+
+index.js:2 Error: The url does not match the pattern.
+    at $.parse (index.js:2:25170)
+    at $.test (index.js:2:25635)
+    at z.assertUrlAttachConstraint (index.js:2:27252)
+    at z.canBeAttachedTo (index.js:2:27117)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse setup url. The url does not match the pattern.
+    at aS.parse (index.js:2:738018)
+    at aS.test (index.js:2:738356)
+    at z.assertUrlAttachConstraint (index.js:2:738952)
+    at z.canBeAttachedTo (index.js:2:738816)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse account recovery url. The url does not match the pattern.
+    at zS.parse (index.js:2:763757)
+    at zS.test (index.js:2:764116)
+    at z.assertUrlAttachConstraint (index.js:2:765188)
+    at z.canBeAttachedTo (index.js:2:765015)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse application url. The url does not match the pattern.
+    at xS.parse (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754070)
+    at xS.test (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754320)
+    at z.assertUrlAttachConstraint (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754981)
+    at async z.canBeAttachedTo (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754771)
+    at async Promise.all (index 3)
+    at async Object.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:773813)
+    at async js.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:153161)
+    at async exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: The url does not match the pattern.
+    at $.parse (index.js:2:25170)
+    at $.test (index.js:2:25635)
+    at z.assertUrlAttachConstraint (index.js:2:27252)
+    at z.canBeAttachedTo (index.js:2:27117)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse setup url. The url does not match the pattern.
+    at aS.parse (index.js:2:738018)
+    at aS.test (index.js:2:738356)
+    at z.assertUrlAttachConstraint (index.js:2:738952)
+    at z.canBeAttachedTo (index.js:2:738816)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse account recovery url. The url does not match the pattern.
+    at zS.parse (index.js:2:763757)
+    at zS.test (index.js:2:764116)
+    at z.assertUrlAttachConstraint (index.js:2:765188)
+    at z.canBeAttachedTo (index.js:2:765015)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+index.js:2 Error: Cannot parse application url. The url does not match the pattern.
+    at xS.parse (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754070)
+    at xS.test (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754320)
+    at z.assertUrlAttachConstraint (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754981)
+    at async z.canBeAttachedTo (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754771)
+    at async Promise.all (index 3)
+    at async Object.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:773813)
+    at async js.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:153161)
+    at async exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:779716)
+test @ index.js:2
+chunk-NXESFFTV.js?v=f11a4309:21609 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+index.js:2 Error: The url does not match the pattern.
+    at $.parse (index.js:2:25170)
+    at $.test (index.js:2:25635)
+    at z.assertUrlAttachConstraint (index.js:2:27252)
+    at z.canBeAttachedTo (index.js:2:27117)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async execNavigationForWorkerWaitingConnection (index.js:2:154513)
+test @ index.js:2
+index.js:2 Error: Cannot parse setup url. The url does not match the pattern.
+    at aS.parse (index.js:2:738018)
+    at aS.test (index.js:2:738356)
+    at z.assertUrlAttachConstraint (index.js:2:738952)
+    at z.canBeAttachedTo (index.js:2:738816)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async execNavigationForWorkerWaitingConnection (index.js:2:154513)
+test @ index.js:2
+index.js:2 Error: Cannot parse account recovery url. The url does not match the pattern.
+    at zS.parse (index.js:2:763757)
+    at zS.test (index.js:2:764116)
+    at z.assertUrlAttachConstraint (index.js:2:765188)
+    at z.canBeAttachedTo (index.js:2:765015)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async execNavigationForWorkerWaitingConnection (index.js:2:154513)
+test @ index.js:2
+index.js:2 Error: Cannot parse application url. The url does not match the pattern.
+    at xS.parse (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754070)
+    at xS.test (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754320)
+    at z.assertUrlAttachConstraint (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754981)
+    at async z.canBeAttachedTo (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754771)
+    at async Promise.all (index 3)
+    at async Object.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:773813)
+    at async js.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:153161)
+    at async execNavigationForWorkerWaitingConnection (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:154513)
+test @ index.js:2
+httpClient.ts:42 [HttpClient] Request: {endpoint: '/admin/leads', url: 'https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3f…us=new&created_after=2025-11-12T00%3A31%3A51.698Z', method: 'GET'}
+httpClient.ts:51 [HttpClient] Admin endpoint, secret exists: true
+httpClient.ts:58 [HttpClient] Fetching: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/leads?lead_status=new&created_after=2025-11-12T00%3A31%3A51.698Z
+httpClient.ts:42 [HttpClient] Request: {endpoint: '/admin/leads', url: 'https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3f…_after=2025-10-19T23%3A31%3A51.698Z&pageSize=1000', method: 'GET'}
+httpClient.ts:51 [HttpClient] Admin endpoint, secret exists: true
+httpClient.ts:58 [HttpClient] Fetching: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/leads?created_after=2025-10-19T23%3A31%3A51.698Z&pageSize=1000
+httpClient.ts:42 [HttpClient] Request: {endpoint: '/admin/leads', url: 'https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3f…ze.worf.replit.dev/admin/leads?page=1&pageSize=15', method: 'GET'}
+httpClient.ts:51 [HttpClient] Admin endpoint, secret exists: true
+httpClient.ts:58 [HttpClient] Fetching: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/leads?page=1&pageSize=15
+httpClient.ts:42 [HttpClient] Request: {endpoint: '/admin/settings', url: 'https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/settings', method: 'GET'}
+httpClient.ts:51 [HttpClient] Admin endpoint, secret exists: true
+httpClient.ts:58 [HttpClient] Fetching: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/settings
+httpClient.ts:64 [HttpClient] Response status: 200
+httpClient.ts:84 [HttpClient] Error: SyntaxError: Unexpected token '<', "<!doctype "... is not valid JSON
+request @ httpClient.ts:84
+await in request
+get @ httpClient.ts:90
+list @ adminApi.ts:143
+loadDashboardData @ DashboardRoute.tsx:62
+(anónimo) @ DashboardRoute.tsx:49
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+DashboardRoute.tsx:104 Error loading dashboard data: SyntaxError: Unexpected token '<', "<!doctype "... is not valid JSON
+loadDashboardData @ DashboardRoute.tsx:104
+await in loadDashboardData
+(anónimo) @ DashboardRoute.tsx:49
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:64 [HttpClient] Response status: 200
+httpClient.ts:64 [HttpClient] Response status: 200
+httpClient.ts:64 [HttpClient] Response status: 200
+httpClient.ts:84 [HttpClient] Error: SyntaxError: Unexpected token '<', "<!doctype "... is not valid JSON
+request @ httpClient.ts:84
+await in request
+get @ httpClient.ts:90
+list @ adminApi.ts:143
+loadDashboardData @ DashboardRoute.tsx:66
+(anónimo) @ DashboardRoute.tsx:49
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:84 [HttpClient] Error: SyntaxError: Unexpected token '<', "<!doctype "... is not valid JSON
+request @ httpClient.ts:84
+await in request
+get @ httpClient.ts:90
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:84 [HttpClient] Error: SyntaxError: Unexpected token '<', "<!doctype "... is not valid JSON
+request @ httpClient.ts:84
+await in request
+get @ httpClient.ts:90
+list @ adminApi.ts:143
+loadDashboardData @ DashboardRoute.tsx:70
+(anónimo) @ DashboardRoute.tsx:49
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+
+Problema 4
+
+Cuando accedo a programas aparecen nuevos errores en la consola
+
+ProgramsRoute.tsx:53 Loading programs...
+ProgramsRoute.tsx:60 loadPrograms called
+ProgramsRoute.tsx:63 Calling adminApi.programs.list()...
+httpClient.ts:42 [HttpClient] Request: {endpoint: '/admin/programs', url: 'https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/programs', method: 'GET'}
+httpClient.ts:51 [HttpClient] Admin endpoint, secret exists: true
+httpClient.ts:58 [HttpClient] Fetching: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/programs
+httpClient.ts:64 [HttpClient] Response status: 200
+httpClient.ts:84 [HttpClient] Error: SyntaxError: Unexpected token '<', "<!doctype "... is not valid JSON
+request @ httpClient.ts:84
+await in request
+get @ httpClient.ts:90
+list @ adminApi.ts:93
+loadPrograms @ ProgramsRoute.tsx:64
+(anónimo) @ ProgramsRoute.tsx:54
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+ProgramsRoute.tsx:70 Error loading programs: SyntaxError: Unexpected token '<', "<!doctype "... is not valid JSON
+loadPrograms @ ProgramsRoute.tsx:70
+await in loadPrograms
+(anónimo) @ ProgramsRoute.tsx:54
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+
+Analizo la peticion al endpoint de prohtamas y veo lo siguiente:
+
+GET /admin/programs HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-ES,es;q=0.9
+Connection: keep-alive
+Content-Type: application/json
+Host: c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev
+If-None-Match: W/"37f-9k40Jbi0VuXifIcPFbpmez8nRXc"
+Referer: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin/programs
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36
+X-Admin-Secret: Kinesis2025*#
+sec-ch-ua: "Chromium";v="142", "Google Chrome";v="142", "Not_A Brand";v="99"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+
+HTTP/1.1 304 Not Modified
+Date: Wed, 19 Nov 2025 00:36:48 GMT
+Replit-Cluster: worf
+Vary: Origin
+X-Robots-Tag: none, noindex, noarchive, nofollow, nositelinkssearchbox, noimageindex
+X-Robots-Tag: none, noindex, noarchive, nofollow, nositelinkssearchbox, noimageindex
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kinesis CMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+Este es el rastreo de pila
+
+request @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/api/httpClient.ts:40
+get @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/api/httpClient.ts:66
+list @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/api/adminApi.ts:12
+loadPrograms @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/routes/ProgramsRoute.tsx:60
+(anónimo) @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/routes/ProgramsRoute.tsx:52
+commitHookEffectListMount @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/chunk-NXESFFTV.js?v=f11a4309:384
+
+Problema 5:
+
+Al acceder a instructores se repite el mismo patron que en programas
+
+Problema 6:
+
+Veo que el secret se esta enviando en la cabecera de forma visible. Aunque esto es algo que ahora no me preocupa pues en tareas posteriores implementaremos Replit Auth
+
+Por favor, haz una revision de forma exhaustiva y en profundidad los problemas 1, 2, 3, 4 y 5 y planifica pormenorizadamente la estrategia a seguir para solucionarlos de una vez por todas
+
