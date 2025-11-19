@@ -16,7 +16,7 @@ export class SettingsController {
       const query = listSettingsQuerySchema.parse(request.query);
       const result = await this.repository.list(query.type);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         return reply.status(500).send({ error: result.error.message });
       }
 
@@ -37,7 +37,7 @@ export class SettingsController {
       const { key } = request.params;
       const result = await this.repository.findByKey(key);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         return reply.status(500).send({ error: result.error.message });
       }
 
@@ -59,7 +59,7 @@ export class SettingsController {
       const input = createSettingSchema.parse(request.body);
       const result = await this.repository.create(input);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         return reply.status(500).send({ error: result.error.message });
       }
 
@@ -78,7 +78,7 @@ export class SettingsController {
       const input = updateSettingSchema.parse(request.body);
       const result = await this.repository.updateByKey(key, input);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         if (result.error.message.includes('not found')) {
           return reply.status(404).send({ error: result.error.message });
         }

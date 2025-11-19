@@ -16,7 +16,7 @@ export class LeadsController {
       const filters = listLeadsQuerySchema.parse(request.query);
       const result = await this.repository.listWithFilters(filters);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         return reply.status(500).send({ error: result.error.message });
       }
 
@@ -45,7 +45,7 @@ export class LeadsController {
       const { id } = request.params;
       const result = await this.repository.getLeadById(id);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         return reply.status(500).send({ error: result.error.message });
       }
 
@@ -68,7 +68,7 @@ export class LeadsController {
       const input = updateLeadStatusSchema.parse(request.body);
       const result = await this.repository.updateStatus(id, input);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         if (result.error.message.includes('not found')) {
           return reply.status(404).send({ error: result.error.message });
         }
@@ -90,7 +90,7 @@ export class LeadsController {
       const input = updateLeadNotesSchema.parse(request.body);
       const result = await this.repository.updateNotes(id, input.notes);
 
-      if (result.isErr()) {
+      if (!result.ok) {
         if (result.error.message.includes('not found')) {
           return reply.status(404).send({ error: result.error.message });
         }
