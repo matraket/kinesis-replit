@@ -92,7 +92,7 @@
   }
 
   .card {
-    @apply bg-admin-surface rounded-xl shadow-md p-6;
+    @apply bg-admin-surface rounded-xl shadow-md p-4 md:p-6;
   }
 
   .input {

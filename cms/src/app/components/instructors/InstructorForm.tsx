@@ -141,7 +141,7 @@ export function InstructorForm({ instructor, onClose }: InstructorFormProps) {
 
         {activeTab === 'general' && (
           <Card title="Información General">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="space-y-4">
               <Input
                 label="Nombre *"
                 value={formData.firstName}
