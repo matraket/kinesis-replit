@@ -1,0 +1,237 @@
+chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2 Error: The url does not match the pattern.
+    at $.parse (index.js:2:25170)
+    at $.test (index.js:2:25635)
+    at z.assertUrlAttachConstraint (index.js:2:27252)
+    at z.canBeAttachedTo (index.js:2:27117)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2 Error: Cannot parse setup url. The url does not match the pattern.
+    at aS.parse (index.js:2:738018)
+    at aS.test (index.js:2:738356)
+    at z.assertUrlAttachConstraint (index.js:2:738952)
+    at z.canBeAttachedTo (index.js:2:738816)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2 Error: Cannot parse account recovery url. The url does not match the pattern.
+    at zS.parse (index.js:2:763757)
+    at zS.test (index.js:2:764116)
+    at z.assertUrlAttachConstraint (index.js:2:765188)
+    at z.canBeAttachedTo (index.js:2:765015)
+    at index.js:2:773980
+    at Array.map (<anonymous>)
+    at Object.getPagemodThatCanBeAttachedTo (index.js:2:773970)
+    at Object.exec (index.js:2:773824)
+    at js.exec (index.js:2:153170)
+    at async exec (index.js:2:779716)
+test @ index.js:2
+chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2 Error: Cannot parse application url. The url does not match the pattern.
+    at xS.parse (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754070)
+    at xS.test (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754320)
+    at z.assertUrlAttachConstraint (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754981)
+    at async z.canBeAttachedTo (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:754771)
+    at async Promise.all (index 3)
+    at async Object.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:773813)
+    at async js.exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:153161)
+    at async exec (chrome-extension://didegimhafipceonhjepacocaffmoppf/serviceWorker/index.js:2:779716)
+test @ index.js:2
+httpClient.ts:67  GET https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/api/admin/settings 500 (Internal Server Error)
+request @ httpClient.ts:67
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:81 [HttpClient] Request failed: {error: 'relation "settings" does not exist'}
+request @ httpClient.ts:81
+await in request
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:88 [HttpClient] Error: Error: relation "settings" does not exist
+    at HttpClient.request (httpClient.ts:82:15)
+request @ httpClient.ts:88
+await in request
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+DashboardRoute.tsx:104 Error loading dashboard data: TypeError: Cannot read properties of undefined (reading 'forEach')
+    at loadDashboardData (DashboardRoute.tsx:90:32)
+loadDashboardData @ DashboardRoute.tsx:104
+await in loadDashboardData
+(anónimo) @ DashboardRoute.tsx:49
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+ProgramsRoute.tsx:130 Uncaught TypeError: Cannot read properties of null (reading 'difficultyLevel')
+    at Object.render (ProgramsRoute.tsx:130:38)
+    at DataTable.tsx:132:32
+    at Array.map (<anonymous>)
+    at DataTable.tsx:126:26
+    at Array.map (<anonymous>)
+    at DataTable (DataTable.tsx:115:25)
+    at renderWithHooks (chunk-NXESFFTV.js?v=f11a4309:11596:26)
+    at updateFunctionComponent (chunk-NXESFFTV.js?v=f11a4309:14630:28)
+    at beginWork (chunk-NXESFFTV.js?v=f11a4309:15972:22)
+    at HTMLUnknownElement.callCallback2 (chunk-NXESFFTV.js?v=f11a4309:3680:22)
+render @ ProgramsRoute.tsx:130
+(anónimo) @ DataTable.tsx:132
+(anónimo) @ DataTable.tsx:126
+DataTable @ DataTable.tsx:115
+renderWithHooks @ chunk-NXESFFTV.js?v=f11a4309:11596
+updateFunctionComponent @ chunk-NXESFFTV.js?v=f11a4309:14630
+beginWork @ chunk-NXESFFTV.js?v=f11a4309:15972
+callCallback2 @ chunk-NXESFFTV.js?v=f11a4309:3680
+invokeGuardedCallbackDev @ chunk-NXESFFTV.js?v=f11a4309:3705
+invokeGuardedCallback @ chunk-NXESFFTV.js?v=f11a4309:3739
+beginWork$1 @ chunk-NXESFFTV.js?v=f11a4309:19818
+performUnitOfWork @ chunk-NXESFFTV.js?v=f11a4309:19251
+workLoopSync @ chunk-NXESFFTV.js?v=f11a4309:19190
+renderRootSync @ chunk-NXESFFTV.js?v=f11a4309:19169
+performConcurrentWorkOnRoot @ chunk-NXESFFTV.js?v=f11a4309:18728
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+ProgramsRoute.tsx:130 Uncaught TypeError: Cannot read properties of null (reading 'difficultyLevel')
+    at Object.render (ProgramsRoute.tsx:130:38)
+    at DataTable.tsx:132:32
+    at Array.map (<anonymous>)
+    at DataTable.tsx:126:26
+    at Array.map (<anonymous>)
+    at DataTable (DataTable.tsx:115:25)
+    at renderWithHooks (chunk-NXESFFTV.js?v=f11a4309:11596:26)
+    at updateFunctionComponent (chunk-NXESFFTV.js?v=f11a4309:14630:28)
+    at beginWork (chunk-NXESFFTV.js?v=f11a4309:15972:22)
+    at HTMLUnknownElement.callCallback2 (chunk-NXESFFTV.js?v=f11a4309:3680:22)
+render @ ProgramsRoute.tsx:130
+(anónimo) @ DataTable.tsx:132
+(anónimo) @ DataTable.tsx:126
+DataTable @ DataTable.tsx:115
+renderWithHooks @ chunk-NXESFFTV.js?v=f11a4309:11596
+updateFunctionComponent @ chunk-NXESFFTV.js?v=f11a4309:14630
+beginWork @ chunk-NXESFFTV.js?v=f11a4309:15972
+callCallback2 @ chunk-NXESFFTV.js?v=f11a4309:3680
+invokeGuardedCallbackDev @ chunk-NXESFFTV.js?v=f11a4309:3705
+invokeGuardedCallback @ chunk-NXESFFTV.js?v=f11a4309:3739
+beginWork$1 @ chunk-NXESFFTV.js?v=f11a4309:19818
+performUnitOfWork @ chunk-NXESFFTV.js?v=f11a4309:19251
+workLoopSync @ chunk-NXESFFTV.js?v=f11a4309:19190
+renderRootSync @ chunk-NXESFFTV.js?v=f11a4309:19169
+recoverFromConcurrentError @ chunk-NXESFFTV.js?v=f11a4309:18786
+performConcurrentWorkOnRoot @ chunk-NXESFFTV.js?v=f11a4309:18734
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+chunk-NXESFFTV.js?v=f11a4309:14080 The above error occurred in the <DataTable> component:
+
+    at DataTable (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/@fs/home/runner/workspace/shared/ui/data-table/DataTable.tsx:21:3)
+    at div
+    at Card (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/ui/Card.tsx:17:24)
+    at div
+    at ProgramsRoute (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/routes/ProgramsRoute.tsx:28:43)
+    at main
+    at div
+    at div
+    at div
+    at AdminLayout (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/layout/AdminLayout.tsx:31:31)
+    at AuthGuard (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/auth/AuthGuard.tsx:20:29)
+    at RenderedRoute (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=f11a4309:6021:26)
+    at Routes (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=f11a4309:6815:3)
+    at AdminRouter
+    at AuthProvider (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/auth/AuthProvider.tsx:21:32)
+    at ThemeProvider (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/src/app/theme/ThemeProvider.tsx:28:33)
+    at Router (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=f11a4309:6758:13)
+    at BrowserRouter (https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=f11a4309:9878:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+logCapturedError @ chunk-NXESFFTV.js?v=f11a4309:14080
+update.callback @ chunk-NXESFFTV.js?v=f11a4309:14100
+callCallback @ chunk-NXESFFTV.js?v=f11a4309:11296
+commitUpdateQueue @ chunk-NXESFFTV.js?v=f11a4309:11313
+commitLayoutEffectOnFiber @ chunk-NXESFFTV.js?v=f11a4309:17141
+commitLayoutMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18030
+commitLayoutEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18019
+commitLayoutEffects @ chunk-NXESFFTV.js?v=f11a4309:17970
+commitRootImpl @ chunk-NXESFFTV.js?v=f11a4309:19406
+commitRoot @ chunk-NXESFFTV.js?v=f11a4309:19330
+finishConcurrentRender @ chunk-NXESFFTV.js?v=f11a4309:18813
+performConcurrentWorkOnRoot @ chunk-NXESFFTV.js?v=f11a4309:18768
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+chunk-NXESFFTV.js?v=f11a4309:19466 Uncaught TypeError: Cannot read properties of null (reading 'difficultyLevel')
+    at Object.render (ProgramsRoute.tsx:130:38)
+    at DataTable.tsx:132:32
+    at Array.map (<anonymous>)
+    at DataTable.tsx:126:26
+    at Array.map (<anonymous>)
+    at DataTable (DataTable.tsx:115:25)
+    at renderWithHooks (chunk-NXESFFTV.js?v=f11a4309:11596:26)
+    at updateFunctionComponent (chunk-NXESFFTV.js?v=f11a4309:14630:28)
+    at beginWork (chunk-NXESFFTV.js?v=f11a4309:15972:22)
+    at beginWork$1 (chunk-NXESFFTV.js?v=f11a4309:19806:22)
+render @ ProgramsRoute.tsx:130
+(anónimo) @ DataTable.tsx:132
+(anónimo) @ DataTable.tsx:126
+DataTable @ DataTable.tsx:115
+renderWithHooks @ chunk-NXESFFTV.js?v=f11a4309:11596
+updateFunctionComponent @ chunk-NXESFFTV.js?v=f11a4309:14630
+beginWork @ chunk-NXESFFTV.js?v=f11a4309:15972
+beginWork$1 @ chunk-NXESFFTV.js?v=f11a4309:19806
+performUnitOfWork @ chunk-NXESFFTV.js?v=f11a4309:19251
+workLoopSync @ chunk-NXESFFTV.js?v=f11a4309:19190
+renderRootSync @ chunk-NXESFFTV.js?v=f11a4309:19169
+recoverFromConcurrentError @ chunk-NXESFFTV.js?v=f11a4309:18786
+performConcurrentWorkOnRoot @ chunk-NXESFFTV.js?v=f11a4309:18734
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384

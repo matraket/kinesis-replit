@@ -1,0 +1,135 @@
+chunk-NXESFFTV.js?v=f11a4309:21609 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+httpClient.ts:67  GET https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/api/admin/settings 500 (Internal Server Error)
+request @ httpClient.ts:67
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:81 [HttpClient] Request failed: {error: 'relation "settings" does not exist'}
+request @ httpClient.ts:81
+await in request
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:88 [HttpClient] Error: Error: relation "settings" does not exist
+    at HttpClient.request (httpClient.ts:82:15)
+request @ httpClient.ts:88
+await in request
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+DashboardRoute.tsx:104 Error loading dashboard data: TypeError: Cannot read properties of undefined (reading 'forEach')
+    at loadDashboardData (DashboardRoute.tsx:90:32)
+loadDashboardData @ DashboardRoute.tsx:104
+await in loadDashboardData
+(anónimo) @ DashboardRoute.tsx:49
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:67  GET https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/api/admin/settings 500 (Internal Server Error)
+request @ httpClient.ts:67
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:81 [HttpClient] Request failed: {error: 'relation "settings" does not exist'}
+request @ httpClient.ts:81
+await in request
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+httpClient.ts:88 [HttpClient] Error: Error: relation "settings" does not exist
+    at HttpClient.request (httpClient.ts:82:15)
+request @ httpClient.ts:88
+await in request
+get @ httpClient.ts:94
+get @ adminApi.ts:151
+(anónimo) @ AdminLayout.tsx:29
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384
+DashboardRoute.tsx:104 Error loading dashboard data: TypeError: Cannot read properties of undefined (reading 'forEach')
+    at loadDashboardData (DashboardRoute.tsx:90:32)
+loadDashboardData @ DashboardRoute.tsx:104
+await in loadDashboardData
+(anónimo) @ DashboardRoute.tsx:49
+commitHookEffectListMount @ chunk-NXESFFTV.js?v=f11a4309:16963
+commitPassiveMountOnFiber @ chunk-NXESFFTV.js?v=f11a4309:18206
+commitPassiveMountEffects_complete @ chunk-NXESFFTV.js?v=f11a4309:18179
+commitPassiveMountEffects_begin @ chunk-NXESFFTV.js?v=f11a4309:18169
+commitPassiveMountEffects @ chunk-NXESFFTV.js?v=f11a4309:18159
+flushPassiveEffectsImpl @ chunk-NXESFFTV.js?v=f11a4309:19543
+flushPassiveEffects @ chunk-NXESFFTV.js?v=f11a4309:19500
+(anónimo) @ chunk-NXESFFTV.js?v=f11a4309:19381
+workLoop @ chunk-NXESFFTV.js?v=f11a4309:197
+flushWork @ chunk-NXESFFTV.js?v=f11a4309:176
+performWorkUntilDeadline @ chunk-NXESFFTV.js?v=f11a4309:384

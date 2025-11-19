@@ -1,0 +1,94 @@
+Los problemas persisten. Por favor. Esto no es serio. Es una vergüenza que consumas y consumas saldo y no soluciones nada
+
+Problema 1: SOLUCIONADO
+
+La autenticacion 
+
+Problema 2:
+
+Cuando accedo al CMS vuelve a llenarse la consola de errores. Ahora son otros.
+
+<salida-consola-dashdoard.txt>
+
+Las peticiones a leads ya resuelven bien
+
+GET /api/admin/leads?lead_status=new&created_after=2025-11-12T01%3A34%3A16.783Z HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-ES,es;q=0.9
+Connection: keep-alive
+Content-Type: application/json
+Host: c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev
+Referer: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36
+X-Admin-Secret: Kinesis2025*#
+sec-ch-ua: "Chromium";v="142", "Google Chrome";v="142", "Not_A Brand";v="99"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, must-revalidate
+Content-Length: 51
+Content-Type: application/json; charset=utf-8
+Date: Wed, 19 Nov 2025 01:34:16 GMT
+Expires: 0
+Pragma: no-cache
+Replit-Cluster: worf
+Vary: Origin
+X-Robots-Tag: none, noindex, noarchive, nofollow, nositelinkssearchbox, noimageindex
+X-Robots-Tag: none, noindex, noarchive, nofollow, nositelinkssearchbox, noimageindex
+
+{"data":[],"total":0,"page":1,"limit":50,"pages":0}
+
+Pero falla la de settings
+
+GET /api/admin/settings HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-ES,es;q=0.9
+Connection: keep-alive
+Content-Type: application/json
+Host: c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev
+Referer: https://c3d005d3-7b46-49c7-8652-1b44f9a00296-00-3fmxyj5jqx5ze.worf.replit.dev/admin
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36
+X-Admin-Secret: Kinesis2025*#
+sec-ch-ua: "Chromium";v="142", "Google Chrome";v="142", "Not_A Brand";v="99"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+
+HTTP/1.1 500 Internal Server Error
+Cache-Control: no-cache, no-store, must-revalidate
+Content-Length: 48
+Content-Type: application/json; charset=utf-8
+Date: Wed, 19 Nov 2025 01:40:22 GMT
+Expires: 0
+Pragma: no-cache
+Replit-Cluster: worf
+Vary: Origin
+X-Robots-Tag: none, noindex, noarchive, nofollow, nositelinkssearchbox, noimageindex
+X-Robots-Tag: none, noindex, noarchive, nofollow, nositelinkssearchbox, noimageindex
+
+{"error":"relation \"settings\" does not exist"}
+
+Problema 3:
+
+Ahora cuando accedo a Programas el CMS esplota y se queda la plantalla en negro.
+
+<salida-consola-programas.txt>
+
+Pero sin embargo si esta devolviendo datos:
+
+<programas.json>
+
+Problema 4:
+
+Imagino que fallara igual
+
+Por favor, haz una revision de forma exhaustiva y en profundidad los problemas 1, 2, 3 y 4 y planifica pormenorizadamente la estrategia a seguir para solucionarlos de una vez por todas
+
