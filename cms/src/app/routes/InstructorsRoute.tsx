@@ -47,22 +47,17 @@ export function InstructorsRoute() {
 
   useEffect(() => {
     if (!showForm) {
-      console.log('Loading instructors...');
       loadInstructors();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, showForm]);
 
   const loadInstructors = async () => {
-    console.log('loadInstructors called');
     setIsLoading(true);
     try {
-      console.log('Calling adminApi.instructors.list()...');
       const response: any = await adminApi.instructors.list();
-      console.log('Response received:', response);
       setInstructors(response.data || []);
       setTotal(response.total || response.data?.length || 0);
-      console.log('Instructors set:', response.data?.length || 0, 'instructors');
     } catch (error) {
       console.error('Error loading instructors:', error);
       setInstructors([]);

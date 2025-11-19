@@ -39,8 +39,6 @@ class HttpClient {
     const { params, ...fetchOptions } = options;
     const url = this.buildUrl(endpoint, params);
 
-    console.log('[HttpClient] Request:', { endpoint, url, method: fetchOptions.method || 'GET' });
-
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...(fetchOptions.headers as Record<string, string>),
@@ -48,23 +46,18 @@ class HttpClient {
 
     if (endpoint.startsWith('/admin')) {
       const adminSecret = this.getAdminSecret();
-      console.log('[HttpClient] Admin endpoint, secret exists:', !!adminSecret);
       if (adminSecret) {
         headers['X-Admin-Secret'] = adminSecret;
       }
     }
 
     try {
-      console.log('[HttpClient] Fetching:', url);
       const response = await fetch(url, {
         ...fetchOptions,
         headers,
       });
 
-      console.log('[HttpClient] Response status:', response.status);
-
       if (response.status === 401) {
-        console.error('[HttpClient] Unauthorized (401)');
         if (this.onUnauthorized) {
           this.onUnauthorized();
         }
@@ -78,7 +71,6 @@ class HttpClient {
       }
 
       const data = await response.json();
-      console.log('[HttpClient] Response data:', data);
       return data;
     } catch (error) {
       console.error('[HttpClient] Error:', error);

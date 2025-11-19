@@ -50,22 +50,17 @@ export function ProgramsRoute() {
 
   useEffect(() => {
     if (!showForm) {
-      console.log('Loading programs...');
       loadPrograms();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, showForm]);
 
   const loadPrograms = async () => {
-    console.log('loadPrograms called');
     setIsLoading(true);
     try {
-      console.log('Calling adminApi.programs.list()...');
       const response: any = await adminApi.programs.list();
-      console.log('Response received:', response);
       setPrograms(response.data || []);
       setTotal(response.total || response.data?.length || 0);
-      console.log('Programs set:', response.data?.length || 0, 'programs');
     } catch (error) {
       console.error('Error loading programs:', error);
       setPrograms([]);
