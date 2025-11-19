@@ -27,10 +27,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
   useEffect(() => {
     adminApi.settings.get()
-      .then((response) => {
+      .then((response: any) => {
+        const siteInfo = response.data?.find((s: any) => s.settingKey === 'site_info')?.settingValue;
         setBranding({
-          name: response.settings.site.name || 'Kinesis',
-          logo: response.settings.site.logo?.cms,
+          name: siteInfo?.name || 'Kinesis',
+          logo: siteInfo?.logo?.cms,
         });
       })
       .catch(() => {
