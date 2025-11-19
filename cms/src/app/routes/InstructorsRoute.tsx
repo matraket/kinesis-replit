@@ -109,51 +109,51 @@ export function InstructorsRoute() {
       key: 'displayName',
       label: 'Nombre',
       sortable: true,
-      render: (instructor) => instructor.displayName || `${instructor.firstName} ${instructor.lastName}`,
+      render: (value, row) => row.displayName || `${row.firstName} ${row.lastName}`,
     },
     {
       key: 'role',
       label: 'Rol',
       sortable: true,
-      render: (instructor) => instructor.role || '-',
+      render: (value, row) => row.role || '-',
     },
     {
       key: 'isActive',
       label: 'Activo',
-      render: (instructor) => (
-        <span className={`px-2 py-1 rounded text-xs ${instructor.isActive ? 'bg-admin-success/20 text-admin-success' : 'bg-admin-error/20 text-admin-error'}`}>
-          {instructor.isActive ? 'Sí' : 'No'}
+      render: (value, row) => (
+        <span className={`px-2 py-1 rounded text-xs ${row.isActive ? 'bg-admin-success/20 text-admin-success' : 'bg-admin-error/20 text-admin-error'}`}>
+          {row.isActive ? 'Sí' : 'No'}
         </span>
       ),
     },
     {
       key: 'showOnWeb',
       label: 'En Web',
-      render: (instructor) => (
-        <span className={`px-2 py-1 rounded text-xs ${instructor.showOnWeb ? 'bg-admin-info/20 text-admin-info' : 'bg-gray-500/20 text-gray-400'}`}>
-          {instructor.showOnWeb ? 'Sí' : 'No'}
+      render: (value, row) => (
+        <span className={`px-2 py-1 rounded text-xs ${row.showOnWeb ? 'bg-admin-info/20 text-admin-info' : 'bg-gray-500/20 text-gray-400'}`}>
+          {row.showOnWeb ? 'Sí' : 'No'}
         </span>
       ),
     },
     {
       key: 'isFeatured',
       label: 'Destacado',
-      render: (instructor) => instructor.isFeatured ? '⭐' : '-',
+      render: (value, row) => row.isFeatured ? '⭐' : '-',
     },
     {
       key: 'actions',
       label: 'Acciones',
-      render: (instructor) => (
+      render: (value, row) => (
         <div className="flex items-center gap-2">
           <button
-            onClick={() => handleEdit(instructor)}
+            onClick={() => handleEdit(row)}
             className="p-2 text-admin-accent hover:bg-admin-surfaceLight rounded transition-colors"
             title="Editar"
           >
             <Edit className="h-4 w-4" />
           </button>
           <button
-            onClick={() => handleDelete(instructor)}
+            onClick={() => handleDelete(row)}
             className="p-2 text-admin-error hover:bg-admin-surfaceLight rounded transition-colors"
             title="Eliminar"
           >

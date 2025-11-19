@@ -120,53 +120,53 @@ export function ProgramsRoute() {
     {
       key: 'difficultyLevel',
       label: 'Dificultad',
-      render: (program) => {
+      render: (value, row) => {
         const levels: Record<string, string> = {
           beginner: 'Principiante',
           intermediate: 'Intermedio',
           advanced: 'Avanzado',
           professional: 'Profesional',
         };
-        return <span>{levels[program.difficultyLevel || ''] || '-'}</span>;
+        return <span>{levels[row.difficultyLevel || ''] || '-'}</span>;
       },
     },
     {
       key: 'isActive',
       label: 'Activo',
-      render: (program) => (
-        <span className={`px-2 py-1 rounded text-xs ${program.isActive ? 'bg-admin-success/20 text-admin-success' : 'bg-admin-error/20 text-admin-error'}`}>
-          {program.isActive ? 'Sí' : 'No'}
+      render: (value, row) => (
+        <span className={`px-2 py-1 rounded text-xs ${row.isActive ? 'bg-admin-success/20 text-admin-success' : 'bg-admin-error/20 text-admin-error'}`}>
+          {row.isActive ? 'Sí' : 'No'}
         </span>
       ),
     },
     {
       key: 'showOnWeb',
       label: 'En Web',
-      render: (program) => (
-        <span className={`px-2 py-1 rounded text-xs ${program.showOnWeb ? 'bg-admin-info/20 text-admin-info' : 'bg-gray-500/20 text-gray-400'}`}>
-          {program.showOnWeb ? 'Sí' : 'No'}
+      render: (value, row) => (
+        <span className={`px-2 py-1 rounded text-xs ${row.showOnWeb ? 'bg-admin-info/20 text-admin-info' : 'bg-gray-500/20 text-gray-400'}`}>
+          {row.showOnWeb ? 'Sí' : 'No'}
         </span>
       ),
     },
     {
       key: 'isFeatured',
       label: 'Destacado',
-      render: (program) => program.isFeatured ? '⭐' : '-',
+      render: (value, row) => row.isFeatured ? '⭐' : '-',
     },
     {
       key: 'actions',
       label: 'Acciones',
-      render: (program) => (
+      render: (value, row) => (
         <div className="flex items-center gap-2">
           <button
-            onClick={() => handleEdit(program)}
+            onClick={() => handleEdit(row)}
             className="p-2 text-admin-accent hover:bg-admin-surfaceLight rounded transition-colors"
             title="Editar"
           >
             <Edit className="h-4 w-4" />
           </button>
           <button
-            onClick={() => handleDelete(program)}
+            onClick={() => handleDelete(row)}
             className="p-2 text-admin-error hover:bg-admin-surfaceLight rounded transition-colors"
             title="Eliminar"
           >

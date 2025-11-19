@@ -87,7 +87,8 @@ export function DashboardRoute() {
         lost: 0,
       };
 
-      allLeadsLast30Days.leads.forEach((lead) => {
+      const leadsData = (allLeadsLast30Days as any).data || [];
+      leadsData.forEach((lead: Lead) => {
         leadsByType[lead.lead_type] = (leadsByType[lead.lead_type] || 0) + 1;
         leadsByStatus[lead.lead_status] = (leadsByStatus[lead.lead_status] || 0) + 1;
       });
@@ -98,7 +99,7 @@ export function DashboardRoute() {
         leadsByStatus,
       });
 
-      setRecentLeads(recentLeadsResponse.leads);
+      setRecentLeads((recentLeadsResponse as any).data || []);
       setTotal(recentLeadsResponse.total);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
