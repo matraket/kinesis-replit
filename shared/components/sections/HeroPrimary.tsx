@@ -1,66 +1,87 @@
-import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '../../ui';
 
 interface HeroPrimaryProps {
+  eyebrow?: string;
   title: string;
   subtitle?: string;
-  description?: string;
   primaryCta?: {
-    text: string;
+    label: string;
     href: string;
+    variant?: 'primary' | 'outline';
   };
   secondaryCta?: {
-    text: string;
+    label: string;
     href: string;
+    variant?: 'ghost' | 'outline';
   };
-  imagePlaceholder?: ReactNode;
+  image?: {
+    src: string;
+    alt: string;
+  };
 }
 
 export function HeroPrimary({
+  eyebrow,
   title,
   subtitle,
-  description,
   primaryCta,
   secondaryCta,
-  imagePlaceholder,
+  image,
 }: HeroPrimaryProps) {
   return (
-    <section className="bg-gradient-to-br from-purple-50 to-pink-50 py-16 md:py-24">
+    <section id="home-hero" className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-purple-50/50 to-white">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-10 md:gap-12 items-center">
           <div>
+            {eyebrow && (
+              <p className="text-brand-primary font-semibold text-sm uppercase tracking-wide mb-4">
+                {eyebrow}
+              </p>
+            )}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+              {title}
+            </h1>
             {subtitle && (
-              <p className="text-brand-primary font-semibold mb-4">{subtitle}</p>
+              <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl">
+                {subtitle}
+              </p>
             )}
-            <h1 className="text-balance mb-6">{title}</h1>
-            {description && (
-              <p className="text-lg text-muted mb-8">{description}</p>
-            )}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
               {primaryCta && (
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={() => window.location.href = primaryCta.href}
-                >
-                  {primaryCta.text}
-                </Button>
+                <Link to={primaryCta.href}>
+                  <Button
+                    variant={primaryCta.variant || 'primary'}
+                    size="lg"
+                    className="w-full sm:w-auto"
+                  >
+                    {primaryCta.label}
+                  </Button>
+                </Link>
               )}
               {secondaryCta && (
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => window.location.href = secondaryCta.href}
-                >
-                  {secondaryCta.text}
-                </Button>
+                <Link to={secondaryCta.href}>
+                  <Button
+                    variant={secondaryCta.variant || 'outline'}
+                    size="lg"
+                    className="w-full sm:w-auto"
+                  >
+                    {secondaryCta.label}
+                  </Button>
+                </Link>
               )}
             </div>
           </div>
           
-          <div className="hidden lg:block">
-            {imagePlaceholder || (
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center">
+          <div className="w-full">
+            {image ? (
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="relative aspect-[4/3] w-full rounded-3xl object-cover shadow-xl"
+              />
+            ) : (
+              <div className="relative aspect-[4/3] w-full rounded-3xl bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center shadow-xl">
                 <div className="text-center text-purple-600">
                   <svg className="w-24 h-24 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
