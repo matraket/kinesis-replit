@@ -15,6 +15,8 @@ const STATIC_BUSINESS_MODELS: BusinessModelSummary[] = [
     shortDescription: 'Sesiones personalizadas cuando tú lo decidas. Máxima flexibilidad para profesionales exigentes.',
     targetAudience: 'Profesionales con agenda variable',
     format: 'Sesiones individuales bajo reserva',
+    imageSrc: '/assets/kinesis/modelo-elite-on-demand.jpg',
+    imageAlt: 'Bailarín en salto en escenario iluminado',
   },
   {
     id: '2',
@@ -24,6 +26,8 @@ const STATIC_BUSINESS_MODELS: BusinessModelSummary[] = [
     shortDescription: 'Acceso ilimitado a clases grupales y servicios del centro. Tu práctica regular y sostenida.',
     targetAudience: 'Personas que buscan rutina estable',
     format: 'Membresía mensual con acceso ilimitado',
+    imageSrc: '/assets/kinesis/modelo-ritmo-constante.jpg',
+    imageAlt: 'Grupo de bailarines en formación sincronizada',
   },
   {
     id: '3',
@@ -33,6 +37,8 @@ const STATIC_BUSINESS_MODELS: BusinessModelSummary[] = [
     shortDescription: 'Programas de formación intensiva en yoga y danza. Transforma tu pasión en profesión.',
     targetAudience: 'Aspirantes a instructores certificados',
     format: 'Programas trimestrales con certificación',
+    imageSrc: '/assets/kinesis/modelo-generacion-dance.jpg',
+    imageAlt: 'Bailarines jóvenes en coreografía de formación profesional',
   },
   {
     id: '4',
@@ -42,6 +48,8 @@ const STATIC_BUSINESS_MODELS: BusinessModelSummary[] = [
     shortDescription: 'Eventos únicos, talleres temáticos y experiencias de bienestar grupal.',
     targetAudience: 'Grupos y eventos corporativos',
     format: 'Eventos bajo demanda',
+    imageSrc: '/assets/kinesis/modelo-si-quiero-bailar.jpg',
+    imageAlt: 'Pareja bailando coreografía nupcial',
   },
 ];
 
@@ -104,6 +112,10 @@ export function HomeRoute() {
         secondaryCta={{
           label: 'Preinscríbete',
           href: '/programas#preinscripcion',
+        }}
+        image={{
+          src: '/assets/kinesis/hero-home.jpg',
+          alt: 'Bailarines en acción con iluminación dramática en escenario',
         }}
       />
 

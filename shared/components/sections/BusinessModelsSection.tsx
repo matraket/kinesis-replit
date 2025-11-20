@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Card, CardHeader, CardTitle, CardContent, Button } from '../../ui';
+import { Card, CardTitle, CardContent, Button } from '../../ui';
 
 export type BusinessModelSummary = {
   id: string;
@@ -9,6 +9,8 @@ export type BusinessModelSummary = {
   shortDescription?: string;
   targetAudience?: string;
   format?: string;
+  imageSrc?: string;
+  imageAlt?: string;
 };
 
 interface BusinessModelsSectionProps {
@@ -36,40 +38,42 @@ export function BusinessModelsSection({
           </p>
         </div>
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-2">
+        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {models.map((model) => (
             <Card key={model.id} variant="bordered" className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <div className="mb-3">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+              <CardContent className="p-0">
+                {model.imageSrc && (
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl">
+                    <img
+                      src={model.imageSrc}
+                      alt={model.imageAlt ?? model.name}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
+                )}
+                <div className="p-6">
+                  <CardTitle className="text-xl font-semibold mb-2">{model.name}</CardTitle>
+                  {model.subtitle && (
+                    <p className="text-sm font-medium text-brand-primary mb-2">
+                      {model.subtitle}
+                    </p>
+                  )}
+                  {model.shortDescription && (
+                    <p className="text-muted-foreground text-sm mb-4">
+                      {model.shortDescription}
+                    </p>
+                  )}
+                  {model.targetAudience && (
+                    <p className="text-xs text-muted-foreground mb-4">
+                      <span className="font-semibold">Para:</span> {model.targetAudience}
+                    </p>
+                  )}
+                  <Link to={`/programas?businessModelSlug=${model.slug}`}>
+                    <Button variant="ghost" size="sm" className="w-full">
+                      Descubrir más →
+                    </Button>
+                  </Link>
                 </div>
-                <CardTitle className="text-xl font-semibold">{model.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {model.subtitle && (
-                  <p className="text-sm font-medium text-brand-primary mb-2">
-                    {model.subtitle}
-                  </p>
-                )}
-                {model.shortDescription && (
-                  <p className="text-muted-foreground text-sm mb-4">
-                    {model.shortDescription}
-                  </p>
-                )}
-                {model.targetAudience && (
-                  <p className="text-xs text-muted-foreground mb-4">
-                    <span className="font-semibold">Para:</span> {model.targetAudience}
-                  </p>
-                )}
-                <Link to={`/programas?businessModelSlug=${model.slug}`}>
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Ver más →
-                  </Button>
-                </Link>
               </CardContent>
             </Card>
           ))}
@@ -93,48 +97,48 @@ function BusinessModelsSectionTabs({ models }: { models: BusinessModelSummary[] 
         </div>
 
         <div className="mt-10 space-y-4">
-          {models.map((model, index) => (
+          {models.map((model) => (
             <Card key={model.id} variant="bordered" className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-2xl font-semibold mb-2">{model.name}</CardTitle>
-                    {model.subtitle && (
-                      <p className="text-brand-primary font-medium mb-3">{model.subtitle}</p>
-                    )}
+              <CardContent className="p-0">
+                {model.imageSrc && (
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl">
+                    <img
+                      src={model.imageSrc}
+                      alt={model.imageAlt ?? model.name}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center flex-shrink-0 ml-4">
-                    <svg className="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
+                )}
+                <div className="p-6">
+                  <CardTitle className="text-2xl font-semibold mb-2">{model.name}</CardTitle>
+                  {model.subtitle && (
+                    <p className="text-brand-primary font-medium mb-3">{model.subtitle}</p>
+                  )}
+                  {model.shortDescription && (
+                    <p className="text-muted-foreground mb-4">{model.shortDescription}</p>
+                  )}
+                  {(model.targetAudience || model.format) && (
+                    <div className="grid sm:grid-cols-2 gap-4 mb-4 text-sm">
+                      {model.targetAudience && (
+                        <div>
+                          <span className="font-semibold text-foreground">Para:</span>{' '}
+                          <span className="text-muted-foreground">{model.targetAudience}</span>
+                        </div>
+                      )}
+                      {model.format && (
+                        <div>
+                          <span className="font-semibold text-foreground">Formato:</span>{' '}
+                          <span className="text-muted-foreground">{model.format}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <Link to={`/programas?businessModelSlug=${model.slug}`}>
+                    <Button variant="outline" size="md">
+                      Explorar programas →
+                    </Button>
+                  </Link>
                 </div>
-              </CardHeader>
-              <CardContent>
-                {model.shortDescription && (
-                  <p className="text-muted-foreground mb-4">{model.shortDescription}</p>
-                )}
-                {(model.targetAudience || model.format) && (
-                  <div className="grid sm:grid-cols-2 gap-4 mb-4 text-sm">
-                    {model.targetAudience && (
-                      <div>
-                        <span className="font-semibold text-foreground">Para:</span>{' '}
-                        <span className="text-muted-foreground">{model.targetAudience}</span>
-                      </div>
-                    )}
-                    {model.format && (
-                      <div>
-                        <span className="font-semibold text-foreground">Formato:</span>{' '}
-                        <span className="text-muted-foreground">{model.format}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-                <Link to={`/programas?businessModelSlug=${model.slug}`}>
-                  <Button variant="outline" size="md">
-                    Explorar programas →
-                  </Button>
-                </Link>
               </CardContent>
             </Card>
           ))}

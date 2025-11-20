@@ -16,5 +16,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["ui/**/*", "config.ts"]
+  "include": ["ui/**/*", "components/**/*", "config.ts"]
 }

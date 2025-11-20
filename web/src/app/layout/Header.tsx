@@ -26,10 +26,17 @@ export function Header() {
     <header className="sticky top-0 z-30 bg-white border-b border-border">
       <nav className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center">
-            <span className="text-2xl font-display font-bold text-brand-primary">
-              Kinesis
-            </span>
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src="/assets/kinesis/logo-horizontal.png"
+              alt="Kinesis Dance Studio"
+              className="hidden sm:block h-8 w-auto"
+            />
+            <img
+              src="/assets/kinesis/logo-cuadrado.png"
+              alt="Kinesis Dance Studio"
+              className="sm:hidden h-8 w-8"
+            />
           </Link>
 
           <div className="hidden lg:flex items-center space-x-8">
