@@ -45,6 +45,28 @@ The project adheres to Clean Architecture and Domain-Driven Design principles:
 *   **Component Structure:** `shared/ui` for reusable components across `web/` and `cms/`.
 *   **Mobile:** **Mobile First** approach with responsive design.
 
+#### UI Context (Stack-UI Kinesis)
+
+All UI implementation in this modular monolith – both the public website in `web/` and the CMS backoffice in `cms/` – MUST follow the UI guides stored under the `context/` folder:
+
+- `/context/Stack-UI.md`: **Technical Stack-UI Kinesis guide**, describing the base components in `shared/ui`, the sections in `shared/components/sections`, and the expected usage patterns for Web and CMS.
+- `/context/kinesis-conceptual-template.md`: **Kinesis conceptual template**, defining the main page archetypes (landings, listings, detail pages, auth, etc.) and example compositions built on top of the Stack-UI.
+
+The Agent MUST treat these two documents as the primary source of truth for any UI/UX decision before creating new screens or modifying existing ones in `web/` or `cms/`.
+
+#### Global Constraints & Guardrails
+
+To avoid breaking the existing architecture or diluting the design system, the Agent MUST respect the following constraints in every task:
+
+- **No rogue UI implementation:** The Agent MUST NOT implement complex UI screens using raw `<div>` + Tailwind classes if an equivalent pattern or component already exists in `shared/ui`, `shared/components/sections`, or is documented in `/context/Stack-UI.md` or `/context/kinesis-conceptual-template.md`. Reuse the Stack-UI first.
+- **Do not change core configuration or context:** The Agent MUST NOT modify anything under `context/`, `.replit`, `replit.nix`, `replit.md`, or `config/` unless the user explicitly asks to change a specific file.
+- **Do not change the top-level folder structure:** The Agent MUST NOT create or remove top-level folders (`api/`, `web/`, `cms/`, `core/`, `shared/`, `scripts/`, `docs/`, `tests/`, etc.) or move modules between them.
+- **Minimal dependencies:** The Agent MUST NOT add new runtime dependencies unless explicitly requested in a PRD. When in doubt, reuse existing libraries, existing patterns, and the Stack-UI components.
+- **Preserve React.StrictMode and existing routes:** The Agent MUST NOT remove `React.StrictMode` from any React entrypoint or change existing HTTP routes/URLs unless explicitly requested.
+- **No debug/temporary artefacts:** The Agent MUST NOT create or leave behind temporary assets such as `Pasted-*` folders, `attached_assets/`, screenshots, local log files, or scratch JSON files in the repository.
+
+These constraints override any automatic “fix”, “refactor”, or suggestion made by tools or plugins: if a tool conflicts with this section, the Agent MUST follow these constraints instead.
+
 **Execution & Deployment Flow:**
 *   Runs as a modular monolith within a single Replit instance.
 *   The `.replit` file uses the `dev` script as the main Run command and should not be changed without explicit instruction.
