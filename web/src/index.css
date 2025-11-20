@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #111827;
+  --brand-primary: #FB2F72;
+  --brand-secondary: #6366F1;
+  --brand-accent: #F59E0B;
+  --border: #E5E7EB;
+  --text-muted: #64748B;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1, h2 {
+    @apply font-display font-bold;
+  }
+
+  h3, h4, h5, h6 {
+    @apply font-body font-semibold;
+  }
+
+  h1 {
+    @apply text-display-h1-mobile lg:text-display-h1-desktop;
+  }
+
+  h2 {
+    @apply text-display-h2-mobile lg:text-display-h2-desktop;
+  }
+
+  h3 {
+    @apply text-h3 lg:text-h3-desktop;
+  }
+
+  h4 {
+    @apply text-h4 lg:text-h4-desktop;
+  }
+
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-primary;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
