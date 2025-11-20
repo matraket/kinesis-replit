@@ -23,6 +23,10 @@ args = "api-server"
 task = "workflow.run"
 args = "cms-dev"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "web-dev"
+
 [[workflows.workflow]]
 name = "api-server"
 author = "agent"
@@ -47,6 +51,18 @@ task = "shell.exec"
 args = "cd cms && npm run dev"
 waitForPort = 5000
 
+[[workflows.workflow]]
+name = "web-dev"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd web && npx vite"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [[ports]]
 localPort = 3000
 externalPort = 3001
@@ -56,5 +72,13 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 5173
-externalPort = 5173
+localPort = 5001
+externalPort = 3000
+
+[[ports]]
+localPort = 5002
+externalPort = 3002
+
+[[ports]]
+localPort = 34553
+externalPort = 3003

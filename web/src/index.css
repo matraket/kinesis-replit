@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --background: #FFFFFF;
@@ -13,46 +11,58 @@
   --radius: 0.5rem;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+}
 
-  body {
-    @apply bg-background text-foreground font-body;
-  }
+h1, h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
 
-  h1, h2 {
-    @apply font-display font-bold;
-  }
+h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
 
-  h3, h4, h5, h6 {
-    @apply font-body font-semibold;
-  }
+h1 {
+  font-size: 48px;
+}
 
+@media (min-width: 1024px) {
   h1 {
-    @apply text-display-h1-mobile lg:text-display-h1-desktop;
-  }
-
-  h2 {
-    @apply text-display-h2-mobile lg:text-display-h2-desktop;
-  }
-
-  h3 {
-    @apply text-h3 lg:text-h3-desktop;
-  }
-
-  h4 {
-    @apply text-h4 lg:text-h4-desktop;
-  }
-
-  *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-primary;
+    font-size: 72px;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+h2 {
+  font-size: 36px;
+}
+
+@media (min-width: 1024px) {
+  h2 {
+    font-size: 48px;
+  }
+}
+
+h3 {
+  font-size: 24px;
+}
+
+@media (min-width: 1024px) {
+  h3 {
+    font-size: 32px;
+  }
+}
+
+h4 {
+  font-size: 20px;
+}
+
+@media (min-width: 1024px) {
+  h4 {
+    font-size: 24px;
   }
 }

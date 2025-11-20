@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
-import { FooterSection } from '@/shared/components/sections';
+import { FooterSection } from '../../../../shared/components/sections';
 
 export function PublicLayout() {
   return (

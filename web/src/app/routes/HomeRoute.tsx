@@ -1,4 +1,4 @@
-import { HeroPrimary } from '@/shared/components/sections';
+import { HeroPrimary } from '../../../../shared/components/sections';
 
 export function HomeRoute() {
   return (

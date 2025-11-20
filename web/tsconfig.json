@@ -18,6 +18,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@/shared/ui": ["../shared/ui"],
+      "@/shared/ui/*": ["../shared/ui/*"],
+      "@/shared/components": ["../shared/components"],
+      "@/shared/components/*": ["../shared/components/*"],
       "@/shared/*": ["../shared/*"]
     }
   },

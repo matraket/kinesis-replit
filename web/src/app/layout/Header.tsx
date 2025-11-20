@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, Button } from '@/shared/ui';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, Button } from '../../../../shared/ui';
 
 const navigation = [
   { name: 'Inicio', href: '/' },
