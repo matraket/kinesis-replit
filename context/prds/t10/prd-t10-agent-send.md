@@ -1,0 +1,179 @@
+## PRD-Agent T10 (versión corta para Replit Agent, con Stack-UI)
+
+### 1. Objetivo
+
+Configurar el módulo `web/` como Web pública **React + Vite + TypeScript + Tailwind**, usando el **Stack-UI Kinesis** (shadcn/ui + Launch UI + patrones Serene Yoga), con:
+
+* Layout base `PublicLayout` (Header + Nav + Footer) **mobile-first**.
+* Ruteo público mínimo con páginas placeholder.
+* Sin integrar todavía la API ni formularios.
+
+---
+
+### 2. Stack-UI Kinesis (LO QUE DEBES USAR)
+
+1. **React + Vite + Tailwind + TS** en `web/`.
+2. **shadcn/ui**:
+
+   * Importar componentes SIEMPRE desde `shared/ui` (p. ej. `shared/ui/button`, `shared/ui/sheet`, `shared/ui/navigation-menu`, `shared/ui/accordion`, etc.).
+   * NO crear una carpeta `web/src/components/ui`; reutiliza la de `shared/ui`.
+3. **Launch UI + Serene Yoga (patrones de secciones)**:
+
+   * Secciones en `shared/components/sections` con:
+
+     * Hero 1 col en móvil, 2 cols en desktop.
+     * Grids responsivas (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`) para features/pricing.
+   * Estilo limpio, aireado, con `container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`.
+4. **Mobile-first**:
+
+   * Layout raíz `flex flex-col min-h-screen`.
+   * Header con menú hamburger (Sheet/Dialog shadcn) en móvil y nav horizontal en desktop.
+
+---
+
+### 3. RESTRICCIONES DURAS (NO HACER)
+
+1. NO tocar `.replit`, `replit.nix`, `replit.md` ni nada en `context/**`.
+2. NO modificar código en `api/**` ni `cms/**` (solo lectura).
+3. NO eliminar `React.StrictMode` de ningún `main.tsx`.
+4. NO añadir dependencias de WYSIWYG / Media Library / analytics (TipTap, ProseMirror, DOMPurify, etc.).
+5. NO crear carpetas de debug (`attached_assets/`, `Pasted-*`, logs/JSON sueltos).
+6. NO cambiar la estructura raíz de carpetas (`api/`, `web/`, `cms/`, `core/`, `shared/`, etc.).
+7. NO hacer peticiones a la API ni crear formularios (se harán en T11–T14).
+
+---
+
+### 4. ARCHIVOS A CREAR / MODIFICAR
+
+#### 4.1 Crear en `web/`
+
+* `web/index.html`
+
+* `web/tsconfig.json`
+
+* `web/vite.config.ts`
+
+* `web/src/main.tsx`
+
+* `web/src/app/layout/PublicLayout.tsx`
+
+* `web/src/app/routes/PublicRouter.tsx`
+
+* `web/src/app/routes/HomeRoute.tsx`              → `/`
+
+* `web/src/app/routes/AboutRoute.tsx`             → `/quienes-somos`
+
+* `web/src/app/routes/BusinessModelsRoute.tsx`    → `/modelos-de-negocio`
+
+* `web/src/app/routes/ProgramsRoute.tsx`          → `/programas`
+
+* `web/src/app/routes/ProgramDetailRoute.tsx`     → `/programas/:slug`
+
+* `web/src/app/routes/TeamRoute.tsx`              → `/equipo`
+
+* `web/src/app/routes/SchedulePricingRoute.tsx`   → `/horarios-tarifas`
+
+* `web/src/app/routes/LegalNoticeRoute.tsx`       → `/legal/aviso`
+
+* `web/src/app/routes/PrivacyPolicyRoute.tsx`     → `/legal/privacidad`
+
+Cada `*Route.tsx` debe:
+
+* Usar `PublicLayout` como layout (vía rutas anidadas).
+* Renderizar `section` con:
+
+  * `className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8"`
+  * Un `<h1>` con el título de la página.
+  * Un párrafo placeholder (“Esta página se completará en T11–T14”).
+
+#### 4.2 Crear en `shared/components/sections/`
+
+* `shared/components/sections/HeroPrimary.tsx`
+* `shared/components/sections/FeatureGridSection.tsx`
+* `shared/components/sections/PricingSection.tsx`
+* `shared/components/sections/FaqSection.tsx`
+* `shared/components/sections/FooterSection.tsx`
+
+Requisitos:
+
+* Usar componentes de `shared/ui` (Button, Card, Accordion, Sheet/Dialog, NavigationMenu, etc.).
+* Layout mobile-first: 1 columna en móvil, grids/2 columnas en desktop según el tipo de sección.
+
+#### 4.3 Archivos a MODIFICAR
+
+* `tailwind.config.*`
+
+  * Añadir `web/**/*.{ts,tsx,js,jsx}` a `content`.
+
+* `package.json` (raíz)
+
+  * Solo si faltan dependencias mínimas para Vite React TS en `web/`.
+  * Reutilizar versiones ya usadas por `cms/` (React, Vite, etc.).
+
+---
+
+### 5. COMPORTAMIENTO ESPERADO
+
+#### 5.1 `web/src/main.tsx`
+
+Debe montar:
+
+```tsx
+ReactDOM.createRoot(root).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <PublicRouter />
+    </BrowserRouter>
+  </React.StrictMode>
+);
+```
+
+#### 5.2 `PublicLayout`
+
+`web/src/app/layout/PublicLayout.tsx`:
+
+```tsx
+<div className="min-h-screen flex flex-col bg-background text-foreground">
+  <Header />      // nav principal
+  <main className="flex-1">
+    <Outlet />
+  </main>
+  <FooterSection />  // de shared/components/sections
+</div>
+```
+
+* **Header**:
+
+  * Desktop: nav horizontal visible con enlaces a todas las rutas.
+  * Mobile: botón hamburger que abre un `Sheet` o `Dialog` de shadcn con el menú vertical.
+
+#### 5.3 `PublicRouter`
+
+* Ruta raíz `element={<PublicLayout />}`.
+* Rutas hijas para todos los paths listados en 4.1.
+
+#### 5.4 Sin datos ni formularios
+
+* NO usar React Query ni `fetch` en T10.
+* NO crear formularios de contacto/leads/etc.
+
+---
+
+### 6. CHECKLIST (OBLIGATORIO)
+
+1. `pnpm install` en la raíz termina sin errores.
+2. `pnpm dev` arranca API + CMS + Web sin romper nada existente.
+3. Todas las rutas públicas:
+
+   * `/`, `/quienes-somos`, `/modelos-de-negocio`, `/programas`, `/programas/:slug`, `/equipo`, `/horarios-tarifas`, `/legal/aviso`, `/legal/privacidad`
+     cargan sin errores JS y muestran `<h1>` + texto placeholder.
+4. Header:
+
+   * Móvil: hamburger + menú (Sheet/Dialog) funcional.
+   * Desktop: nav horizontal visible.
+5. Existen y compilan:
+
+   * `HeroPrimary`, `FeatureGridSection`, `PricingSection`, `FaqSection`, `FooterSection`.
+6. `tailwind.config.*` incluye `web/**/*` en `content`.
+7. `.replit`, `replit.nix`, `replit.md`, `context/**`, `api/**`, `cms/**` siguen sin cambios estructurales.
+8. No se han añadido dependencias de WYSIWYG / Media Library / analytics.

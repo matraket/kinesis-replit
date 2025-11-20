@@ -1,0 +1,355 @@
+# PRD T11 – Homepage (MVP) Kinesis
+
+## 🎯 OBJETIVO
+
+Construir la **Homepage real** (`/`) basada en Stack-UI Kinesis:
+
+- **UI Base:** shadcn/ui (Button, Card, Badge, Accordion, NavigationMenu)
+- **Patrones:** Launch UI Components (Hero, Features grid, CTAs)
+- **Estética:** Serene Yoga (layout calmado, espacio blanco, tipografía clara)
+- **Responsive:** Mobile-first según `KB-patrones-responsive-kinesis-web.md`
+
+**Debe:**
+- Explicar propuesta de valor global de Kinesis
+- Presentar los 4 modelos de negocio (Élite On Demand, Ritmo Constante, Generación Dance, Sí Quiero Bailar)
+- Ofrecer CTAs hacia flujos de leads (Reserva Élite, Preinscripción) **SIN implementar formularios** (eso es T14)
+
+---
+
+## ✅ SCOPE: QUÉ HACER (In Scope)
+
+### 1. Página Home `/` Real
+
+- Implementar `HomeRoute` en `web/src/app/routes/HomeRoute.tsx`
+- Usa `LayoutPublic` de T10
+- Composición vertical:
+  1. `<HeroPrimary>` (Stack-UI hero principal)
+  2. `<BusinessModelsSection>` (4 modelos de negocio)
+  3. OPCIONAL: 1-2 secciones reutilizando bloques T10 (`FeatureGridSection`, `FaqSection`) con datos estáticos simples
+- Home completa visualmente aunque use texto estático
+
+### 2. Refinar `<HeroPrimary>` (Stack-UI)
+
+**Archivo:** `shared/components/sections/HeroPrimary.tsx` (evolucionar desde T10)
+
+**Props mínimas:**
+
+```typescript
+{
+  eyebrow?: string;
+  title: string; // H1
+  subtitle?: string;
+  primaryCta?: { label: string; href: string; variant?: "default" | "outline" };
+  secondaryCta?: { label: string; href: string; variant?: "ghost" | "outline" };
+  image?: { src: string; alt: string };
+}
+```
+
+**Layout:**
+- **Mobile** (<md): 1 columna (texto + CTAs arriba, imagen debajo)
+- **Desktop** (≥md): 2 columnas (texto izquierda, imagen derecha) inspirado Launch UI/Serene Yoga
+
+**CTAs implementar:**
+- `primaryCta` → "Reserva Élite" navega a `/horarios-tarifas#elite`
+- `secondaryCta` → "Preinscríbete" navega a `/programas#preinscripcion`
+- Solo navegan, NO abrir modales ni formularios (T14)
+
+**Clases UI:**
+- **Wrapper**: `section id="home-hero"` con `py-16 sm:py-20 lg:py-24`
+- **Container**: `container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`
+- **Grid**: Mobile `flex flex-col gap-10`, Desktop `grid md:grid-cols-2 gap-12 items-center`
+- **H1**: `text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight`
+- **Subtitle**: `mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl`
+- **CTAs wrapper**: `mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4`
+- **Imagen**: `relative aspect-[4/3] w-full rounded-3xl object-cover shadow-xl`
+
+**Comportamiento:**
+- CTAs usan `Link` de `react-router-dom` envuelto en `Button` (mantener SPA)
+
+### 3. Nueva Sección `<BusinessModelsSection>`
+
+**Archivo:** `shared/components/sections/BusinessModelsSection.tsx` (NUEVO)
+
+**Presenta 4 modelos como cards:**
+- Icono (placeholder o lucide-react si ya existe)
+- Título (name)
+- Subtítulo (subtitle)
+- Resumen corto (shortDescription/tagline)
+- CTA "Ver más" / "Explorar programas"
+
+**Props sugeridas:**
+
+```typescript
+type BusinessModelSummary = {
+  id: string;
+  slug: string;
+  name: string;
+  subtitle?: string;
+  shortDescription?: string;
+  targetAudience?: string;
+  format?: string;
+};
+
+interface BusinessModelsSectionProps {
+  models: BusinessModelSummary[];
+  layoutVariant?: "grid" | "tabs"; // "grid" por defecto
+}
+```
+
+**Diseño:**
+- Encabezado H2 + intro breve
+- **Mobile**: lista vertical de cards
+- **Desktop**: grid responsivo (2x2)
+- **Opción A (OBLIGATORIA)**: grid de `Card` (shadcn/ui)
+- **Opción B (OPCIONAL)**: modo `Tabs` (shadcn/ui) con contenido detallado
+- Semántica alineada con `business_models` de T2
+- Ancla: `id="modelos-de-negocio"` para scroll desde menú
+
+**Layout grid (obligatorio):**
+- **Wrapper**: `section id="modelos-de-negocio"` con `py-16 sm:py-20 lg:py-24`
+- **H2**: `text-3xl sm:text-4xl font-bold` ("4 formas de vivir Kinesis")
+- **Grid**: `mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-4`
+- **Cada card**:
+  - `Card` con icono opcional, título `h3`, subtítulo, `shortDescription`
+  - CTA `Button variant="ghost" size="sm"` → `/modelos-de-negocio#${slug}` o `/programas?businessModelSlug=${slug}`
+
+### 4. CTAs Coherentes con Estrategia Leads
+
+- "Reserva Élite" → `/horarios-tarifas#elite` o `/programas?businessModelSlug=elite-on-demand`
+- "Preinscríbete" → `/programas#preinscripcion` o `/programas?businessModelSlug=generacion-dance`
+- Textos finales (no "Lorem Ipsum")
+- Comportamiento funcional completo (formularios + POST) es T14
+
+### 5. Mobile-First Responsive (APLICADO DE VERDAD)
+
+Según `KB-patrones-responsive-kinesis-web.md`:
+
+- **Container**: `container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`
+- **Espaciado vertical**: `py-12 sm:py-16 lg:py-20`
+- **Tipografía**: `text-4xl sm:text-5xl` para H1
+- **Botones CTA**:
+  - Mobile: apilados `flex-col gap-3`
+  - Desktop: en línea `flex-row gap-4`
+- NO scroll horizontal en mobile
+
+### 6. Preparación Contenido Dinámico (API T2)
+
+- Tipo `BusinessModelSummary` alineado con T2 (`slug`, `name`, `subtitle`, `description`, `metaTitle`)
+- Sección debe soportar:
+  - **Modo estático**: props con array in-memory
+  - **Modo dinámico**: props `models` desde hook/cliente HTTP
+- T11 NO está obligado a implementar React Query + cliente HTTP
+- Si existe `usePublicBusinessModels`, usarlo; si no, datos estáticos tipados con comentarios para T12-T13
+
+**Stub preparación:**
+
+```typescript
+// T11: solo definir tipo y stub, no implementar entero
+export async function fetchPublicBusinessModels(): Promise<BusinessModelSummary[]> {
+  // TODO T12/T13: fetch real de /api/public/business-models
+  return STATIC_MODELS;
+}
+```
+
+### 7. (OPCIONAL) Secciones Teaser Reutilizando Stack-UI
+
+Permitido añadir 1-2 secciones SOLO SI reutilizan bloques T10:
+
+- `<FeatureGridSection>` como "Por qué Kinesis"
+- `<FaqSection>` con 3 preguntas estáticas
+
+NO deben traer lógica nueva (ni API, ni formularios, ni slider complejo)
+
+---
+
+## ❌ SCOPE: QUÉ NO HACER (Out of Scope - CRÍTICO)
+
+Para evitar errores de T7 (scope creep):
+
+### ❌ Cualquier formulario funcional:
+- Nada de React Hook Form, Zod ni POST a `/api/public/leads/**` (eso es T14)
+
+### ❌ Nuevas páginas:
+- Quiénes somos, Modelos de negocio, Programas → T12-T13
+
+### ❌ Cambios en Layout/API/DB:
+- NO cambiar `LayoutPublic`, header, footer de T10 (solo ajustes menores si imprescindible)
+- NO cambiar `api/**` ni migraciones SQL
+
+### ❌ Nuevas librerías/features:
+- NO WYSIWYG, Media Library, uploads, sliders, carousels complejos
+- NO instalar MUI, Chakra, framer-motion, Swiper, etc.
+
+### ❌ NO modificar:
+- `.replit`
+- `replit.nix`
+- `replit.md`
+- `context/**`
+
+### ❌ NO eliminar:
+- `React.StrictMode` de `web/src/main.tsx`
+
+---
+
+## 📦 DEPENDENCIAS Y SUPOSICIONES
+
+### Stack fijado (replit.md)
+- Monolito modular: `/api`, `/web`, `/cms`, `/shared`
+- Frontends: React + Vite + Tailwind + shadcn/ui
+
+### T10 completado
+`web/` existe con:
+- `LayoutPublic` funcional (Header + Nav + Footer)
+- Router público con `/` → `HomeRoute` placeholder
+- Secciones base: `HeroPrimary`, `FeatureGridSection`, `PricingSection`, `FaqSection`, `FooterSection`
+
+### T2 completado
+- Endpoints `GET /api/public/business-models` y `page_content` disponibles
+
+### CMS (T4/T8)
+- Equipo puede rellenar 4 modelos vía CMS; Home asume datos existen/existirán
+
+---
+
+## 🔒 RESTRICCIONES TÉCNICAS
+
+### Restricciones Globales (Replit/Arquitectura)
+
+**NO tocar:**
+- `.replit`, `replit.nix`, `replit.md`
+- `context/**` (solo lectura)
+- Estructura carpetas primer nivel
+
+**NO romper endpoints:**
+- `GET /`, `GET /health`
+- `/api/public/**`, `/api/admin/**`
+
+**NO crear/cambiar:**
+- Migraciones ni esquema SQL
+
+### UI/UX Stack-UI Kinesis
+
+**shadcn/ui como base:**
+- Botones → `Button` de `shared/ui`
+- Cards → `Card` de `shared/ui`
+- Acordeones → `Accordion` (Radix vía shadcn)
+
+**Launch UI / Serene Yoga:**
+- Hero con imagen lateral/background controlado, sin sobrecargar efectos
+- Mucho espacio blanco, tipografía legible, contraste suficiente
+- Sensación premium y calmada
+
+**Responsive:**
+- Mobile first, breakpoints `sm`, `md`, `lg`
+- Vertical en mobile, 2 columnas desde `md`
+
+**Accesibilidad:**
+- Jerarquía headings: un H1 en Hero, H2 para secciones
+- `aria-label` en CTAs donde necesario
+- `alt` significativo en imagen Hero
+
+### Técnicas
+
+- Reutilizar dependencias existentes (React, react-router-dom, tailwindcss, shadcn/ui)
+- NO instalar nuevas dependencias fuera del stack aprobado
+- Mantener `pnpm install` y `pnpm dev` sin errores
+
+---
+
+## 📝 ESTRUCTURA HomeRoute
+
+**Archivo:** `web/src/app/routes/HomeRoute.tsx`
+
+**Pseudoestructura:**
+
+```typescript
+export function HomeRoute() {
+  const heroProps = { /* texto estático por ahora */ };
+  const businessModels = STATIC_MODELS; // o datos reales si existe hook
+  
+  return (
+    <>
+      <HeroPrimary {...heroProps} />
+      <BusinessModelsSection models={businessModels} />
+      {/* Opcionales */}
+      {/* <FeatureGridSection ... /> */}
+      {/* <FaqSection ... /> */}
+    </>
+  );
+}
+```
+
+---
+
+## ✅ CRITERIOS DE ACEPTACIÓN
+
+### OBLIGATORIOS
+
+- ✅ `pnpm install` sin errores
+- ✅ `pnpm dev` levanta API + CMS + Web sin romper endpoints
+- ✅ Navegar a `/`:
+  - Renderiza `LayoutPublic` con header/footer intactos (T10)
+  - Muestra Hero con H1, subtítulo, CTAs visibles y accesibles
+  - Muestra sección Modelos (4 items o todos los de `models` prop)
+- ✅ Vista Mobile:
+  - Hero 1 columna (texto + CTAs, imagen debajo)
+  - CTAs apiladas verticalmente con espacio
+  - Modelos listado vertical o grid 1-2 columnas SIN scroll horizontal
+- ✅ Vista Desktop:
+  - Hero 2 columnas (texto – imagen)
+  - Modelos grid 2x2+ centrado y legible
+- ✅ CTAs:
+  - Hacen `Link` a rutas internas (`/horarios-tarifas#elite`, `/programas#preinscripcion`)
+  - Sin errores navegación
+- ✅ Código:
+  - `BusinessModelsSection` en `shared/components/sections/BusinessModelsSection.tsx`
+  - Usa `shared/ui` (Button, Card) + Tailwind
+  - Sin HTML duplicado innecesario
+- ✅ NO nuevas deps fuera stack permitido
+- ✅ NO tocado `.replit`, `replit.nix`, `replit.md`, `context/**`
+
+### OPCIONALES (Nice-to-Have)
+
+- ✅ Variante `layoutVariant="tabs"` funcionando en `<BusinessModelsSection>`
+- ✅ Hero con efecto visual moderno (`bg-gradient-to-b`, sombra leve) sin nuevas librerías
+- ✅ Sección extra `<FeatureGridSection>` o `<FaqSection>` con contenido estático alineado con Kinesis
+
+---
+
+## 📂 DÓNDE TRABAJAR (Archivos Permitidos)
+
+### CREAR/MODIFICAR SOLO:
+
+```
+web/
+└── src/app/routes/
+    └── HomeRoute.tsx (o archivo ruta Home equivalente)
+
+shared/components/sections/
+├── HeroPrimary.tsx (refinar, NO romper API básica)
+├── BusinessModelsSection.tsx (NUEVO)
+└── (OPCIONAL) usar FeatureGridSection.tsx, FaqSection.tsx existentes
+    sin alterar API pública T10
+```
+
+**NO crear directorios nuevos** fuera de estos sin razón muy clara
+
+---
+
+## ✅ CHECKLIST COMPLETAR T11
+
+- [ ] `pnpm install` OK; `pnpm dev` OK
+- [ ] Navegar `/` muestra Hero + BusinessModelsSection sin errores JS
+- [ ] **Hero:**
+  - [ ] H1, subtítulo, CTAs visibles
+  - [ ] Mobile 1 columna, desktop 2 columnas
+  - [ ] CTAs navegan a rutas correctas
+- [ ] **BusinessModelsSection:**
+  - [ ] Muestra 4 cards (o todas del array) con título, subtítulo/descripción, CTA
+  - [ ] Tiene `id="modelos-de-negocio"`
+  - [ ] Grid responsive: vertical mobile, 2x2 desktop
+- [ ] **CTAs** enlazan a `/horarios-tarifas#elite` y `/programas#preinscripcion`
+- [ ] NO tocado `.replit`, `replit.nix`, `replit.md`, `context/**`, `api/**`
+- [ ] NO añadidas dependencias nuevas fuera stack aprobado
+- [ ] NO scroll horizontal en mobile
+- [ ] **Accesibilidad**: jerarquía headings, aria-labels, alts significativos

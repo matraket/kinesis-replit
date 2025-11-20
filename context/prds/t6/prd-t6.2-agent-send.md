@@ -1,0 +1,146 @@
+# PRD T6.2 – Theme Toggle + Light Mode para el CMS
+
+## Contexto
+Implementar selector de tema (Dark/Light) en el CMS con persistencia en navegador. El CMS actualmente usa modo Dark (T6.1) y debe extenderse para soportar ambos modos sin modificar backend ni API.
+
+**CRÍTICO**: Consultar estos archivos de contexto para aplicar correctamente los estilos:
+- `context/kinesis-alcance-web-cms.md` - Define selector de tema en CMS
+- `context/kinesis-guia-de-implementacion.md` - Sistema de diseño (paleta, tipografía, efectos)
+
+## Restricciones NO Negociables
+
+### NO Modificar
+- `context/**` - Solo lectura
+- `.replit`, `replit.nix`
+- Estructura raíz: `api/`, `web/`, `cms/`, `core/`, `shared/`, etc.
+- Backend: rutas `/api/admin/**`, `/api/public/**`, autenticación `X-Admin-Secret`
+- Web pública (`web/`) - NO se toca en esta iteración
+
+### Modificar SOLO
+- `cms/` - Theme toggle, estilos, ThemeProvider
+- `replit.md` - Solo añadir nota breve de T6.2 (sin reordenar/borrar)
+
+## Requisitos Funcionales
+
+### Modos de Tema
+**Dark (predeterminado):**
+- Fondo app: Admin Navy
+- Superficies: Admin Surface / Admin Surface Light
+- Texto: Admin White (principal), Admin Muted (secundario)
+
+**Light:**
+- Fondo app: Admin White / grises claros
+- Superficies: Gray 100/200, Admin Surface Light
+- Texto: Gray 900 (principal), Admin Muted (secundario)
+
+**Compartido en ambos:**
+- Acentos: Admin Accent Pink, Admin Success, Admin Warning, Admin Error, Admin Info
+- Tipografía: Montserrat (display), Inter (body)
+
+### Theme Toggle
+- Ubicación: Topbar del layout admin
+- Comportamiento: cambio inmediato sin recarga, global (Sidebar, Topbar, cards, tablas, formularios)
+- Icono sugerido: sol/luna con estado visual coherente
+
+### Persistencia (LocalStorage)
+- **Clave**: `kinesis-admin-theme`
+- **Valores**: `"dark"` | `"light"`
+- **Lógica de inicio**:
+  - Leer `localStorage.getItem("kinesis-admin-theme")`
+  - Si válido (`"dark"` o `"light"`): aplicar ese tema
+  - Si no existe o inválido: aplicar `"dark"`
+- **Al cambiar tema**:
+  - Actualizar estado ThemeProvider
+  - Guardar en LocalStorage
+
+## Implementación Técnica
+
+### 1. Variables CSS de Tema
+En `cms/src/index.css` (o stylesheet global), definir variables para ambos temas:
+
+```css
+:root[data-theme="dark"] {
+  --admin-bg-app: [hex Admin Navy];
+  --admin-bg-surface: [hex Admin Surface];
+  --admin-text-main: [hex Admin White];
+  --admin-text-muted: [hex Admin Muted];
+  /* ... otros tokens ... */
+}
+
+:root[data-theme="light"] {
+  --admin-bg-app: [hex Admin White];
+  --admin-bg-surface: [hex Gray 100/200];
+  --admin-text-main: [hex Gray 900];
+  /* ... otros tokens ... */
+}
+```
+
+### 2. Tailwind Config
+
+**Archivo**: `cms/tailwind.config.*`
+
+- Configurar `darkMode: "class"` (o compatible)
+- Extender `theme` para usar variables CSS:
+  - `bg-admin-app: "var(--admin-bg-app)"`
+  - `bg-admin-surface: "var(--admin-bg-surface)"`
+  - `text-admin-main: "var(--admin-text-main)"`
+- Mantener nombres de tokens de T6.1 (no romper existentes)
+
+### 3. ThemeProvider
+
+**Archivo**: `cms/src/app/theme/ThemeProvider.tsx`
+
+Crear contexto con:
+
+- Estado: `{ theme: "dark" | "light" }`
+- Exponer: `theme`, `setTheme`, `toggleTheme`
+- `useEffect` inicial:
+  - Leer LocalStorage
+  - Validar valor
+  - Aplicar tema inicial
+  - Actualizar DOM: `document.documentElement.dataset.theme = theme`
+- En cada cambio:
+  - Guardar en LocalStorage
+  - Actualizar dataset/clase del DOM
+
+**Hook**: `cms/src/app/theme/useTheme.ts` para leer contexto
+
+### 4. Integración en App
+
+**Archivo**: `cms/src/main.tsx`
+- Envolver con `<ThemeProvider>` cubriendo todo el layout
+
+**Archivo**: `AdminLayout.tsx`
+- Usar `useTheme()` para obtener `theme` y `toggleTheme`
+- Renderizar Theme Toggle en Topbar
+- Asegurar accesibilidad (`aria-pressed`, texto alternativo)
+
+### 5. Componentes
+
+Actualizar para usar tokens (no hex directo):
+
+- Layout: `AdminLayout.tsx`
+- Sidebar, Topbar
+- Componentes base: `Button`, `Card`, `Input` (en `cms/src/ui/...`)
+- Clases: `bg-admin-surface`, `text-admin-main`, etc.
+
+### Pantallas Afectadas
+
+- `/admin/login` - respeta tema actual
+- `/admin` (Dashboard) - legible en ambos temas
+- `/admin/programs`, `/admin/instructors`, etc. - contraste correcto
+
+**Nota**: No perfeccionar UI (eso es T7-T9), solo garantizar legibilidad en ambos temas.
+
+---
+
+## Criterios de Aceptación
+
+- [ ] CMS soporta Dark (predeterminado) y Light
+- [ ] Persistencia en LocalStorage (`kinesis-admin-theme`)
+- [ ] Theme Toggle visible en Topbar, cambia tema sin recarga
+- [ ] Layout completo usa tokens de tema (no hex directo), según guías de contexto
+- [ ] No se modificó nada fuera de `cms/` (excepto nota breve en `replit.md`)
+- [ ] T6/T6.1 no se rompieron: login, rutas `/admin/**`, autenticación funcionan
+- [ ] Sin errores de compilación en CMS
+- [ ] QA manual: cambio Dark↔Light persiste tras refresh y cierre de pestaña
