@@ -18,20 +18,19 @@ export function FaqSection({ title, subtitle, faqs }: FaqSectionProps) {
         {(title || subtitle) && (
           <div className="text-center mb-12">
             {subtitle && (
-              <p className="text-brand-primary font-semibold mb-2">{subtitle}</p>
+              <p className="text-brand-primary font-semibold mb-2 text-sm uppercase tracking-wide">{subtitle}</p>
             )}
-            {title && <h2 className="text-balance">{title}</h2>}
+            {title && <h2 className="text-3xl sm:text-4xl font-bold">{title}</h2>}
           </div>
         )}
 
-        <Accordion>
+        <Accordion type="single" collapsible>
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}
               title={faq.question}
-              defaultOpen={index === 0}
             >
-              <p>{faq.answer}</p>
+              <p className="leading-relaxed">{faq.answer}</p>
             </AccordionItem>
           ))}
         </Accordion>

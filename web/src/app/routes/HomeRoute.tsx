@@ -3,6 +3,7 @@ import {
   BusinessModelsSection,
   FeatureGridSection,
   FaqSection,
+  FooterSection,
   type BusinessModelSummary,
 } from '../../../../shared/components/sections';
 
@@ -107,7 +108,7 @@ export function HomeRoute() {
         subtitle="Descubre el poder del yoga y el bienestar integral en nuestro centro dedicado a tu transformación personal."
         primaryCta={{
           label: 'Reserva Élite',
-          href: '/horarios-tarifas#elite',
+          href: '/modelos-de-negocio#elite-on-demand',
         }}
         secondaryCta={{
           label: 'Preinscríbete',
@@ -132,6 +133,8 @@ export function HomeRoute() {
         subtitle="Resuelve tus dudas"
         faqs={FAQS}
       />
+
+      <FooterSection />
     </>
   );
 }

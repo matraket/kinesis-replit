@@ -30,7 +30,7 @@ export function HeroPrimary({
   image,
 }: HeroPrimaryProps) {
   return (
-    <section id="home-hero" className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-purple-50/50 to-white">
+    <section id="home-hero" className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:grid md:grid-cols-2 gap-10 md:gap-12 items-center">
           <div>
@@ -39,11 +39,11 @@ export function HeroPrimary({
                 {eyebrow}
               </p>
             )}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
               {title}
             </h1>
             {subtitle && (
-              <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl">
+              <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
                 {subtitle}
               </p>
             )}
@@ -62,9 +62,9 @@ export function HeroPrimary({
               {secondaryCta && (
                 <Link to={secondaryCta.href}>
                   <Button
-                    variant={secondaryCta.variant || 'outline'}
+                    variant={secondaryCta.variant || 'ghost'}
                     size="lg"
-                    className="w-full sm:w-auto"
+                    className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white border border-white/30"
                   >
                     {secondaryCta.label}
                   </Button>
@@ -75,13 +75,16 @@ export function HeroPrimary({
           
           <div className="w-full">
             {image ? (
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="relative aspect-[4/3] w-full rounded-3xl object-cover shadow-xl"
-              />
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/20 to-transparent rounded-3xl z-10"></div>
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="relative aspect-[4/3] w-full rounded-3xl object-cover shadow-2xl border border-slate-700/50"
+                />
+              </div>
             ) : (
-              <div className="relative aspect-[4/3] w-full rounded-3xl bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center shadow-xl">
+              <div className="relative aspect-[4/3] w-full rounded-3xl bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center shadow-2xl border border-slate-700/50">
                 <div className="text-center text-purple-600">
                   <svg className="w-24 h-24 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />

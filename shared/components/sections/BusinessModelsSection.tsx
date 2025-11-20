@@ -38,16 +38,16 @@ export function BusinessModelsSection({
           </p>
         </div>
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
           {models.map((model) => (
-            <Card key={model.id} variant="bordered" className="hover:shadow-xl transition-shadow">
+            <Card key={model.id} variant="bordered" className="hover:shadow-2xl transition-all duration-300 overflow-hidden group">
               <CardContent className="p-0">
                 {model.imageSrc && (
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-xl">
                     <img
                       src={model.imageSrc}
                       alt={model.imageAlt ?? model.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
                 )}
